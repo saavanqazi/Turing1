@@ -15,8 +15,8 @@ cost, then the eligible count, the offer to take and its total.
 file, tax always at the fulfilling store. One real trap (two stores across the Eastern
 state line are past the 15:00 cutoff). The `STOCK_RESERVE` clause and every tie-break rule
 were dead: no row ever exercised them. Oracle was 1.0 (shipped mined evidence, 2026-09-20,
-and a local engine replay). The mined version was not batteried separately: round 1 below
-is a strict superset of it and passed 4/4, so the mined version is at least that easy.
+and a local engine replay). GLM-5.2 baseline battery: 4/4 passing, rewards 1.0, 1.0, 1.0,
+1.0 (harbor job glm-b7a4-baseline, terminus-2, on the untouched package at commit b41f537).
 
 **Round 1 (measured 4/4, rewards 1.0, 1.0, 1.0, 1.0; oracle 1.0; harbor jobs
 oracle-b7a4-r1, glm-b7a4-r1; terminus-2 harness).**

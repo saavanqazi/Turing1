@@ -1,7 +1,8 @@
 # Your steps, in order (Windows cmd)
 
-> **Status:** Steps 1, 3, 4 and 5 are done (oracle 1.0; GLM-5.2 3/4 on round 2; evidence
-> committed under task/evaluations). Remaining: Step 6, Step 7, Step 8, then Step 9.
+> **Status:** Steps 1–5 and 7 are done (baseline 4/4, round 1 4/4, round 2 3/4; oracle 1.0;
+> evidence under task/evaluations; task/review.csv written). Remaining: Step 6 (final oracle,
+> optional record run), Step 8 (Delivery Gate twice), Step 9.
 
 Everything that needs Docker, harbor, the GLM key or the QC website is yours.
 Paste the printed output of each step back into the session; I read it and do
@@ -128,7 +129,7 @@ for /d %d in (jobs\oracle-b7a4-final\*) do @type "%d\verifier\reward.txt"
 
 Must print `1.0`.
 
-## Step 7 — review.csv through the form (must be you)
+## Step 7 — review.csv (DONE: generated from the review record at task/review.csv; the form is optional)
 
 1. Copy the `task` folder to Google Drive (the folder, not a zip).
 2. Open the review form, sign in with your Turing Google account, paste the
