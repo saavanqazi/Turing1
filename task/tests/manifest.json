@@ -127,7 +127,7 @@
             "OF-04": {
               "decision": "ELIGIBLE",
               "reason_code": "NONE",
-              "landed_cost_usd": "19.70"
+              "landed_cost_usd": "18.62"
             },
             "OF-05": {
               "decision": "INELIGIBLE",
@@ -167,7 +167,7 @@
             "OF-12": {
               "decision": "ELIGIBLE",
               "reason_code": "NONE",
-              "landed_cost_usd": "19.70"
+              "landed_cost_usd": "18.62"
             },
             "OF-13": {
               "decision": "INELIGIBLE",
@@ -190,14 +190,14 @@
               "landed_cost_usd": ""
             },
             "OF-17": {
-              "decision": "ELIGIBLE",
-              "reason_code": "NONE",
-              "landed_cost_usd": "25.89"
+              "decision": "INELIGIBLE",
+              "reason_code": "SAME_DAY_SUSPENDED",
+              "landed_cost_usd": ""
             },
             "OF-18": {
-              "decision": "INELIGIBLE",
-              "reason_code": "CUTOFF_PASSED",
-              "landed_cost_usd": ""
+              "decision": "ELIGIBLE",
+              "reason_code": "NONE",
+              "landed_cost_usd": "23.75"
             },
             "OF-19": {
               "decision": "INELIGIBLE",
@@ -205,9 +205,9 @@
               "landed_cost_usd": ""
             },
             "OF-20": {
-              "decision": "INELIGIBLE",
-              "reason_code": "NO_STOCK",
-              "landed_cost_usd": ""
+              "decision": "ELIGIBLE",
+              "reason_code": "NONE",
+              "landed_cost_usd": "18.66"
             }
           },
           "row_set": [
@@ -271,7 +271,7 @@
         "expected": {
           "keys": {
             "eligible_offer_count": {
-              "value": 6,
+              "value": 7,
               "tolerance": null
             },
             "chosen_offer_id": {
@@ -279,7 +279,7 @@
               "tolerance": null
             },
             "chosen_total_usd": {
-              "value": 19.7,
+              "value": 18.62,
               "tolerance": 0.01
             }
           },

@@ -17,7 +17,13 @@ state line are past the 15:00 cutoff). The `STOCK_RESERVE` clause and every tie-
 were dead: no row ever exercised them. Oracle was 1.0. GLM-5.2 baseline battery:
 [N]/4 passing, rewards [r1, r2, r3, r4].
 
-**Hardened.** Four coupled changes, each governed by an explicit clause in
+**Round 1 (measured 4/4, rewards 1.0, 1.0, 1.0, 1.0; oracle 1.0; job glm-b7a4-r1).**
+Stock ledger in store-local time with `NO_STOCK`, destination-based tax on delivery,
+a same-cent tie resolved by distance, precedence edge rows. GLM-5.2 scripted every
+explicit rule correctly, so round 1 was not enough.
+
+**Round 2 (current).** The rules stay explicit, but the data and the sources now punish
+the shortcuts a one-pass script takes. Each is governed by a clause in
 `same_day_terms.md` so a careful analyst lands on exactly one answer:
 
 1. **Stock is a ledger, not a snapshot.** `stock_ledger.csv` holds opening counts and
@@ -37,8 +43,22 @@ were dead: no row ever exercised them. Oracle was 1.0. GLM-5.2 baseline battery:
 4. **Precedence edge rows.** 8-ft 20 AWG (`FIT_GAUGE` before `FIT_LENGTH`), 6-ft 20 AWG
    (gauge rule does not apply at 6 ft, so `FIT_LENGTH`), 20-ft 18 AWG (`FIT_LENGTH`), a
    14:40 sale that counts under "at or before".
+5. **Warehouse-shaped ledger.** `qty` is unsigned and the event type gives the
+   direction; a `VOID` puts a sold unit back (OF-20 is eligible, not `NO_STOCK`); some
+   lines carry the supplier part number instead of the SKU (OF-12's opening count is
+   under `VLX-F8-12`, so a missed alias turns the chosen offer into `NO_STOCK`); lines
+   posted the day before are already inside Friday's `OPENING` (counting them makes
+   OF-13 deliverable).
+6. **Store notices override the tables.** Columbus accepts collection until 16:00
+   today (OF-18 eligible although 15:40 is past the default cutoff); Smiths Station's
+   delivery is paused (OF-17 `SAME_DAY_SUSPENDED` though the directory flag is N).
+7. **A stale duplicate store row.** Opelika appears twice with `effective_from`; the
+   newer 9.50% row is listed first, so a last-row-wins dictionary keeps the old 9.00%
+   and prices OF-04 at 18.53 instead of 18.62.
+8. **Money rounding.** PC-1012 at 17.00 with 9.5% tax is exactly 18.615. The terms say
+   half-cent rounds up (18.62); `round()` on a float gives 18.61 on the chosen offer.
 
-Result: 6 eligible of 20, chosen OF-12 at USD 19.70.
+Result: 7 eligible of 20, chosen OF-12 at USD 18.62.
 
 **Also changed.** `solution/compute_gold.py` derives the gold files, the golden
 trajectory and the manifest's expected values from the inputs in one run, so the three
@@ -53,7 +73,9 @@ Correctness is no longer eight independent rule checks. The stock figure depends
 clock conversion, the tax rate depends on the method, the choice depends on a tie-break
 chain that only decides once the other rules are right, and several rows fail two clauses
 so the precedence order is load-bearing. A per-rule script that treats each clause on its
-own misclassifies OF-01, OF-09, OF-14, OF-15, OF-17, OF-19 or the chosen offer.
+own misclassifies OF-09, OF-13, OF-14, OF-15, OF-17, OF-18, OF-19, OF-20 or the chosen offer. Six
+such shortcuts were replayed against the verifier (`tools/probes` in the repo history) and
+each scores 0.0.
 
 ## Scoring shape
 

@@ -55,17 +55,17 @@ for /d %d in (jobs\glm-b7a4-baseline\*) do @type "%d\verifier\reward.txt"
 
 **Send me:** the four numbers. Expected 4/4. Skip this step if time is short.
 
-## Step 3 — Round 1 oracle
+## Step 3 — Round oracle (round 1 done: 1.0. Now run for round 2 with `oracle-b7a4-r2`)
 
 ```bat
-harbor run -p task -a oracle -k 1 -n 1 --env-file glm.env -o jobs --job-name oracle-b7a4-r1 -y
-for /d %d in (jobs\oracle-b7a4-r1\*) do @type "%d\verifier\reward.txt"
+harbor run -p task -a oracle -k 1 -n 1 --env-file glm.env -o jobs --job-name oracle-b7a4-r2 -y
+for /d %d in (jobs\oracle-b7a4-r2\*) do @type "%d\verifier\reward.txt"
 ```
 
 Must print `1.0`. If not, **stop** and send me the file
-`jobs\oracle-b7a4-r1\<trial>\verifier\test-stdout.txt`.
+`jobs\oracle-b7a4-r2\<trial>\verifier\test-stdout.txt`.
 
-## Step 4 — Round 1 GLM battery
+## Step 4 — Round GLM battery (round 1 done: 4/4. Now run round 2 with `glm-b7a4-r2`)
 
 ```bat
 docker ps --format "{{.Names}}"
@@ -77,8 +77,8 @@ If the smoke run finishes without a crash (a reward of 0.0 or 1.0 is both
 fine here), run the real battery:
 
 ```bat
-harbor run -p task -a terminus-2 -m openai/glm-5.2 -k 4 -n 2 --env-file glm.env -o jobs --job-name glm-b7a4-r1 -y
-for /d %d in (jobs\glm-b7a4-r1\*) do @type "%d\verifier\reward.txt"
+harbor run -p task -a terminus-2 -m openai/glm-5.2 -k 4 -n 2 --env-file glm.env -o jobs --job-name glm-b7a4-r2 -y
+for /d %d in (jobs\glm-b7a4-r2\*) do @type "%d\verifier\reward.txt"
 ```
 
 Use `-n 3` if `docker ps` showed nothing else running; `-n 1` if the machine
@@ -89,14 +89,14 @@ is slow.
 1. the four rewards,
 2. for every run below 1.0: `verifier\verifier_summary.json`,
    `verifier\score.json`, and `exception.txt` if it exists,
-3. `dir jobs\glm-b7a4-r1\<trial>\agent` for any trial that has no
+3. `dir jobs\glm-b7a4-r2\<trial>\agent` for any trial that has no
    `trajectory.json`.
 
 I classify each failure. Then:
 
 - 1, 2 or 3 of 4 pass → Step 5.
-- 4 of 4 → I push round 2; you repeat Steps 3 and 4 with job names
-  `oracle-b7a4-r2` and `glm-b7a4-r2`.
+- 4 of 4 → I push the next round; you repeat Steps 3 and 4 with the next job
+  names (`oracle-b7a4-r3`, `glm-b7a4-r3`).
 - 0 of 4 → I check the failures for unfairness before we decide.
 
 ## Step 5 — Collect the evidence
@@ -106,7 +106,7 @@ folder (right-click → "Git Bash Here") and run:
 
 ```bash
 git pull
-tools/collect_runs.sh jobs/glm-b7a4-r1
+tools/collect_runs.sh jobs/glm-b7a4-r2
 git add task/evaluations
 git commit -m "Add GLM-5.2 difficulty and solvability evidence"
 git push

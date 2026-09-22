@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import csv
 import json
+import re
 import sys
 from datetime import datetime, timedelta
 from decimal import ROUND_HALF_UP, Decimal
@@ -33,6 +34,11 @@ ORDER_DATE = "2026-09-25"  # a Friday; the date only anchors DST, the terms give
 BUYER_TZ = ZoneInfo("America/Chicago")
 ORDER_LOCAL = datetime.fromisoformat(f"{ORDER_DATE}T14:40:00").replace(tzinfo=BUYER_TZ)
 CUTOFF = "15:00"
+# store_notices.md, mirrored here (the notices are prose; keep both in step)
+NOTICE_CUTOFF = {("ST-08", "PICKUP"): "16:00"}        # collection accepted until 16:00 at Columbus
+NOTICE_PAUSED = {("ST-52", "DELIVERY")}               # Smiths Station delivery van off the road
+ADDS = {"OPENING", "RECEIPT", "VOID"}
+REMOVES = {"SALE", "HOLD", "TRANSFER_OUT"}
 DELIVERY_FEE = Decimal("9.99")
 RADIUS_MI = Decimal("10")
 BUYER_CITY, BUYER_STATE = "Phenix City", "AL"
@@ -53,7 +59,11 @@ def cents(x: Decimal) -> Decimal:
 
 def main() -> int:
     cat = {r["sku"]: r for r in rows("cord_catalogue.csv")}
-    stores = {r["store_id"]: r for r in rows("store_directory.csv")}
+    stores = {}
+    for r in rows("store_directory.csv"):  # latest effective_from on or before the order date wins
+        if r["effective_from"] <= ORDER_DATE and (
+                r["store_id"] not in stores or r["effective_from"] > stores[r["store_id"]]["effective_from"]):
+            stores[r["store_id"]] = r
     offers = rows("same_day_offers.csv")
     ledger = rows("stock_ledger.csv")
     tax = {(r["city"], r["state"]): Decimal(r["combined_sales_tax_pct"]) for r in rows("tax_jurisdictions.csv")}
@@ -62,13 +72,20 @@ def main() -> int:
     # order instant on each store's clock (S1)
     order_at = {sid: ORDER_LOCAL.astimezone(ZoneInfo(s["timezone"])) for sid, s in stores.items()}
 
-    # effective stock per (store, sku) (S2)
+    # effective stock per (store, sku) (S2): day's OPENING + adds - removes, up to the order instant
+    alias = {c["supplier_part"]: sku for sku, c in cat.items()}
+    alias.update({sku: sku for sku in cat})
     stock: dict[tuple[str, str], int] = {}
     for line in ledger:
-        sid = line["store_id"]
-        t = datetime.strptime(line["time_local"], "%H:%M").time()
-        if t <= order_at[sid].time():
-            stock[(sid, line["sku"])] = stock.get((sid, line["sku"]), 0) + int(line["qty"])
+        sid, sku = line["store_id"], alias[line["item_code"]]
+        posted = datetime.fromisoformat(line["posted_local"])
+        if posted.date().isoformat() != ORDER_DATE:
+            continue  # before the day's OPENING (already included in it) or another day
+        if posted.time() > order_at[sid].time():
+            continue  # not happened yet on the store's clock
+        sign = 1 if line["event"] in ADDS else -1 if line["event"] in REMOVES else None
+        assert sign is not None, line
+        stock[(sid, sku)] = stock.get((sid, sku), 0) + sign * int(line["qty"])
 
     out, eligible = [], []
     for o in offers:
@@ -88,9 +105,9 @@ def main() -> int:
             fails.add("NO_STOCK")
         if method == "DELIVERY" and eff < 2:
             fails.add("STOCK_RESERVE")
-        if s["same_day_suspended"] == "Y":
+        if s["same_day_suspended"] == "Y" or (sid, method) in NOTICE_PAUSED:
             fails.add("SAME_DAY_SUSPENDED")
-        if order_at[sid].strftime("%H:%M") >= CUTOFF:
+        if order_at[sid].strftime("%H:%M") >= NOTICE_CUTOFF.get((sid, method), CUTOFF):
             fails.add("CUTOFF_PASSED")
         if method == "DELIVERY" and Decimal(s["distance_mi"]) > RADIUS_MI:
             fails.add("OUT_OF_RADIUS")
@@ -128,8 +145,8 @@ def main() -> int:
 
     # ---- golden trajectory (heredoc replay) ---------------------------------------
     reads = ["cord_catalogue.csv", "power_supply_spec.md", "same_day_offers.csv", "stock_ledger.csv",
-             "store_directory.csv", "tax_jurisdictions.csv", "same_day_terms.md", "standard_delivery.md",
-             "submission_format.md"]
+             "store_directory.csv", "store_notices.md", "tax_jurisdictions.csv", "same_day_terms.md",
+             "standard_delivery.md", "submission_format.md"]
     steps = [{"name": "bash", "server": "local", "arguments": {"command": f"cat input/{f}"}} for f in reads]
     steps.append({"name": "bash", "server": "local", "arguments": {
         "command": "cat > offer_evaluation.csv << 'OFFEREVALUATIONEOF'\n" + csv_text + "OFFEREVALUATIONEOF"}})
@@ -152,6 +169,7 @@ def main() -> int:
             v["metadata"]["how_justification"] = v["metadata"]["how_justification"].replace(
                 "every graded cell of 10 rows plus the full 11-row population",
                 f"every graded cell of {len(all_ids) - 1} rows plus the full {len(all_ids)}-row population")
+            v["metadata"]["how_justification"] = re.sub(r"every graded cell of \d+ rows plus the full \d+-row population", f"every graded cell of {len(all_ids) - 1} rows plus the full {len(all_ids)}-row population", v["metadata"]["how_justification"])
         elif v["name"] == "results_figures":
             exp["keys"]["eligible_offer_count"]["value"] = len(eligible)
             exp["keys"]["chosen_offer_id"]["value"] = chosen
