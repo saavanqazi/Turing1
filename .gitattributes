@@ -1,0 +1,14 @@
+# Keep every text file LF on every platform: the QC lint rejects CRLF entrypoint scripts,
+# and a Windows checkout with autocrlf would otherwise convert them.
+*               text=auto eol=lf
+*.sh            text eol=lf
+*.py            text eol=lf
+*.md            text eol=lf
+*.csv           text eol=lf
+*.toml          text eol=lf
+*.json          text eol=lf
+Dockerfile      text eol=lf
+# harness output is evidence; never rewrite its bytes
+task/evaluations/** -text
+*.zip           binary
+*.png           binary

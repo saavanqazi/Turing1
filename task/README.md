@@ -103,6 +103,10 @@ Oracle on the final package: 1.0 (harbor jobs oracle-b7a4-r2 and oracle-b7a4-fin
 `tools/annotate_rollout.py` (a format conversion, no new facts), which also added
 `model`, `overall_pass`, `final_answer`, `reward` and `judge` to each `result.json`.
 
+**PreQC round 1 fixes.** The base image is pinned to its immutable digest
+(`python@sha256:392307d2…`, the digest `python:3.12-slim-bookworm` resolved to) and every
+script ships with LF endings (`.gitattributes` in the repo, normalisation in the zip script).
+
 ## QC flags left as-is
 
 - R3 stability evidence: Turing runs stability; no `stability/` folder is shipped.

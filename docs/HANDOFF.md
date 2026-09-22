@@ -123,8 +123,8 @@ git push
 
 ```bat
 git pull
-harbor run -p task -a oracle -k 1 -n 1 --env-file glm.env -o jobs --job-name oracle-b7a4-final -y
-for /d %d in (jobs\oracle-b7a4-final\*) do @type "%d\verifier\reward.txt"
+harbor run -p task -a oracle -k 1 -n 1 --env-file glm.env -o jobs --job-name oracle-b7a4-final3 -y
+for /d %d in (jobs\oracle-b7a4-final3\*) do @type "%d\verifier\reward.txt"
 ```
 
 Must print `1.0`.
