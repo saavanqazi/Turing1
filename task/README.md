@@ -37,7 +37,7 @@ the shortcuts a one-pass script takes. Each is governed by a clause in
 2. **Destination-based tax on delivery.** Collection is taxed at the store's rate;
    delivery at the delivery address's rate from `tax_jurisdictions.csv`. OF-17 lands at
    25.89, not the 25.86 a store-rate reading gives.
-3. **A real tie.** OF-04 (Opelika) and OF-12 (Smiths Station) both land at 19.70. Both
+3. **A real tie.** OF-04 (Opelika) and OF-12 (Smiths Station) both land at 18.62. Both
    are collections ready at the same time, so the nearer store decides: OF-12. Picking
    the first or lowest-id minimum gives OF-04.
 4. **Precedence edge rows.** 8-ft 20 AWG (`FIT_GAUGE` before `FIT_LENGTH`), 6-ft 20 AWG
@@ -74,8 +74,8 @@ clock conversion, the tax rate depends on the method, the choice depends on a ti
 chain that only decides once the other rules are right, and several rows fail two clauses
 so the precedence order is load-bearing. A per-rule script that treats each clause on its
 own misclassifies OF-09, OF-13, OF-14, OF-15, OF-17, OF-18, OF-19, OF-20 or the chosen offer. Six
-such shortcuts were replayed against the verifier (`tools/probes` in the repo history) and
-each scores 0.0.
+such shortcuts (float rounding, notices ignored, stale store row, missed alias, VOID ignored,
+prior-day lines counted) were replayed against the verifier and each scores 0.0.
 
 ## Scoring shape
 
