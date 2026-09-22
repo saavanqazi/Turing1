@@ -18,7 +18,8 @@ for f in task/task.toml task/instruction.md task/tests/manifest.json task/soluti
   [ -f "$f" ] && echo "ok   $f" || { echo "MISSING $f"; fail=1; }
 done
 [ -f task/qc_report.html ] && echo "ok   task/qc_report.html" || echo "note task/qc_report.html absent (fine for the FIRST gate run only)"
-[ -e task/tests/verifier.json ] && { echo "STALE task/tests/verifier.json still present"; fail=1; }
+[ -f task/tests/verifier.json ] || { echo "MISSING task/tests/verifier.json"; fail=1; }
+cmp -s task/tests/verifier.json task/tests/manifest.json && echo "ok   verifier.json == manifest.json" || { echo "tests/verifier.json and tests/manifest.json differ"; fail=1; }
 for d in oracle nop platform; do [ -d "task/evaluations/$d" ] && { echo "DISALLOWED task/evaluations/$d"; fail=1; }; done
 [ -d task/evaluations/difficulty ] && [ "$(ls task/evaluations/difficulty | wc -l)" -eq 4 ] && echo "ok   4 difficulty runs" || { echo "difficulty/ does not hold exactly 4 runs"; fail=1; }
 [ -d task/evaluations/solvability/r1 ] && echo "ok   solvability/r1" || echo "note no solvability/r1 (only valid in the 0/4 case)"

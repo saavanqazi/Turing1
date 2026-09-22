@@ -119,7 +119,7 @@ git push
 **Send me:** the tree the script prints. I fill the bracketed figures in
 `task/README.md` and `docs/review_rows_draft.md` and push.
 
-## Step 6 — Final oracle (cmd)
+## Step 6 — Final oracle (cmd) — REQUIRED: the grader loaders changed back to verifier.json
 
 ```bat
 git pull

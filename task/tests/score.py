@@ -35,7 +35,7 @@ WORKSPACE = Path(os.environ.get("HARBOR_TASK_WORKSPACE", "/app"))
 # directory is absent those sources fail with the engine's own precondition error
 # instead of an unknown-registry crash, and every other source is unaffected.
 AGENT_LOGS = Path(os.environ.get("HARBOR_AGENT_LOGS_DIR", "/logs/agent"))
-SPEC = VerifierSpec.model_validate_json((TESTS_DIR / "manifest.json").read_text(encoding="utf-8"))
+SPEC = VerifierSpec.model_validate_json((TESTS_DIR / "verifier.json").read_text(encoding="utf-8"))
 WEIGHTS = effective_weights(SPEC.verifiers)
 REGISTRY = SourceRegistry(WORKSPACE, agent_logs_dir=AGENT_LOGS if AGENT_LOGS.is_dir() else None)
 

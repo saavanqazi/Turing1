@@ -25,9 +25,10 @@ from zoneinfo import ZoneInfo
 TASK = Path(__file__).resolve().parents[1]
 INPUT = TASK / "environment" / "input"
 FILES = TASK / "solution" / "files"
-SPEC_PATH = TASK / "tests" / "manifest.json"
-if not SPEC_PATH.exists():  # pre-rename layout
-    SPEC_PATH = TASK / "tests" / "verifier.json"
+# The graders load tests/verifier.json; the delivery format also wants tests/manifest.json.
+# Both are written with identical content (the accepted bundles ship both).
+SPEC_PATH = TASK / "tests" / "verifier.json"
+MIRROR_PATH = TASK / "tests" / "manifest.json"
 
 # ---- scenario constants (from same_day_terms.md) --------------------------------
 ORDER_DATE = "2026-09-25"  # a Friday; the date only anchors DST, the terms give the time
@@ -174,8 +175,10 @@ def main() -> int:
             exp["keys"]["eligible_offer_count"]["value"] = len(eligible)
             exp["keys"]["chosen_offer_id"]["value"] = chosen
             exp["keys"]["chosen_total_usd"]["value"] = float(chosen_cost)
-    SPEC_PATH.write_text(json.dumps(spec, indent=2) + "\n", encoding="utf-8")
-    print(f"\nwrote {FILES}, golden_trajectory.json, {SPEC_PATH.name}")
+    text = json.dumps(spec, indent=2) + "\n"
+    SPEC_PATH.write_text(text, encoding="utf-8")
+    MIRROR_PATH.write_text(text, encoding="utf-8")
+    print(f"\nwrote {FILES}, golden_trajectory.json, {SPEC_PATH.name} + {MIRROR_PATH.name} (identical)")
     return 0
 
 

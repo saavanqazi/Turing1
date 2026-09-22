@@ -64,8 +64,8 @@ Result: 7 eligible of 20, chosen OF-12 at USD 18.62.
 
 **Also changed.** `solution/compute_gold.py` derives the gold files, the golden
 trajectory and the manifest's expected values from the inputs in one run, so the three
-copies of the answer can no longer drift. `tests/verifier.json` was renamed to
-`tests/manifest.json` and the two loaders updated. The mined `evaluations/oracle` and
+copies of the answer can no longer drift. `tests/manifest.json` was added as an identical
+mirror of `tests/verifier.json`, which the graders load; the generator writes both. The mined `evaluations/oracle` and
 `evaluations/nop` folders were removed. The mining pipeline's `consistency/` metadata was
 dropped from the bundle because it describes the pre-hardening gold.
 
@@ -94,7 +94,7 @@ difficulty signal is the pass count.
 | difficulty/r3 | task__QMJpLL8 | 1.0 | as above |
 | difficulty/r4 | task__vR6K4Kt | 1.0 | as above |
 
-Oracle on the final package: 1.0 (harbor job oracle-b7a4-r2; graded files unchanged since).
+Oracle on the final package: 1.0 (harbor jobs oracle-b7a4-r2 and oracle-b7a4-final).
 `evaluations/solvability/r1` is a copy of difficulty/r2 (a GLM-5.2 run, not the oracle).
 
 **Evidence format note.** This harbor build writes `verifier/reward.txt` and
