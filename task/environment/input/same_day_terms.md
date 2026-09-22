@@ -32,6 +32,8 @@ The offers file does not carry a stock count. Stock is read from the stores' sha
   includes everything posted before it. Lines posted before that day's `OPENING` are not
   counted again.
 - `posted_local` is the store's own clock.
+- Store and item codes are written in whatever case the till sent them; case is not
+  significant when matching a ledger line to a store or a cord.
 
 A store's **effective stock** in a cord is the `OPENING` count for the order date plus
 every adding line, minus every removing line, for that store and that cord posted after the
@@ -60,9 +62,10 @@ A cord fits only if all of these hold. Its `connector` must be `C7`, because a `
 cloverleaf end will not enter a two-pin inlet (`FIT_CONNECTOR`). It must be
 non-polarized, because a keyed C7 will not seat in a non-polarized inlet
 (`FIT_POLARIZED`). Its conductor must meet the requirement the brick's data sheet sets
-for a cord of its length (`FIT_GAUGE`). Its `length_ft` must be no shorter than the cord
-it replaces, whose length the data sheet gives, and no longer than 15 feet: the buyer will
-take any run that reaches the wall without coiling (`FIT_LENGTH`). Every cord in the
+for a cord of its length (`FIT_GAUGE`). Its `length`, as the listings give it, must be no
+shorter than the cord it replaces, whose length the data sheet gives, and no longer than
+15 feet: the buyer will take any run that reaches the wall without coiling
+(`FIT_LENGTH`). Every cord in the
 listings is rated at or above the brick's 2.5 A and 125 V, so the rating refuses nothing
 here.
 

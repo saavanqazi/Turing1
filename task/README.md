@@ -24,7 +24,7 @@ Stock ledger in store-local time with `NO_STOCK`, destination-based tax on deliv
 a same-cent tie resolved by distance, precedence edge rows. GLM-5.2 scripted every
 explicit rule correctly, so round 1 was not enough.
 
-**Round 2 (current).** The rules stay explicit, but the data and the sources now punish
+**Round 2 (local battery 3/4; platform battery 4/4, rejected as too easy).** The rules stay explicit, but the data and the sources now punish
 the shortcuts a one-pass script takes. Each is governed by a clause in
 `same_day_terms.md` so a careful analyst lands on exactly one answer:
 
@@ -60,7 +60,29 @@ the shortcuts a one-pass script takes. Each is governed by a clause in
 8. **Money rounding.** PC-1012 at 17.00 with 9.5% tax is exactly 18.615. The terms say
    half-cent rounds up (18.62); `round()` on a float gives 18.61 on the chosen offer.
 
-Result: 7 eligible of 20, chosen OF-12 at USD 18.62.
+Round 2 result: 7 eligible of 20, chosen OF-12 at USD 18.62. Locally GLM-5.2 passed 3/4
+(job glm-b7a4-r2); the QC platform's own four runs passed 4/4 and the version was
+rejected. Every scripted run handled every explicit rule, so round 3 moves the difficulty
+into the data.
+
+**Round 3 (current).** The stated rules do not change; the data stops matching the
+assumptions a rule-to-code script makes. Each point is unambiguous to a reader of the file:
+
+9. **Lengths carry their unit.** The catalogue's `length` column reads `12 ft` or `3.7 m`
+   (two EU-import SKUs). 3.7 m is 12.14 ft and fits; 3.0 m is 9.84 ft and fails
+   `FIT_LENGTH`. The 3.7 m cord at Phenix City (OF-21) lands at 18.62, a three-way tie with
+   OF-04 and OF-12, and is the nearest store, so it is the chosen offer. Treating metres as
+   feet, or skipping the metric rows, moves the chosen offer and the count.
+10. **A repeated export line.** `same_day_offers.csv` lists OF-08 twice, identically. The
+    sheet is one row per offer, keyed by `offer_id`; a script that emits a row per input
+    line fails the population lock.
+11. **Codes in the till's case.** Two ledger lines are lower-case (`st-52,vlx-f8-12` is
+    OF-12's opening count; `st-44,pc-1012` is the VOID behind OF-20). The terms say case is
+    not significant; an exact-string join zeroes both offers.
+12. **Conductor tiers.** The data sheet now requires 16 AWG over 15 ft. PC-1020 (20 ft,
+    18 AWG) fails `FIT_GAUGE`, which precedes `FIT_LENGTH` (OF-16).
+
+Result: 8 eligible of 22, chosen OF-21 at USD 18.62.
 
 **Also changed.** `solution/compute_gold.py` derives the gold files, the golden
 trajectory and the manifest's expected values from the inputs in one run, so the three
@@ -75,9 +97,11 @@ Correctness is no longer eight independent rule checks. The stock figure depends
 clock conversion, the tax rate depends on the method, the choice depends on a tie-break
 chain that only decides once the other rules are right, and several rows fail two clauses
 so the precedence order is load-bearing. A per-rule script that treats each clause on its
-own misclassifies OF-09, OF-13, OF-14, OF-15, OF-17, OF-18, OF-19, OF-20 or the chosen offer. Six
-such shortcuts (float rounding, notices ignored, stale store row, missed alias, VOID ignored,
-prior-day lines counted) were replayed against the verifier and each scores 0.0.
+own misclassifies OF-09, OF-12, OF-13, OF-14, OF-15, OF-16, OF-17, OF-18, OF-19, OF-20, OF-21,
+OF-22 or the chosen offer. Twelve such shortcuts (float rounding, notices ignored, stale store
+row, missed alias, VOID ignored, prior-day lines counted, metres read as feet, metric rows
+skipped, duplicate line kept, case-sensitive joins, gauge tier missed, lowest-id tie-break)
+were replayed against the verifier and each scores 0.0.
 
 ## Scoring shape
 
@@ -85,17 +109,7 @@ Every verifier is core and the reward is core-gated (`tests/score.py`), so a run
 exactly 1.0 or 0.0. A spread like 0.2–0.35 cannot occur on this task by design; the
 difficulty signal is the pass count.
 
-**Final battery (harbor job glm-b7a4-r2, terminus-2, GLM-5.2): 3 of 4 passing.**
-
-| rollout | harbor trial | reward | outcome |
-|---|---|---|---|
-| difficulty/r1 | task__EGsQHvh | 0.0 | MODEL failure: reasoned by hand (no script), 19 of 20 rows right, reported OF-13 as `SAME_DAY_SUSPENDED` where `STOCK_RESERVE` precedes it under S5. Same run applied that precedence correctly on OF-19. |
-| difficulty/r2 | task__LZ5ZyDc | 1.0 | Decimal-based script, alias map, notices parsed |
-| difficulty/r3 | task__QMJpLL8 | 1.0 | as above |
-| difficulty/r4 | task__vR6K4Kt | 1.0 | as above |
-
-Oracle on the final package: 1.0 (harbor jobs oracle-b7a4-r2 and oracle-b7a4-final).
-`evaluations/solvability/r1` is a copy of difficulty/r2 (a GLM-5.2 run, not the oracle).
+**Final battery:** [round 3 figures to be filled from harbor job glm-b7a4-r3 once run].
 
 **Evidence format note.** This harbor build writes `verifier/reward.txt` and
 `verifier/score.json`; the bundle's `verifier/reward.json` and

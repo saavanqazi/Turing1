@@ -43,8 +43,24 @@ REMOVES = {"SALE", "HOLD", "TRANSFER_OUT"}
 DELIVERY_FEE = Decimal("9.99")
 RADIUS_MI = Decimal("10")
 BUYER_CITY, BUYER_STATE = "Phenix City", "AL"
-LEN_MIN, LEN_MAX = 10, 15
-GAUGE_LEN_THRESHOLD = 6  # over this length, awg must be <= 18
+LEN_MIN, LEN_MAX = Decimal("10"), Decimal("15")  # feet: supplied cord (data sheet) .. buyer's ceiling
+FT_PER_M = Decimal("3.28084")
+
+
+def length_ft(text: str) -> Decimal:
+    """Catalogue `length` is given with its unit ('12 ft', '3.7 m')."""
+    value, unit = text.split()
+    value = Decimal(value)
+    return value if unit == "ft" else value * FT_PER_M
+
+
+def gauge_ok(length: Decimal, awg: int) -> bool:
+    """power_supply_spec.md conductor tiers: <=6 ft any; >6..15 ft needs <=18 AWG; >15 ft needs <=16 AWG."""
+    if length <= 6:
+        return True
+    if length <= 15:
+        return awg <= 18
+    return awg <= 16
 PRECEDENCE = ["FIT_CONNECTOR", "FIT_POLARIZED", "FIT_GAUGE", "FIT_LENGTH", "NO_STOCK",
               "STOCK_RESERVE", "SAME_DAY_SUSPENDED", "CUTOFF_PASSED", "OUT_OF_RADIUS"]
 
@@ -60,12 +76,16 @@ def cents(x: Decimal) -> Decimal:
 
 def main() -> int:
     cat = {r["sku"]: r for r in rows("cord_catalogue.csv")}
+    seen, offers_dedup = set(), []
+    for o in rows("same_day_offers.csv"):  # an export may repeat a line; one offer = one offer_id
+        if o["offer_id"] not in seen:
+            seen.add(o["offer_id"]); offers_dedup.append(o)
     stores = {}
     for r in rows("store_directory.csv"):  # latest effective_from on or before the order date wins
         if r["effective_from"] <= ORDER_DATE and (
                 r["store_id"] not in stores or r["effective_from"] > stores[r["store_id"]]["effective_from"]):
             stores[r["store_id"]] = r
-    offers = rows("same_day_offers.csv")
+    offers = offers_dedup
     ledger = rows("stock_ledger.csv")
     tax = {(r["city"], r["state"]): Decimal(r["combined_sales_tax_pct"]) for r in rows("tax_jurisdictions.csv")}
     dest_rate = tax[(BUYER_CITY, BUYER_STATE)]
@@ -74,11 +94,11 @@ def main() -> int:
     order_at = {sid: ORDER_LOCAL.astimezone(ZoneInfo(s["timezone"])) for sid, s in stores.items()}
 
     # effective stock per (store, sku) (S2): day's OPENING + adds - removes, up to the order instant
-    alias = {c["supplier_part"]: sku for sku, c in cat.items()}
-    alias.update({sku: sku for sku in cat})
+    alias = {c["supplier_part"].upper(): sku for sku, c in cat.items()}
+    alias.update({sku.upper(): sku for sku in cat})
     stock: dict[tuple[str, str], int] = {}
     for line in ledger:
-        sid, sku = line["store_id"], alias[line["item_code"]]
+        sid, sku = line["store_id"].upper(), alias[line["item_code"].upper()]  # case is not significant
         posted = datetime.fromisoformat(line["posted_local"])
         if posted.date().isoformat() != ORDER_DATE:
             continue  # before the day's OPENING (already included in it) or another day
@@ -97,9 +117,10 @@ def main() -> int:
             fails.add("FIT_CONNECTOR")
         if c["polarized"] == "Y":
             fails.add("FIT_POLARIZED")
-        if int(c["length_ft"]) > GAUGE_LEN_THRESHOLD and int(c["conductor_awg"]) > 18:
+        L = length_ft(c["length"])
+        if not gauge_ok(L, int(c["conductor_awg"])):
             fails.add("FIT_GAUGE")
-        if not (LEN_MIN <= int(c["length_ft"]) <= LEN_MAX):
+        if not (LEN_MIN <= L <= LEN_MAX):
             fails.add("FIT_LENGTH")
         eff = stock.get((sid, sku), 0)
         if eff < 1:
@@ -126,7 +147,7 @@ def main() -> int:
             eligible.append((cost, ready.astimezone(BUYER_TZ), Decimal(s["distance_mi"]), o["offer_id"]))
         out.append({"offer_id": o["offer_id"], "decision": "ELIGIBLE" if reason == "NONE" else "INELIGIBLE",
                     "reason_code": reason, "landed_cost_usd": landed})
-        print(f"{o['offer_id']}: {sid} {sku} {method:8s} order@{order_at[sid].strftime('%H:%M')} "
+        print(f"{o['offer_id']}: {sid} {sku} {method:8s} L={L:.2f}ft order@{order_at[sid].strftime('%H:%M')} "
               f"stock={eff} fails={sorted(fails, key=PRECEDENCE.index) or '-'} -> {reason} {landed}")
 
     eligible.sort()

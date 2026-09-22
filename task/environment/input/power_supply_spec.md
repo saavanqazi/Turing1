@@ -16,6 +16,7 @@ in AWG, where a LARGER number means a THINNER conductor.
 ## Replacement cord requirements
 
 - Connector: figure-8 (IEC C7), non-polarized.
-- Conductor: for any cord run longer than 6 ft, 18 AWG or heavier (an AWG number of 18
-  or lower). At 6 ft or under the conductor size is not restricted.
+- Conductor: at 6 ft or under the conductor size is not restricted. For any run longer
+  than 6 ft up to 15 ft, 18 AWG or heavier (an AWG number of 18 or lower). For any run
+  longer than 15 ft, 16 AWG or heavier.
 - Length: no shorter than the supplied cord.

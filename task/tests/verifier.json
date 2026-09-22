@@ -95,7 +95,7 @@
     {
       "name": "evaluation_table",
       "metadata": {
-        "how_justification": "Parses offer_evaluation.csv with csv.read_rows and applies table_equals: every graded cell of 19 rows plus the full 20-row population as a row_set lock (duplicate-row and cross-product dumps fail the lock; a duplicated graded id is rejected outright), and the delivered column set closed to the stated header, with declared cell types {'decision': 'id', 'reason_code': 'id'} normalised on both sides. A failure names the exact row and column.",
+        "how_justification": "Parses offer_evaluation.csv with csv.read_rows and applies table_equals: every graded cell of 21 rows plus the full 22-row population as a row_set lock (duplicate-row and cross-product dumps fail the lock; a duplicated graded id is rejected outright), and the delivered column set closed to the stated header, with declared cell types {'decision': 'id', 'reason_code': 'id'} normalised on both sides. A failure names the exact row and column.",
         "why_justification": "Every offer's decision, its reason under the stated precedence and its landed cost are graded, so a clock read on the wrong side of the state line, a dropped fit clause or tax taken at the buyer's rate shows on the rows it moves. Entailed by: \"One row per offer in `same_day_offers.csv`, in any order, with `offer_id` as that file writes it: `decision` is `ELIGIBLE` or `INELIGIBLE`, `reason_code` is the first clause of the terms that refuses the offer and `NONE` for an offer nothing refuses, and `landed_cost_usd` is what the buyer pays for an eligible offer, in US dollars to the cent, and is left empty on an offer that is not eligible.\"",
         "tag": "core"
       },
@@ -186,7 +186,7 @@
             },
             "OF-16": {
               "decision": "INELIGIBLE",
-              "reason_code": "FIT_LENGTH",
+              "reason_code": "FIT_GAUGE",
               "landed_cost_usd": ""
             },
             "OF-17": {
@@ -208,6 +208,16 @@
               "decision": "ELIGIBLE",
               "reason_code": "NONE",
               "landed_cost_usd": "18.66"
+            },
+            "OF-21": {
+              "decision": "ELIGIBLE",
+              "reason_code": "NONE",
+              "landed_cost_usd": "18.62"
+            },
+            "OF-22": {
+              "decision": "INELIGIBLE",
+              "reason_code": "FIT_LENGTH",
+              "landed_cost_usd": ""
             }
           },
           "row_set": [
@@ -230,7 +240,9 @@
             "OF-17",
             "OF-18",
             "OF-19",
-            "OF-20"
+            "OF-20",
+            "OF-21",
+            "OF-22"
           ],
           "columns": [
             "offer_id",
@@ -271,11 +283,11 @@
         "expected": {
           "keys": {
             "eligible_offer_count": {
-              "value": 7,
+              "value": 8,
               "tolerance": null
             },
             "chosen_offer_id": {
-              "value": "OF-12",
+              "value": "OF-21",
               "tolerance": null
             },
             "chosen_total_usd": {

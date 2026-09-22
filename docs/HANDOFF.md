@@ -1,8 +1,8 @@
 # Your steps, in order (Windows cmd)
 
-> **Status:** Steps 1–5 and 7 are done (baseline 4/4, round 1 4/4, round 2 3/4; oracle 1.0;
-> evidence under task/evaluations; task/review.csv written). Remaining: Step 6 (final oracle,
-> optional record run), Step 8 (Delivery Gate twice), Step 9.
+> **Status:** Round 2 was rejected by the platform's own battery (4/4). Round 3 is pushed.
+> Next: Step 3 oracle `oracle-b7a4-r3`, Step 4 battery `glm-b7a4-r3` with **-k 8** so we
+> estimate the pass rate before uploading; then Steps 5–9.
 
 Everything that needs Docker, harbor, the GLM key or the QC website is yours.
 Paste the printed output of each step back into the session; I read it and do
@@ -62,8 +62,8 @@ for /d %d in (jobs\glm-b7a4-baseline\*) do @type "%d\verifier\reward.txt"
 ## Step 3 — Round oracle (round 1 done: 1.0. Now run for round 2 with `oracle-b7a4-r2`)
 
 ```bat
-harbor run -p task -a oracle -k 1 -n 1 --env-file glm.env -o jobs --job-name oracle-b7a4-r2 -y
-for /d %d in (jobs\oracle-b7a4-r2\*) do @type "%d\verifier\reward.txt"
+harbor run -p task -a oracle -k 1 -n 1 --env-file glm.env -o jobs --job-name oracle-b7a4-r3 -y
+for /d %d in (jobs\oracle-b7a4-r3\*) do @type "%d\verifier\reward.txt"
 ```
 
 Must print `1.0`. If not, **stop** and send me the file
@@ -81,8 +81,8 @@ If the smoke run finishes without a crash (a reward of 0.0 or 1.0 is both
 fine here), run the real battery:
 
 ```bat
-harbor run -p task -a terminus-2 -m openai/glm-5.2 -k 4 -n 2 --env-file glm.env -o jobs --job-name glm-b7a4-r2 -y
-for /d %d in (jobs\glm-b7a4-r2\*) do @type "%d\verifier\reward.txt"
+harbor run -p task -a terminus-2 -m openai/glm-5.2 -k 8 -n 2 --env-file glm.env -o jobs --job-name glm-b7a4-r3 -y
+for /d %d in (jobs\glm-b7a4-r3\*) do @type "%d\verifier\reward.txt"
 ```
 
 Use `-n 3` if `docker ps` showed nothing else running; `-n 1` if the machine
@@ -110,7 +110,7 @@ folder (right-click → "Git Bash Here") and run:
 
 ```bash
 git pull
-tools/collect_runs.sh jobs/glm-b7a4-r2
+tools/collect_runs.sh jobs/glm-b7a4-r3   # Claude picks which 4 of the 8 ship
 git add task/evaluations
 git commit -m "Add GLM-5.2 difficulty and solvability evidence"
 git push
