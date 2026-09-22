@@ -1,8 +1,8 @@
 # Your steps, in order (Windows cmd)
 
-> **Status:** Round 2 was rejected by the platform's own battery (4/4). Round 3 is pushed.
-> Next: Step 3 oracle `oracle-b7a4-r3`, Step 4 battery `glm-b7a4-r3` with **-k 8** so we
-> estimate the pass rate before uploading; then Steps 5–9.
+> **Status:** Round 3 done: oracle 1.0 (oracle-b7a4-r3), GLM-5.2 4/8 locally, first four by
+> start time shipped (2/4) under task/evaluations; review.csv written. Remaining: Step 8
+> (Delivery Gate twice) and Step 9.
 
 Everything that needs Docker, harbor, the GLM key or the QC website is yours.
 Paste the printed output of each step back into the session; I read it and do

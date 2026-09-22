@@ -1,0 +1,12 @@
+{
+    "task": {
+        "path": "task"
+    },
+    "trial_name": "task__srLMHNj",
+    "trials_dir": "jobs\\glm-b7a4-r3",
+    "agent": {
+        "name": "terminus-2",
+        "model_name": "openai/glm-5.2"
+    },
+    "job_id": "8b6989d8-7a30-4b64-9f1b-f5bd8da34939"
+}
