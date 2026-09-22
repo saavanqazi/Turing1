@@ -1,5 +1,8 @@
 # Your steps, in order (Windows cmd)
 
+> **Status:** Steps 1, 3, 4 and 5 are done (oracle 1.0; GLM-5.2 3/4 on round 2; evidence
+> committed under task/evaluations). Remaining: Step 6, Step 7, Step 8, then Step 9.
+
 Everything that needs Docker, harbor, the GLM key or the QC website is yours.
 Paste the printed output of each step back into the session; I read it and do
 the next edits. All commands run in cmd inside the `Turing1` folder.
@@ -99,7 +102,7 @@ I classify each failure. Then:
   names (`oracle-b7a4-r3`, `glm-b7a4-r3`).
 - 0 of 4 → I check the failures for unfairness before we decide.
 
-## Step 5 — Collect the evidence
+## Step 5 — Collect the evidence (DONE by Claude from the uploaded run zips)
 
 `tools\collect_runs.sh` is a bash script. Open **Git Bash** in the `Turing1`
 folder (right-click → "Git Bash Here") and run:

@@ -37,7 +37,52 @@ def final_answer_of(trial: Path):
                 return json.loads(cand.read_text())
             except json.JSONDecodeError:
                 return cand.read_text()
+    # fall back to the last results.json the agent wrote in its trajectory (heredoc)
+    traj = trial / "agent" / "trajectory.json"
+    if traj.is_file():
+        import re
+        text = traj.read_text()
+        last = None
+        for m in re.finditer(r"cat > results\.json <<'?(\w+)'?\\n(.*?)\\n\1", text, re.S):
+            last = m.group(2)
+        if last:
+            try:
+                return json.loads(json.loads('"' + last + '"'))
+            except Exception:
+                pass
+        # otherwise take the last JSON object with the three graded keys that appeared
+        # anywhere in the trajectory (the agent's own `cat results.json` echo)
+        found = None
+        for m in re.finditer(r'\{[^{}]*eligible_offer_count[^{}]*\}', text):
+            try:
+                found = json.loads(json.loads('"' + m.group(0).replace('"', '\\"') + '"'))
+            except Exception:
+                try:
+                    found = json.loads(m.group(0).encode().decode("unicode_escape"))
+                except Exception:
+                    continue
+        return found
     return None
+
+
+def derive_verifier_files(trial: Path, reward: float):
+    """Write verifier/reward.json and verifier/verifier_summary.json from the files the
+    harness produced (reward.txt, score.json). Pure format conversion, no new facts."""
+    v = trial / "verifier"
+    if not (v / "reward.json").is_file():
+        (v / "reward.json").write_text(json.dumps({"reward": reward}, indent=2) + "\n")
+    if not (v / "verifier_summary.json").is_file() and (v / "score.json").is_file():
+        score = json.loads((v / "score.json").read_text())
+        summary = {
+            "source": "derived from verifier/score.json (tests/score.py output)",
+            "reward": score["reward"],
+            "passed": score["passed"],
+            "total": score["total"],
+            "core_failures": score["core_failures"],
+            "items": [{"name": c["name"], "tag": c["tag"], "passed": c["passed"],
+                       "weight": c["weight"], "detail": c["detail"]} for c in score["checks"]],
+        }
+        (v / "verifier_summary.json").write_text(json.dumps(summary, indent=2) + "\n")
 
 
 def main(paths):
@@ -46,6 +91,7 @@ def main(paths):
         result_path = trial / "result.json"
         result = json.loads(result_path.read_text())
         reward = reward_of(trial)
+        derive_verifier_files(trial, reward)
         result["model"] = "GLM-5.2"
         result["overall_pass"] = reward == 1.0
         result["final_answer"] = final_answer_of(trial)

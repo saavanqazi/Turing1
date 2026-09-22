@@ -14,10 +14,12 @@ cost, then the eligible count, the offer to take and its total.
 **Baseline (as mined).** 11 offers, 5 stores, 8 SKUs, an `on_hand` count in the offers
 file, tax always at the fulfilling store. One real trap (two stores across the Eastern
 state line are past the 15:00 cutoff). The `STOCK_RESERVE` clause and every tie-break rule
-were dead: no row ever exercised them. Oracle was 1.0. GLM-5.2 baseline battery:
-[N]/4 passing, rewards [r1, r2, r3, r4].
+were dead: no row ever exercised them. Oracle was 1.0 (shipped mined evidence, 2026-09-20,
+and a local engine replay). The mined version was not batteried separately: round 1 below
+is a strict superset of it and passed 4/4, so the mined version is at least that easy.
 
-**Round 1 (measured 4/4, rewards 1.0, 1.0, 1.0, 1.0; oracle 1.0; job glm-b7a4-r1).**
+**Round 1 (measured 4/4, rewards 1.0, 1.0, 1.0, 1.0; oracle 1.0; harbor jobs
+oracle-b7a4-r1, glm-b7a4-r1; terminus-2 harness).**
 Stock ledger in store-local time with `NO_STOCK`, destination-based tax on delivery,
 a same-cent tie resolved by distance, precedence edge rows. GLM-5.2 scripted every
 explicit rule correctly, so round 1 was not enough.
@@ -81,8 +83,25 @@ prior-day lines counted) were replayed against the verifier and each scores 0.0.
 
 Every verifier is core and the reward is core-gated (`tests/score.py`), so a run scores
 exactly 1.0 or 0.0. A spread like 0.2–0.35 cannot occur on this task by design; the
-difficulty signal is the pass count. GLM-5.2 final battery: [N]/4 passing, rewards
-[r1, r2, r3, r4] (`evaluations/difficulty/r1..r4/verifier/reward.json`).
+difficulty signal is the pass count.
+
+**Final battery (harbor job glm-b7a4-r2, terminus-2, GLM-5.2): 3 of 4 passing.**
+
+| rollout | harbor trial | reward | outcome |
+|---|---|---|---|
+| difficulty/r1 | task__EGsQHvh | 0.0 | MODEL failure: reasoned by hand (no script), 19 of 20 rows right, reported OF-13 as `SAME_DAY_SUSPENDED` where `STOCK_RESERVE` precedes it under S5. Same run applied that precedence correctly on OF-19. |
+| difficulty/r2 | task__LZ5ZyDc | 1.0 | Decimal-based script, alias map, notices parsed |
+| difficulty/r3 | task__QMJpLL8 | 1.0 | as above |
+| difficulty/r4 | task__vR6K4Kt | 1.0 | as above |
+
+Oracle on the final package: 1.0 (harbor job oracle-b7a4-r2; graded files unchanged since).
+`evaluations/solvability/r1` is a copy of difficulty/r2 (a GLM-5.2 run, not the oracle).
+
+**Evidence format note.** This harbor build writes `verifier/reward.txt` and
+`verifier/score.json`; the bundle's `verifier/reward.json` and
+`verifier/verifier_summary.json` were derived from those two files by
+`tools/annotate_rollout.py` (a format conversion, no new facts), which also added
+`model`, `overall_pass`, `final_answer`, `reward` and `judge` to each `result.json`.
 
 ## QC flags left as-is
 
