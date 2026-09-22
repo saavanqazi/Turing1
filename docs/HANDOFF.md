@@ -1,137 +1,166 @@
-# Your steps, in order
+# Your steps, in order (Windows cmd)
 
-Everything in the repo is ready for round 1. You run the parts that need Docker,
-harbor, the GLM key and the QC website. After each step, paste the output back
-into the session; I do the reading and the next edits.
+Everything that needs Docker, harbor, the GLM key or the QC website is yours.
+Paste the printed output of each step back into the session; I read it and do
+the next edits. All commands run in cmd inside the `Turing1` folder.
 
-Run all commands from the repo root on your workstation.
+Harbor pattern used throughout (your own, from earlier tasks):
 
-## Step 1 — Set up (once, ~20 min)
+```
+harbor run -p <task-folder> -a <agent> [-m openai/glm-5.2] -k <total runs> -n <at once> --env-file glm.env -o jobs --job-name <name> -y
+```
 
-```bash
-git clone https://github.com/saavanqazi/Turing1 && cd Turing1
+## Step 1 — Set up (once)
+
+```bat
+cd %USERPROFILE%
+git clone https://github.com/saavanqazi/Turing1
+cd Turing1
 git checkout claude/benchmark-task-hardening-rv3am4
-source ~/.config/harbor/env          # every session, before anything else
-echo "$OPENAI_BASE_URL $JUDGE_MODEL"  # must print the proxy URL and openai/glm-5.2
-docker ps --format '{{.Names}}'      # budget check
+git log --oneline -3
+docker ps --format "{{.Names}}"
+harbor --version
+notepad glm.env
 ```
 
-Create `glm-harbor-config.json` from your usual template and set:
+In Notepad paste exactly these three lines with your real key, save, close:
 
-- `tasks[0].path` = `task`
-- `job_name` = `glm-b7a4-r1`
-
-## Step 2 — Baseline measurement (optional but recommended, ~1.5 h wall)
-
-The README needs a "before" figure. The untouched mined package is at commit
-`b41f537`. Check it out into a scratch folder and run oracle + battery there:
-
-```bash
-git worktree add ../b7a4-baseline b41f537
-harbor run -p ../b7a4-baseline/task -a oracle \
-  --ve OPENAI_API_KEY="$OPENAI_API_KEY" --ve OPENAI_BASE_URL="$OPENAI_BASE_URL" \
-  -o /tmp/harbor-jobs --job-name oracle-b7a4-baseline -n 1 -y
-cat /tmp/harbor-jobs/oracle-b7a4-baseline/*/verifier/reward.txt        # expect 1.0
+```
+OPENAI_API_KEY=<your key>
+OPENAI_BASE_URL=http://34.41.10.8:4000/v1
+JUDGE_MODEL=openai/glm-5.2
 ```
 
-Point a copy of the config at `../b7a4-baseline/task` with `job_name`
-`glm-b7a4-baseline`, then:
+`JUDGE_MODEL` must be exactly `openai/glm-5.2` (no trailing letter). `glm.env`
+and `jobs\` are in `.gitignore`, so git will never push your key or the run
+folders.
 
-```bash
-harbor run -c glm-harbor-config-baseline.json -n 1 -y
-harbor run -c glm-harbor-config-baseline.json -n 3 -k 4 -y
-cat /tmp/harbor-jobs/glm-b7a4-baseline/*/verifier/reward.txt
+## Step 2 — Baseline measurement (optional, recommended)
+
+Gives the README its "before" figure. Commit `b41f537` is the untouched mined
+package.
+
+```bat
+git worktree add ..\b7a4-baseline b41f537
+harbor run -p ..\b7a4-baseline\task -a oracle -k 1 -n 1 --env-file glm.env -o jobs --job-name oracle-b7a4-baseline -y
+for /d %d in (jobs\oracle-b7a4-baseline\*) do @type "%d\verifier\reward.txt"
 ```
 
-**Send me:** the four rewards. (Expected 4/4.) You can skip this step if time
-is short; the README then says "baseline not measured, task was trivially
-scriptable".
+Expect `1.0`. Then the four GLM runs on the baseline:
 
-## Step 3 — Round 1 oracle (~10 min)
-
-```bash
-harbor run -p task -a oracle \
-  --ve OPENAI_API_KEY="$OPENAI_API_KEY" --ve OPENAI_BASE_URL="$OPENAI_BASE_URL" \
-  -o /tmp/harbor-jobs --job-name oracle-b7a4-r1 -n 1 -y
-cat /tmp/harbor-jobs/oracle-b7a4-r1/*/verifier/reward.txt
+```bat
+harbor run -p ..\b7a4-baseline\task -a terminus-2 -m openai/glm-5.2 -k 4 -n 2 --env-file glm.env -o jobs --job-name glm-b7a4-baseline -y
+for /d %d in (jobs\glm-b7a4-baseline\*) do @type "%d\verifier\reward.txt"
 ```
 
-Must print `1.0`. If not, **stop** and send me
-`/tmp/harbor-jobs/oracle-b7a4-r1/*/verifier/test-stdout.txt`.
+**Send me:** the four numbers. Expected 4/4. Skip this step if time is short.
 
-## Step 4 — Round 1 GLM battery (~1–2 h wall)
+## Step 3 — Round 1 oracle
 
-```bash
-docker ps --format '{{.Names}}'
-harbor run -c glm-harbor-config.json -n 1 -y            # smoke test
-harbor run -c glm-harbor-config.json -n 3 -k 4 -y       # the battery (4 total)
-cat /tmp/harbor-jobs/glm-b7a4-r1/*/verifier/reward.txt
+```bat
+harbor run -p task -a oracle -k 1 -n 1 --env-file glm.env -o jobs --job-name oracle-b7a4-r1 -y
+for /d %d in (jobs\oracle-b7a4-r1\*) do @type "%d\verifier\reward.txt"
 ```
+
+Must print `1.0`. If not, **stop** and send me the file
+`jobs\oracle-b7a4-r1\<trial>\verifier\test-stdout.txt`.
+
+## Step 4 — Round 1 GLM battery
+
+```bat
+docker ps --format "{{.Names}}"
+harbor run -p task -a terminus-2 -m openai/glm-5.2 -k 1 -n 1 --env-file glm.env -o jobs --job-name glm-b7a4-smoke -y
+for /d %d in (jobs\glm-b7a4-smoke\*) do @type "%d\verifier\reward.txt"
+```
+
+If the smoke run finishes without a crash (a reward of 0.0 or 1.0 is both
+fine here), run the real battery:
+
+```bat
+harbor run -p task -a terminus-2 -m openai/glm-5.2 -k 4 -n 2 --env-file glm.env -o jobs --job-name glm-b7a4-r1 -y
+for /d %d in (jobs\glm-b7a4-r1\*) do @type "%d\verifier\reward.txt"
+```
+
+Use `-n 3` if `docker ps` showed nothing else running; `-n 1` if the machine
+is slow.
 
 **Send me:**
 
 1. the four rewards,
-2. for every run that is not 1.0: `verifier/verifier_summary.json`,
-   `verifier/score.json`, the agent's `offer_evaluation.csv` and `results.json`
-   if they are in the trial folder, and `exception.txt` if it exists,
-3. `ls` of any trial with no `agent/trajectory.json`.
+2. for every run below 1.0: `verifier\verifier_summary.json`,
+   `verifier\score.json`, and `exception.txt` if it exists,
+3. `dir jobs\glm-b7a4-r1\<trial>\agent` for any trial that has no
+   `trajectory.json`.
 
-I classify each failure (MODEL / ambiguity / verifier / infra) and decide:
+I classify each failure. Then:
 
-- 1, 2 or 3 of 4 pass → go to Step 5.
-- 4 of 4 → I push round 2 (price overrides + moving the fit thresholds into the
-  data sheet); you repeat Steps 3 and 4 with job names `oracle-b7a4-r2`,
-  `glm-b7a4-r2`.
-- 0 of 4 → I check for unfairness first; if the failures are genuine MODEL
-  failures we ship as 0/4 and say so.
+- 1, 2 or 3 of 4 pass → Step 5.
+- 4 of 4 → I push round 2; you repeat Steps 3 and 4 with job names
+  `oracle-b7a4-r2` and `glm-b7a4-r2`.
+- 0 of 4 → I check the failures for unfairness before we decide.
 
-## Step 5 — Collect the evidence (~10 min)
+## Step 5 — Collect the evidence
 
-```bash
-git pull
-tools/collect_runs.sh /tmp/harbor-jobs/glm-b7a4-r1      # or -r2 …
-git add task/evaluations && git commit -m "Add GLM-5.2 difficulty and solvability evidence" && git push
-```
-
-**Send me:** the script's printed tree. I fill the bracketed figures in
-`task/README.md` and `docs/review_rows_draft.md`, run the final oracle-after-
-rename check on my side with the engine, and push.
-
-## Step 6 — Final oracle after packaging (~10 min)
+`tools\collect_runs.sh` is a bash script. Open **Git Bash** in the `Turing1`
+folder (right-click → "Git Bash Here") and run:
 
 ```bash
 git pull
-harbor run -p task -a oracle \
-  --ve OPENAI_API_KEY="$OPENAI_API_KEY" --ve OPENAI_BASE_URL="$OPENAI_BASE_URL" \
-  -o /tmp/harbor-jobs --job-name oracle-b7a4-final -n 1 -y
-cat /tmp/harbor-jobs/oracle-b7a4-final/*/verifier/reward.txt          # 1.0
+tools/collect_runs.sh jobs/glm-b7a4-r1
+git add task/evaluations
+git commit -m "Add GLM-5.2 difficulty and solvability evidence"
+git push
 ```
 
-## Step 7 — review.csv through the form (~30 min, must be you)
+**Send me:** the tree the script prints. I fill the bracketed figures in
+`task/README.md` and `docs/review_rows_draft.md` and push.
 
-1. Copy the `task/` folder to Google Drive (the folder, not a zip).
+## Step 6 — Final oracle (cmd)
+
+```bat
+git pull
+harbor run -p task -a oracle -k 1 -n 1 --env-file glm.env -o jobs --job-name oracle-b7a4-final -y
+for /d %d in (jobs\oracle-b7a4-final\*) do @type "%d\verifier\reward.txt"
+```
+
+Must print `1.0`.
+
+## Step 7 — review.csv through the form (must be you)
+
+1. Copy the `task` folder to Google Drive (the folder, not a zip).
 2. Open the review form, sign in with your Turing Google account, paste the
    Drive folder link.
-3. Fill the fourteen rows from `docs/review_rows_draft.md` (brackets already
-   replaced by me). Layer 2 Stability and Cross-trial Calibration: one line
-   "Turing runs this".
-4. Download `review.csv` and place it at `task/review.csv`. Commit and push.
+3. Fill the fourteen rows from `docs/review_rows_draft.md` (I will have
+   replaced the brackets). Layer 2 Stability and Cross-trial Calibration: the
+   one line "Turing runs this".
+4. Download `review.csv`, put it at `task\review.csv`, then in cmd:
 
-## Step 8 — Delivery Gate, twice (~45 min)
-
-```bash
-tools/make_zip.sh            # preflight + zip of task/ alone
+```bat
+git add task\review.csv
+git commit -m "Add review.csv"
+git push
 ```
 
-1. Upload the zip to https://qc-api-713053229214.us-central1.run.app/ and run
+## Step 8 — Delivery Gate, twice
+
+In Git Bash:
+
+```bash
+tools/make_zip.sh
+```
+
+It preflights the bundle and writes `bus-mg-bus-b7-a4-same-day-power-cord-sourcing.zip`
+in the `Turing1` folder.
+
+1. Upload that zip to https://qc-api-713053229214.us-central1.run.app/ and run
    the Delivery Gate. Do the manual checklist in the right pane while it runs.
-2. Expected finding: R3 stability → mark reviewed, note "Turing runs stability".
-   Any other finding → send me the report; I fix, you re-zip and re-run.
-3. Download `qc_report.html` → `task/qc_report.html`. Commit and push.
-4. `tools/make_zip.sh` again → upload as a **new version of the same task** →
-   run the Gate again → Submit that version.
+2. Expected finding: R3 stability → mark reviewed with "Turing runs stability".
+   Anything else → send me the report; I fix, you re-zip and re-run.
+3. Download `qc_report.html` into `task\`, then commit and push it.
+4. Run `tools/make_zip.sh` again → upload as a **new version of the same
+   task** → run the Gate again → Submit that version.
 
 ## Step 9 — Watch the pipeline
 
-Queued → Running → Accepted. On "Rejected · N findings", send me the findings;
-the fix loop is Steps 3–8 again with a new version.
+Queued → Running → Accepted. On "Rejected · N findings", send me the
+findings; we loop from Step 3 with a new version.

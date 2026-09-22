@@ -16,7 +16,7 @@ mkdir -p "$EVAL/difficulty" "$EVAL/solvability"
 i=0
 solv=""
 for trial in "$JOB_DIR"/*/; do
-  [ -f "$trial/result.json" ] || continue          # skip job-level files
+  [ -f "$trial/result.json" ] && [ -d "$trial/verifier" ] || continue   # skip job-level files
   i=$((i+1))
   dst="$EVAL/difficulty/r$i"
   mkdir -p "$dst/agent" "$dst/verifier"
