@@ -1,0 +1,330 @@
+{
+ "task": "task_bus_mg_bus_b7_a4_same_day_power_cord_sourcing",
+ "n": 4,
+ "api_failures": 0,
+ "parsed_families": [
+  "glm"
+ ],
+ "input_surface": [
+  "prompt",
+  "input/power_supply_spec.md",
+  "input/same_day_terms.md",
+  "input/standard_delivery.md",
+  "input/submission_format.md"
+ ],
+ "readers": [
+  {
+   "goal": {
+    "deliverables": [
+     {
+      "file": "offer_evaluation.csv",
+      "figures": [
+       {
+        "name": "offer_id",
+        "meaning": "The identifier of the same-day offer as written in same_day_offers.csv."
+       },
+       {
+        "name": "decision",
+        "meaning": "Whether the offer is eligible or ineligible under the same-day terms."
+       },
+       {
+        "name": "reason_code",
+        "meaning": "The first clause of the terms that refuses the offer, or NONE if nothing refuses it."
+       },
+       {
+        "name": "landed_cost_usd",
+        "meaning": "The total the buyer pays for an eligible offer (shelf price plus store sales tax plus any delivery fee), to the cent, empty if ineligible."
+       }
+      ]
+     },
+     {
+      "file": "results.json",
+      "figures": [
+       {
+        "name": "eligible_offer_count",
+        "meaning": "The number of same-day offers the terms leave eligible."
+       },
+       {
+        "name": "chosen_offer_id",
+        "meaning": "The offer_id of the eligible offer the terms say to take."
+       },
+       {
+        "name": "chosen_total_usd",
+        "meaning": "The landed cost in US dollars, to the cent, of the chosen offer."
+       }
+      ]
+     }
+    ]
+   },
+   "method": "I'll answer in prose as asked. Note: the actual offer/store/listing data files (`same_day_offers.csv`, the store directory, Kestrel's cord listings) aren't in my context, so I can describe the method but can't honestly produce concrete rows or numbers — I'd need those inputs first.\n\n**Per-offer decision (`decision`, `reason_code`)**\n\nFor each same-day offer I'd join it to the cord listing (by SKU/connector columns) and to the store directory (by store id), then walk the precedence ladder in S5 exactly once per offer, reporting the first clause that fails:\n\n1. `FIT_CONNECTOR` — cord's `connector` must be `C7` (the figure-8 mating end). A `C5` fails here.\n2. `FIT_POLARIZED` — `polarized` must be false/non-keyed, because the brick's C8 inlet is non-polarized.\n3. `FIT_GAUGE` — for any length over 6 ft, `conductor_awg` must be ≤ 18 (larger AWG = thinner, so 18 or lower is heavier enough). Lengths ≤ 6 ft I'd skip this check (the clause is conditional on \"over 6 ft\"). Since the length floor in the next step is 10 ft, every surviving cord will in fact be > 6 ft, so this will always apply to survivors — but I'd still apply it conditionally to be faithful to the rule.\n4. `FIT_LENGTH` — `length_ft` in [10, 15] inclusive.\n5. `STOCK_RESERVE` — delivery only: store must hold ≥ 2 units. Collection offers skip this.\n6. `SAME_DAY_SUSPENDED` — store's `same_day_suspended` flag must be false.\n7. `CUTOFF_PASSED` — order is placed 14:40 Friday Central (Phenix City, AL). The cutoff is 15:00 in the *store's* own timezone from the directory. I'd convert 14:40 CT to each store's timezone and compare to 15:00 in that zone (e.g., an Eastern-time store sees 15:40 → past cutoff; a Mountain store sees 13:40 → fine).\n8. `OUT_OF_RADIUS` — delivery only: `distance_mi` ≤ 10. Collection skips this.\n\nAnything passing all eight is `ELIGIBLE` with reason `NONE`.\n\n**Landed cost (`landed_cost_usd`)**\n\nOnly for eligible offers: `shelf_price × (1 + store.sales_tax_pct/100)`, rounded to the cent, then `+ 9.99` if the offer is a delivery; the fee is not taxed. Ineligible offers get an empty field.\n\n**Count, chosen offer, chosen total**\n\n`eligible_offer_count` = count of `ELIGIBLE` rows. `chosen_offer_id` = the eligible offer with the lowest landed cost, tie-broken by earliest ready time, then nearest store, then lower `offer_id`. `chosen_total_usd` = that offer's landed cost.\n\n**Rules I'd have to decide for myself**\n\n- \"Ready earliest\" across collection vs delivery and across timezones: S1 says collection is ready two hours after the order and delivery arrives by 20:00. I'd treat collection's ready instant as order_time + 2 h (16:40 CT) and delivery's as the 20:00 deadline, both expressed in a common reference time for comparison; collection therefore normally wins a tie on readiness, and I'd normalize every store's \"ready\" instant to buyer's Central time before comparing.\n- Whether to apply `FIT_GAUGE` only when length > 6 ft (I would, per the conditional wording), even though the length floor makes it moot for survivors.\n- Treatment of missing fields: I'd treat a missing required value as failing its corresponding clause (e.g., missing `connector` → `FIT_CONNECTOR`) rather than inventing a value, since precedence needs a deterministic first failure.\n- Rounding: round half up to the cent after computing tax, before adding the untaxed fee.\n- \"First that applies\" is evaluated on the offer as offered (delivery vs collection method already fixed), so delivery-only clauses are skipped silently for collection offers, not treated as passes that change precedence.\n\n**On writing the files**\n\nI can't truthfully write `offer_evaluation.csv` or `results.json` yet: I don't have `same_day_offers.csv`, the store directory, or the cord listings in my context, so I have no `offer_id`s, prices, stock counts, distances, timezones, or tax rates to compute from. Hand-fabricating rows would violate the instruction to follow the source data precisely. If you paste those three inputs, I'll run the method above and emit the two files exactly as `submission_format.md` specifies.",
+   "model": "glm-5.2",
+   "family": "glm",
+   "backend": "glm",
+   "author_family": "claude",
+   "revision_key": "84b2cce0c84e3729b42f1bbc99cab108b51102960a9050e1d47170f515f3bf25",
+   "stamped_at": "2026-09-20T21:02:45+05:30"
+  },
+  {
+   "goal": {
+    "deliverables": [
+     {
+      "file": "offer_evaluation.csv",
+      "figures": [
+       {
+        "name": "offer_id",
+        "meaning": "The identifier of a same-day offer as written in the offers file."
+       },
+       {
+        "name": "decision",
+        "meaning": "Whether the offer is eligible for same-day fulfilment under the terms, marked ELIGIBLE or INELIGIBLE."
+       },
+       {
+        "name": "reason_code",
+        "meaning": "The first clause of the terms that refuses the offer, or NONE if nothing refuses it."
+       },
+       {
+        "name": "landed_cost_usd",
+        "meaning": "The amount in US dollars the buyer pays for an eligible offer including tax and any delivery fee, left empty for ineligible offers."
+       }
+      ]
+     },
+     {
+      "file": "results.json",
+      "figures": [
+       {
+        "name": "eligible_offer_count",
+        "meaning": "The number of same-day offers that remain eligible after applying the terms."
+       },
+       {
+        "name": "chosen_offer_id",
+        "meaning": "The offer_id of the eligible offer the terms say the buyer should take."
+       },
+       {
+        "name": "chosen_total_usd",
+        "meaning": "The landed cost in US dollars of the chosen offer."
+       }
+      ]
+     }
+    ]
+   },
+   "method": "I don't have the actual data needed to produce the files — only the brick's spec, the same-day terms, the standard-delivery comparison page, and the submission format were provided. The inputs that would let me actually compute figures — `same_day_offers.csv`, the store directory, and Kestrel's cord listings — aren't in what I can see. So rather than fabricate rows, here's exactly how I'd compute each figure, and where I'd have to settle a rule on my own.\n\n**Per-offer decision and reason code.** For each offer I'd join it to its cord listing (by SKU/product id) and to its store (by store id), then walk the clauses in the precedence order from S5: `FIT_CONNECTOR` (connector must be `C7`), `FIT_POLARIZED` (must be non-polarized), `FIT_GAUGE` (for length > 6 ft, `conductor_awg` ≤ 18), `FIT_LENGTH` (10 ≤ `length_ft` ≤ 15), `STOCK_RESERVE` (delivery only, stock ≥ 2), `SAME_DAY_SUSPENDED` (flag set), `CUTOFF_PASSED` (order before 15:00 in the *store's* local time), `OUT_OF_RADIUS` (delivery only, `distance_mi` ≤ 10). The first clause that fails is the reason code; if none fail, the offer is `ELIGIBLE` with reason `NONE`. I'd treat `STOCK_RESERVE` and `OUT_OF_RADIUS` as clauses that simply don't apply to collection offers (so they never fire for those), not as automatic failures.\n\n**Landed cost.** Shelf price × (1 + store `sales_tax_pct`/100), rounded to the cent, then + 9.99 if it's a delivery, + 0 if collection. The fee is not taxed. Tax uses the *fulfilling* store's rate, not the buyer's. Ineligible offers get a blank `landed_cost_usd`.\n\n**Eligible offer count.** A straight count of rows whose decision is `ELIGIBLE`.\n\n**Chosen offer and chosen total.** Lowest landed cost among eligible offers; tie broken by earliest ready time; then nearest store (`distance_mi`); then lower `offer_id`. Chosen total is that offer's landed cost.\n\n**Rules I'd have to decide myself.**\n- *Join keys:* I'd assume the offer file carries a product/SKU and a store id that match the listing and directory. If not, I'd need a stated mapping.\n- *Rounding mode* for the tax step isn't specified; I'd use round-half-up to the cent.\n- *\"Ready earliest\"* is ambiguous across methods: collection is \"ready two hours after the order,\" delivery \"arrives by 20:00.\" I'd treat collection ready = order_time + 2 h and delivery ready = 20:00 store-local, and compare in store-local time.\n- *Cutoff conversion:* the order is 14:40 Central in Phenix City, but cutoff is judged in each store's own timezone; a store across the line in Eastern time would read 15:40 and fail `CUTOFF_PASSED`. I'd convert 14:40 CT to each store's timezone before testing.\n- *Stock snapshot:* I'd take the listing's stock figure as current at order time.\n- *Number formatting:* plain numeric with two decimals, no symbols or separators, blank for ineligible — as the format requires.\n\nIf you can drop in `same_day_offers.csv`, the store directory, and the cord listings, I'll run the above and write `offer_evaluation.csv` and `results.json` exactly to spec.",
+   "model": "glm-5.2",
+   "family": "glm",
+   "backend": "glm",
+   "author_family": "claude",
+   "revision_key": "84b2cce0c84e3729b42f1bbc99cab108b51102960a9050e1d47170f515f3bf25",
+   "stamped_at": "2026-09-20T21:02:45+05:30"
+  },
+  {
+   "goal": {
+    "deliverables": [
+     {
+      "file": "offer_evaluation.csv",
+      "figures": [
+       {
+        "name": "offer_id",
+        "meaning": "The identifier of the same-day offer record as written in same_day_offers.csv."
+       },
+       {
+        "name": "decision",
+        "meaning": "Whether the offer is eligible or ineligible for same-day fulfilment."
+       },
+       {
+        "name": "reason_code",
+        "meaning": "The first terms clause that refuses the offer, or NONE if nothing refuses it."
+       },
+       {
+        "name": "landed_cost_usd",
+        "meaning": "The total US dollar amount the buyer pays for an eligible offer including tax and any delivery fee, left empty when ineligible."
+       }
+      ]
+     },
+     {
+      "file": "results.json",
+      "figures": [
+       {
+        "name": "eligible_offer_count",
+        "meaning": "The number of same-day offers the terms leave eligible."
+       },
+       {
+        "name": "chosen_offer_id",
+        "meaning": "The offer_id of the eligible offer the terms say to take."
+       },
+       {
+        "name": "chosen_total_usd",
+        "meaning": "The landed cost in US dollars to the cent of the chosen offer."
+       }
+      ]
+     }
+    ]
+   },
+   "method": "# Methodology for Computing the Requested Figures\n\n## What I'd need but don't have in the provided inputs\n\nThe four input files I can see (`power_supply_spec.md`, `same_day_terms.md`, `standard_delivery.md`, `submission_format.md`) give me the rules and the output format, but they don't include the actual data I'd need to produce the deliverables:\n\n- **`same_day_offers.csv`** — the offers to evaluate (each offer's store, cord, method, price)\n- **The store directory** — each store's timezone, `distance_mi`, `sales_tax_pct`, `same_day_suspended` flag, and stock count\n- **Kestrel's cord listings** — each cord's `connector`, `polarized`, `conductor_awg`, and `length_ft`\n\nWithout those files I can't read any offer, join it to its store and cord, or compute a landed cost. So below I describe exactly how I'd process them once they're available.\n\n## How I'd evaluate each offer\n\nI'd walk every row of `same_day_offers.csv` and apply the terms in the strict precedence order from S5. The first clause that trips marks the offer `INELIGIBLE` with that reason code; if nothing trips, the offer is `ELIGIBLE` with reason `NONE`.\n\n### 1. Fit checks (S4) — applied to every offer, collection or delivery\n\nUsing the cord attributes from Kestrel's listings, keyed by whatever cord identifier the offer carries:\n\n| Check | Rule | Fail code |\n|---|---|---|\n| Connector | `connector` must be exactly `C7` | `FIT_CONNECTOR` |\n| Polarization | `polarized` must be false / non-keyed | `FIT_POLARIZED` |\n| Gauge | If `length_ft > 6`, then `conductor_awg` must be ≤ 18 (remember: larger AWG = thinner wire) | `FIT_GAUGE` |\n| Length | `length_ft` must be 10–15 inclusive | `FIT_LENGTH` |\n\nBecause the length floor is 10 ft, every cord that passes `FIT_LENGTH` is automatically over 6 ft, so the gauge requirement always kicks in for a surviving offer. But gauge is checked first in precedence, so a 20-AWG cord that's also only 8 ft would be tagged `FIT_GAUGE`, not `FIT_LENGTH`.\n\n### 2. Stock reserve (S2) — delivery offers only\n\nFor a **delivery** offer, the store must hold ≥ 2 units. If not → `STOCK_RESERVE`.  \nFor a **collection** offer, I skip this check entirely — S2 says \"collection carries neither requirement.\"\n\n### 3. Suspension (S3) — every offer\n\nIf the store's `same_day_suspended` flag is set → `SAME_DAY_SUSPENDED`.\n\n### 4. Cutoff (S1) — every offer\n\nThe order is placed at **14:40 Central** (the buyer's time in Phenix City). I need to convert that instant into each store's own timezone (from the store directory's `timezone` column) and check whether the store's local time is before 15:00. If it's 15:00 or later at the store → `CUTOFF_PASSED`.\n\nThe key cases, assuming standard US timezone offsets:\n\n| Store timezone | Store local time at 14:40 CT | Before 15:00? |\n|---|---|---|\n| Eastern | 15:40 | No → `CUTOFF_PASSED` |\n| Central | 14:40 | Yes |\n| Mountain | 13:40 | Yes |\n| Pacific | 12:40 | Yes |\n\n### 5. Delivery radius (S2) — delivery offers only\n\nFor a **delivery** offer, `distance_mi` must be ≤ 10. If not → `OUT_OF_RADIUS`.  \nCollection offers skip this check.\n\n### Precedence recap\n\nI apply checks in this order and stop at the first failure:\n`FIT_CONNECTOR` → `FIT_POLARIZED` → `FIT_GAUGE` → `FIT_LENGTH` → `STOCK_RESERVE` → `SAME_DAY_SUSPENDED` → `CUTOFF_PASSED` → `OUT_OF_RADIUS`\n\nNote that `STOCK_RESERVE` and `OUT_OF_RADIUS` only apply to delivery offers, so for collection offers those positions in the chain are simply skipped.\n\n## How I'd compute landed cost for each eligible offer\n\nPer S6:\n\n1. Take the cord's shelf price (from the offer).\n2. Multiply by the **fulfilling store's** `sales_tax_pct` (not the buyer's local rate).\n3. Round that tax amount to the nearest cent (standard round-half-up).\n4. Add the rounded tax to the shelf price.\n5. If the offer is a delivery, add the flat $9.99 fee. The fee is **not** taxed.\n6. The result is `landed_cost_usd`, written as a plain number to the cent (e.g., `15.47`).\n\nFor ineligible offers, `landed_cost_usd` is left empty in the CSV.\n\n## How I'd choose the winning offer\n\nAmong all `ELIGIBLE` offers:\n\n1. **Lowest landed cost** wins.\n2. Tie → **earliest ready time**. Collection is ready 2 hours after order placement; delivery arrives by 20:00. Since the order goes in at 14:40 Central, all collections share the same ready instant (16:40 Central) and all deliveries share the same deadline (20:00), so a collection always beats a delivery on this tiebreaker when costs match.\n3. Still tied → **nearer store** (lower `distance_mi`).\n4. Still tied → **lower `offer_id`** (lexicographic or numeric, matching the file's ordering).\n\n## Rules I'd have to decide for myself\n\n1. **Timezone conversion for non-DST states.** Arizona (except the Navajo Nation) doesn't observe DST. If the scenario date falls during DST and a store is in Arizona, the offset between Central and that store would be 2 hours, not 1. I'd use the IANA timezone string in the store directory (e.g., `America/Phoenix`) to do an exact conversion rather than assuming fixed offsets. If the directory gives only a label like \"MST,\" I'd need to decide whether it means year-round MST or Mountain Time during DST.\n\n2. **\"Arrives by 20:00\" timezone.** S1 says delivery arrives by 20:00 but doesn't say whose clock. I'd assume the store's local time, since the store is fulfilling. In practice this matters only for the tiebreaker when a collection and a delivery offer land at the same cost — collection (16:40) would still beat delivery (20:00 in any reasonable timezone), so the choice is unlikely to flip.\n\n3. **Tax rounding convention.** I'd use round-half-up to the nearest cent, the most common retail convention. If a state uses \"round to nearest nickel\" or \"truncate,\" I'd need that in the store data, but I'll assume standard cent-level rounding.\n\n4. **How offers join to cords and stores.** I'm assuming each offer row carries a store identifier and a cord identifier (or embedded cord attributes) that let me join to the store directory and cord listings. If the offer file already embeds all needed attributes, no join is necessary. I'd confirm the schema when the files arrive.\n\n5. **\"Ready earliest\" as absolute time.** I treat \"two hours after the order\" as an absolute instant (order placed at 14:40 CT → ready at 16:40 CT), not as 16:40 in each store's local time. This means all collection offers are ready simultaneously, so the next tiebreaker (nearer store) applies among collections, and then lower `offer_id`.\n\n6. **DST observation for the buyer.** Phenix City, Alabama is in the Central timezone and observes DST. Without an explicit calendar date I can't compute the UTC offset precisely, but the task tells me it's 14:40 Central, so I take that at face value and convert to each store's timezone using whatever IANA string the directory provides.\n\n## What I cannot do right now\n\nI cannot produce `offer_evaluation.csv` or `results.json` because the offer data, store directory, and cord listings are not among the provided input files. Once those files are available, I'd run through every offer with the procedure above, write the CSV with one row per offer, and write the JSON with the eligible count, the chosen `offer_id`, and its landed cost.",
+   "model": "glm-5.2",
+   "family": "glm",
+   "backend": "glm",
+   "author_family": "claude",
+   "revision_key": "84b2cce0c84e3729b42f1bbc99cab108b51102960a9050e1d47170f515f3bf25",
+   "stamped_at": "2026-09-20T21:02:45+05:30"
+  },
+  {
+   "goal": {
+    "deliverables": [
+     {
+      "file": "offer_evaluation.csv",
+      "figures": [
+       {
+        "name": "offer_id",
+        "meaning": "The identifier of the same-day offer record being evaluated."
+       },
+       {
+        "name": "decision",
+        "meaning": "Whether the offer is eligible or ineligible under the same-day terms."
+       },
+       {
+        "name": "reason_code",
+        "meaning": "The first term clause that refuses the offer, or NONE if no clause refuses it."
+       },
+       {
+        "name": "landed_cost_usd",
+        "meaning": "The total amount the buyer pays for an eligible offer in US dollars to the cent, left empty when the offer is ineligible."
+       }
+      ]
+     },
+     {
+      "file": "results.json",
+      "figures": [
+       {
+        "name": "eligible_offer_count",
+        "meaning": "The number of same-day offers the terms leave eligible."
+       },
+       {
+        "name": "chosen_offer_id",
+        "meaning": "The offer_id of the eligible offer the terms say to take."
+       },
+       {
+        "name": "chosen_total_usd",
+        "meaning": "The landed cost in US dollars to the cent of the chosen offer."
+       }
+      ]
+     }
+    ]
+   },
+   "method": "## Methodology\n\n**Eligibility per offer (precedence order from S5, first failure wins):**\n\n1. **FIT_CONNECTOR** — look up the cord in the listings; its `connector` must be `C7`. A `C5` fails immediately.\n2. **FIT_POLARIZED** — the cord's `polarized` flag must say non-polarized; a keyed C7 won't seat in the brick's non-polarized C8 inlet.\n3. **FIT_GAUGE** — because every candidate is over 6 ft (the length floor is 10 ft), I'd require `conductor_awg` ≤ 18 (remember: larger AWG = thinner wire, so \"18 or heavier\" means ≤ 18).\n4. **FIT_LENGTH** — `length_ft` must be between 10 and 15 inclusive.\n5. **STOCK_RESERVE** — delivery offers only; the store must hold ≥ 2 units. Collection offers skip this check.\n6. **SAME_DAY_SUSPENDED** — if the store's `same_day_suspended` flag is set, both methods fail.\n7. **CUTOFF_PASSED** — convert 14:40 Central to the *store's* timezone; if that local time is ≥ 15:00, fail. Stores in Eastern time are at 15:40 and fail; Central and westward pass.\n8. **OUT_OF_RADIUS** — delivery only; `distance_mi` must be ≤ 10. Collection skips this.\n\nAn offer passing all applicable checks is `ELIGIBLE` with reason `NONE`.\n\n**Landed cost (eligible offers only):**\n\n`shelf_price` + round(`shelf_price` × `sales_tax_pct` / 100, 2) + (9.99 if delivery, 0 if collection). The fee is untaxed. Tax is at the *fulfilling* store's rate, not the buyer's.\n\n**Choosing the offer:**\n\nLowest landed cost wins. Ties: earliest ready time (collection is ready at 16:40, delivery by 20:00, so collection wins ties). If still tied: nearer store (lower `distance_mi`). If still tied: lower `offer_id`.\n\n**Rules I'd have to decide for myself:**\n\n- **Rounding convention:** I'd use round-half-up (standard retail) for the tax computation.\n- **DST ambiguity:** The prompt gives \"Central time\" without a date. It doesn't matter for the cutoff check—Eastern is always one hour ahead of Central, so Eastern stores are always at 15:40 and past 15:00, while Central and westward are at or before 14:40.\n- **Collection vs. delivery ready-time in tie-breaking:** I'd treat all collections as ready at the same instant (order + 2 h) and all deliveries as ready at the same deadline (20:00), so any collection beats any delivery on this tiebreak, and among same-method ties I'd go to distance, then `offer_id`.\n\n**Missing data:** The actual `same_day_offers.csv`, the store directory (timezones, distances, tax rates, suspension flags, stock), and the cord listings (connector, polarized, AWG, length, price) are not among the files I can see. Without them I cannot compute real figures or write `offer_evaluation.csv` / `results.json` with actual values. If you provide those files I will work every offer through the logic above and write the deliverables exactly as specified.",
+   "model": "glm-5.2",
+   "family": "glm",
+   "backend": "glm",
+   "author_family": "claude",
+   "revision_key": "84b2cce0c84e3729b42f1bbc99cab108b51102960a9050e1d47170f515f3bf25",
+   "stamped_at": "2026-09-20T21:02:45+05:30"
+  }
+ ],
+ "agreement": {
+  "deliverable_set": {
+   "consensus": [
+    "offer_evaluation.csv",
+    "results.json"
+   ],
+   "agree": 4,
+   "of": 4
+  },
+  "figures": [
+   {
+    "surface": "offer_evaluation.csv",
+    "figure": "decision",
+    "listed_by": 4,
+    "meanings": [
+     "Whether the offer is eligible or ineligible under the same-day terms.",
+     "Whether the offer is eligible for same-day fulfilment under the terms, marked ELIGIBLE or INELIGIBLE.",
+     "Whether the offer is eligible or ineligible for same-day fulfilment.",
+     "Whether the offer is eligible or ineligible under the same-day terms."
+    ]
+   },
+   {
+    "surface": "offer_evaluation.csv",
+    "figure": "landed_cost_usd",
+    "listed_by": 4,
+    "meanings": [
+     "The total the buyer pays for an eligible offer (shelf price plus store sales tax plus any delivery fee), to the cent, empty if ineligible.",
+     "The amount in US dollars the buyer pays for an eligible offer including tax and any delivery fee, left empty for ineligible offers.",
+     "The total US dollar amount the buyer pays for an eligible offer including tax and any delivery fee, left empty when ineligible.",
+     "The total amount the buyer pays for an eligible offer in US dollars to the cent, left empty when the offer is ineligible."
+    ]
+   },
+   {
+    "surface": "offer_evaluation.csv",
+    "figure": "offer_id",
+    "listed_by": 4,
+    "meanings": [
+     "The identifier of the same-day offer as written in same_day_offers.csv.",
+     "The identifier of a same-day offer as written in the offers file.",
+     "The identifier of the same-day offer record as written in same_day_offers.csv.",
+     "The identifier of the same-day offer record being evaluated."
+    ]
+   },
+   {
+    "surface": "offer_evaluation.csv",
+    "figure": "reason_code",
+    "listed_by": 4,
+    "meanings": [
+     "The first clause of the terms that refuses the offer, or NONE if nothing refuses it.",
+     "The first clause of the terms that refuses the offer, or NONE if nothing refuses it.",
+     "The first terms clause that refuses the offer, or NONE if nothing refuses it.",
+     "The first term clause that refuses the offer, or NONE if no clause refuses it."
+    ]
+   },
+   {
+    "surface": "results.json",
+    "figure": "chosen_offer_id",
+    "listed_by": 4,
+    "meanings": [
+     "The offer_id of the eligible offer the terms say to take.",
+     "The offer_id of the eligible offer the terms say the buyer should take.",
+     "The offer_id of the eligible offer the terms say to take.",
+     "The offer_id of the eligible offer the terms say to take."
+    ]
+   },
+   {
+    "surface": "results.json",
+    "figure": "chosen_total_usd",
+    "listed_by": 4,
+    "meanings": [
+     "The landed cost in US dollars, to the cent, of the chosen offer.",
+     "The landed cost in US dollars of the chosen offer.",
+     "The landed cost in US dollars to the cent of the chosen offer.",
+     "The landed cost in US dollars to the cent of the chosen offer."
+    ]
+   },
+   {
+    "surface": "results.json",
+    "figure": "eligible_offer_count",
+    "listed_by": 4,
+    "meanings": [
+     "The number of same-day offers the terms leave eligible.",
+     "The number of same-day offers that remain eligible after applying the terms.",
+     "The number of same-day offers the terms leave eligible.",
+     "The number of same-day offers the terms leave eligible."
+    ]
+   }
+  ]
+ },
+ "verdict": "pass",
+ "surface_key": "034414efa718a837dbb01cb6a1b8b3e87c692f7b115ab0e04215367049c801f7",
+ "note": "METHOD divergence is difficulty, never a finding. Fix ladder for ambiguity, cheapest first: accept both readings; move the data so both agree; add motivation; state the rule (last — costs difficulty).",
+ "schema": 2,
+ "model": "glm-5.2",
+ "pool": [
+  {
+   "model": "glm-5.2",
+   "family": "glm",
+   "backend": "glm",
+   "slots": 4
+  }
+ ],
+ "pool_families": [
+  "glm"
+ ],
+ "pool_mode": "single-family",
+ "author_family": "claude",
+ "revision_key": "84b2cce0c84e3729b42f1bbc99cab108b51102960a9050e1d47170f515f3bf25",
+ "stamped_at": "2026-09-20T21:02:45+05:30"
+}

@@ -1,0 +1,133 @@
+{
+ "task": "task_bus_mg_bus_b7_a4_same_day_power_cord_sourcing",
+ "generated_by": "to_harbor_cli.build_requirements_json",
+ "verifier_total": 6,
+ "census": {
+  "offer_evaluation.csv": {
+   "records": 11,
+   "columns": [
+    "decision",
+    "landed_cost_usd",
+    "reason_code"
+   ],
+   "cell_pins": 33,
+   "row_set": 11
+  }
+ },
+ "scoring": {
+  "policy": "two-tier: any core failure zeroes the reward; incidental failures cost their weight share (tests/score.py)",
+  "core": 6,
+  "incidental": [],
+  "sidecar_note": "derived figures are paid once, in results.json; artifact cell pins grade PRIMARY data carried into the deliverable, and cardinality closures pay the count — neither re-pays a derived figure",
+  "all_core_declared": "every check grades analytical content, structural closure or existence — no presentation-class check exists to demote; all-or-nothing is the declared policy for this task"
+ },
+ "duplicate_payments": [],
+ "requirements": [
+  {
+   "requirement_id": "R1",
+   "ask": "Deliver the offer sheet under the stated contract: the named file and the verbatim header.",
+   "prompt_span": "Header, exactly: `offer_id,decision,reason_code,landed_cost_usd`",
+   "surface": "offer_evaluation.csv",
+   "criticality": "major",
+   "graded_by": [
+    "evaluation_exists",
+    "evaluation_header"
+   ],
+   "graded_by_count": 2,
+   "tolerance": {
+    "value": "pinned",
+    "numeric_rendering": "tolerant (numeric abs<=0.001 inside table_equals, grouping-normalised; leading-zero ids exact)",
+    "column_order": "free (structural addressing)",
+    "row_order": "free",
+    "extra_columns": "forbidden (header pinned, instruction-backed)",
+    "extra_keys": "allowed"
+   },
+   "discrimination": null
+  },
+  {
+   "requirement_id": "R2",
+   "ask": "Rule every offer: eligible or not, the first clause that refuses it, and what an eligible one lands at.",
+   "prompt_span": "One row per offer in `same_day_offers.csv`, in any order, with `offer_id` as that file writes it: `decision` is `ELIGIBLE` or `INELIGIBLE`, `reason_code` is the first clause of the terms that refuses the offer and `NONE` for an offer nothing refuses, and `landed_cost_usd` is what the buyer pays for an eligible offer, in US dollars to the cent, and is left empty on an offer that is not eligible.",
+   "surface": "offer_evaluation.csv",
+   "criticality": "critical",
+   "graded_by": [
+    "evaluation_table",
+    "evaluation_table_trap_of01"
+   ],
+   "graded_by_count": 2,
+   "tolerance": {
+    "value": "pinned",
+    "numeric_rendering": "tolerant (numeric abs<=0.001 inside table_equals, grouping-normalised; leading-zero ids exact)",
+    "column_order": "free (structural addressing)",
+    "row_order": "free",
+    "extra_columns": "forbidden (header pinned, instruction-backed)",
+    "extra_keys": "allowed"
+   },
+   "discrimination": null
+  },
+  {
+   "requirement_id": "R3",
+   "ask": "The Columbus offer is past the cutoff on its own store's clock, though it is still before the cutoff where the buyer is standing.",
+   "prompt_span": "A store's own local time is what its `timezone` column says, whatever time it is where the buyer is standing.",
+   "surface": "offer_evaluation.csv",
+   "criticality": "critical",
+   "graded_by": [
+    "evaluation_table_trap_of01"
+   ],
+   "graded_by_count": 1,
+   "tolerance": {
+    "value": "pinned",
+    "numeric_rendering": "tolerant (numeric abs<=0.001 inside table_equals, grouping-normalised; leading-zero ids exact)",
+    "column_order": "free (structural addressing)",
+    "row_order": "free",
+    "extra_columns": "forbidden (header pinned, instruction-backed)",
+    "extra_keys": "allowed"
+   },
+   "discrimination": null
+  },
+  {
+   "requirement_id": "R4",
+   "ask": "Report the eligible-offer count, the offer to take and its landed total with a closed key set.",
+   "prompt_span": "A JSON object with exactly these keys and nothing else",
+   "surface": "results.json",
+   "criticality": "critical",
+   "graded_by": [
+    "results_exists",
+    "results_figures"
+   ],
+   "graded_by_count": 2,
+   "tolerance": {
+    "value": "pinned",
+    "numeric_rendering": "tolerant (numeric abs<=0.01 per key inside object_equals)",
+    "column_order": "free (structural addressing)",
+    "row_order": "free",
+    "extra_columns": "allowed",
+    "extra_keys": "forbidden (key set closed, instruction-backed)"
+   },
+   "discrimination": "Gold: 4 eligible offers, OF-02 at USD 19.61. Comparing the cutoff with the buyer's own clock gives 5, OF-01 and 15.65; dropping the polarity clause gives OF-06 at 14.26; dropping the conductor-gauge clause gives OF-07 at 12.61; dropping the length clause gives OF-11 at 12.06; applying the floor-stock reserve to collection gives 3; reading ten feet as exactly ten feet gives 0; leaving the sales tax off gives 17.99; choosing the nearest store gives OF-08 at 24.13."
+  }
+ ],
+ "derivation": {
+  "depends_on": {
+   "eligible_offer_count": [
+    "same_day_offers.csv",
+    "cord_catalogue.csv",
+    "store_directory.csv",
+    "same_day_terms.md"
+   ],
+   "chosen_offer_id": [
+    "same_day_offers.csv",
+    "cord_catalogue.csv",
+    "store_directory.csv",
+    "same_day_terms.md"
+   ],
+   "chosen_total_usd": [
+    "same_day_offers.csv",
+    "cord_catalogue.csv",
+    "store_directory.csv",
+    "same_day_terms.md"
+   ]
+  },
+  "input_sha256": "089fa7ca29b6411b270d93031200289b7b35f4311b3cdd7550571a504ae8c40c"
+ }
+}

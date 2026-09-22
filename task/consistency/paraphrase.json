@@ -1,0 +1,13 @@
+{
+  "task": "task_bus_mg_bus_b7_a4_same_day_power_cord_sourcing",
+  "revision_key": "84b2cce0c84e3729b42f1bbc99cab108b51102960a9050e1d47170f515f3bf25",
+  "backend": "glm",
+  "min_divergence": 0.3,
+  "documents": [],
+  "verdict": "inconclusive",
+  "reason": "no prose deliverable in solution/ \u2014 this lane has nothing to paraphrase, which is not evidence that wording is safe",
+  "model": "glm-5.2",
+  "family": "glm",
+  "author_family": "claude",
+  "stamped_at": "2026-09-21T12:49:28+05:30"
+}
