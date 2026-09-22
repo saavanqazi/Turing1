@@ -8,6 +8,7 @@ OUT="${1:-$REPO/bus-mg-bus-b7-a4-same-day-power-cord-sourcing.zip}"
 cd "$REPO"
 find task -name __pycache__ -prune -exec rm -rf {} + 2>/dev/null || true
 find task -name .DS_Store -delete 2>/dev/null || true
+rm -rf task/.pytest_cache
 rm -rf task/solution/files/.oracle_logs
 
 echo "== preflight =="

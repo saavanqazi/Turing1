@@ -3,3 +3,4 @@ jobs/
 harbor-jobs/
 *.zip
 __pycache__/
+.pytest_cache/
