@@ -1,5 +1,7 @@
 # Roadmap — `bus-mg-bus-b7-a4-same-day-power-cord-sourcing`
 
+> **Status 2026-09-22:** Phases 1, 4, 5(a–c), 6 and the drafts for 7 are done in the repo. Your steps are in `docs/HANDOFF.md`.
+
 Phase-wise plan to take the mined package from the uploaded zip to a submittable
 delivery bundle that clears both gates (Oracle = 1.0, GLM-5.2 = 1–3 of 4 passing)
 and carries `README.md`, `review.csv` and `qc_report.html`.

@@ -24,6 +24,27 @@
     "name": "bash",
     "server": "local",
     "arguments": {
+      "command": "cat input/stock_ledger.csv"
+    }
+  },
+  {
+    "name": "bash",
+    "server": "local",
+    "arguments": {
+      "command": "cat input/store_directory.csv"
+    }
+  },
+  {
+    "name": "bash",
+    "server": "local",
+    "arguments": {
+      "command": "cat input/tax_jurisdictions.csv"
+    }
+  },
+  {
+    "name": "bash",
+    "server": "local",
+    "arguments": {
       "command": "cat input/same_day_terms.md"
     }
   },
@@ -38,13 +59,6 @@
     "name": "bash",
     "server": "local",
     "arguments": {
-      "command": "cat input/store_directory.csv"
-    }
-  },
-  {
-    "name": "bash",
-    "server": "local",
-    "arguments": {
       "command": "cat input/submission_format.md"
     }
   },
@@ -52,14 +66,14 @@
     "name": "bash",
     "server": "local",
     "arguments": {
-      "command": "cat > offer_evaluation.csv << 'OFFEREVALUATIONEOF'\noffer_id,decision,reason_code,landed_cost_usd\nOF-01,INELIGIBLE,CUTOFF_PASSED,\nOF-02,ELIGIBLE,NONE,19.61\nOF-03,INELIGIBLE,OUT_OF_RADIUS,\nOF-04,ELIGIBLE,NONE,24.08\nOF-05,INELIGIBLE,SAME_DAY_SUSPENDED,\nOF-06,INELIGIBLE,FIT_POLARIZED,\nOF-07,INELIGIBLE,FIT_GAUGE,\nOF-08,ELIGIBLE,NONE,24.13\nOF-09,ELIGIBLE,NONE,34.12\nOF-10,INELIGIBLE,FIT_CONNECTOR,\nOF-11,INELIGIBLE,FIT_LENGTH,\nOFFEREVALUATIONEOF"
+      "command": "cat > offer_evaluation.csv << 'OFFEREVALUATIONEOF'\noffer_id,decision,reason_code,landed_cost_usd\nOF-01,INELIGIBLE,NO_STOCK,\nOF-02,ELIGIBLE,NONE,23.97\nOF-03,INELIGIBLE,OUT_OF_RADIUS,\nOF-04,ELIGIBLE,NONE,19.70\nOF-05,INELIGIBLE,SAME_DAY_SUSPENDED,\nOF-06,INELIGIBLE,FIT_POLARIZED,\nOF-07,INELIGIBLE,FIT_GAUGE,\nOF-08,ELIGIBLE,NONE,24.13\nOF-09,ELIGIBLE,NONE,34.12\nOF-10,INELIGIBLE,FIT_CONNECTOR,\nOF-11,INELIGIBLE,FIT_LENGTH,\nOF-12,ELIGIBLE,NONE,19.70\nOF-13,INELIGIBLE,STOCK_RESERVE,\nOF-14,INELIGIBLE,FIT_GAUGE,\nOF-15,INELIGIBLE,FIT_LENGTH,\nOF-16,INELIGIBLE,FIT_LENGTH,\nOF-17,ELIGIBLE,NONE,25.89\nOF-18,INELIGIBLE,CUTOFF_PASSED,\nOF-19,INELIGIBLE,STOCK_RESERVE,\nOF-20,INELIGIBLE,NO_STOCK,\nOFFEREVALUATIONEOF"
     }
   },
   {
     "name": "bash",
     "server": "local",
     "arguments": {
-      "command": "cat > results.json << 'RESULTSEOF'\n{\n  \"eligible_offer_count\": 4,\n  \"chosen_offer_id\": \"OF-02\",\n  \"chosen_total_usd\": 19.61\n}\nRESULTSEOF"
+      "command": "cat > results.json << 'RESULTSEOF'\n{\n  \"eligible_offer_count\": 6,\n  \"chosen_offer_id\": \"OF-12\",\n  \"chosen_total_usd\": 19.7\n}\nRESULTSEOF"
     }
   },
   {

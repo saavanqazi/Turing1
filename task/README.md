@@ -1,0 +1,67 @@
+# Change summary — same-day replacement cord sourcing
+
+> Fill the bracketed figures after the GLM batteries. Everything else is final.
+
+## What the task asks
+
+A buyer in Phenix City, AL needs a 10-ft figure-8 (IEC C7, non-polarized) AC cord the
+same Friday afternoon. Twenty Kestrel same-day offers across six stores must each be ruled
+eligible or not under the chain's terms, with the first refusing clause and the landed
+cost, then the eligible count, the offer to take and its total.
+
+## From the mined baseline to this version
+
+**Baseline (as mined).** 11 offers, 5 stores, 8 SKUs, an `on_hand` count in the offers
+file, tax always at the fulfilling store. One real trap (two stores across the Eastern
+state line are past the 15:00 cutoff). The `STOCK_RESERVE` clause and every tie-break rule
+were dead: no row ever exercised them. Oracle was 1.0. GLM-5.2 baseline battery:
+[N]/4 passing, rewards [r1, r2, r3, r4].
+
+**Hardened.** Four coupled changes, each governed by an explicit clause in
+`same_day_terms.md` so a careful analyst lands on exactly one answer:
+
+1. **Stock is a ledger, not a snapshot.** `stock_ledger.csv` holds opening counts and
+   timestamped movements in each store's local time. Effective stock is the sum of lines
+   at or before the order instant *on that store's clock*, so the stock figure depends on
+   the same timezone reasoning as the cutoff: a 15:20 sale at an Eastern store has
+   already happened (OF-01 is `NO_STOCK`, not `CUTOFF_PASSED`), a 15:05 hold at a Central
+   store has not (OF-09 keeps its two units). A pickup and a delivery on the same
+   store/SKU share one figure. New reason `NO_STOCK`; `STOCK_RESERVE` now fires (OF-13,
+   OF-19, the latter ahead of `OUT_OF_RADIUS` by precedence).
+2. **Destination-based tax on delivery.** Collection is taxed at the store's rate;
+   delivery at the delivery address's rate from `tax_jurisdictions.csv`. OF-17 lands at
+   25.89, not the 25.86 a store-rate reading gives.
+3. **A real tie.** OF-04 (Opelika) and OF-12 (Smiths Station) both land at 19.70. Both
+   are collections ready at the same time, so the nearer store decides: OF-12. Picking
+   the first or lowest-id minimum gives OF-04.
+4. **Precedence edge rows.** 8-ft 20 AWG (`FIT_GAUGE` before `FIT_LENGTH`), 6-ft 20 AWG
+   (gauge rule does not apply at 6 ft, so `FIT_LENGTH`), 20-ft 18 AWG (`FIT_LENGTH`), a
+   14:40 sale that counts under "at or before".
+
+Result: 6 eligible of 20, chosen OF-12 at USD 19.70.
+
+**Also changed.** `solution/compute_gold.py` derives the gold files, the golden
+trajectory and the manifest's expected values from the inputs in one run, so the three
+copies of the answer can no longer drift. `tests/verifier.json` was renamed to
+`tests/manifest.json` and the two loaders updated. The mined `evaluations/oracle` and
+`evaluations/nop` folders were removed. The mining pipeline's `consistency/` metadata was
+dropped from the bundle because it describes the pre-hardening gold.
+
+## Why it is hard now
+
+Correctness is no longer eight independent rule checks. The stock figure depends on the
+clock conversion, the tax rate depends on the method, the choice depends on a tie-break
+chain that only decides once the other rules are right, and several rows fail two clauses
+so the precedence order is load-bearing. A per-rule script that treats each clause on its
+own misclassifies OF-01, OF-09, OF-14, OF-15, OF-17, OF-19 or the chosen offer.
+
+## Scoring shape
+
+Every verifier is core and the reward is core-gated (`tests/score.py`), so a run scores
+exactly 1.0 or 0.0. A spread like 0.2–0.35 cannot occur on this task by design; the
+difficulty signal is the pass count. GLM-5.2 final battery: [N]/4 passing, rewards
+[r1, r2, r3, r4] (`evaluations/difficulty/r1..r4/verifier/reward.json`).
+
+## QC flags left as-is
+
+- R3 stability evidence: Turing runs stability; no `stability/` folder is shipped.
