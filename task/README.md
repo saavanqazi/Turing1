@@ -116,10 +116,10 @@ the first four by start time, a mechanical choice, and score 2 of 4:
 
 | rollout | harbor trial | started | reward | outcome |
 |---|---|---|---|---|
-| difficulty/r1 | task__jWv5Q6m | 19:28:18 | 1.0 | noticed the repeated OF-08 line and collapsed it; Decimal, alias, case and unit handling all correct |
-| difficulty/r2 | task__pBuguR7 | 19:28:18 | 0.0 | MODEL: emitted 23 rows (OF-08 twice) and counted 9 eligible; every other cell correct |
-| difficulty/r3 | task__srLMHNj | 19:28:18 | 1.0 | re-checked the offer count, found the duplicate row, deduplicated |
-| difficulty/r4 | task__FmDxrr6 | 19:28:19 | 0.0 | MODEL: same as r2, 23 rows and count 9 |
+| difficulty/r1 | task__FmDxrr6 | 19:28:19 | 0.0 | MODEL: emitted 23 rows (OF-08 twice) and counted 9 eligible; every other cell correct |
+| difficulty/r2 | task__jWv5Q6m | 19:28:18 | 1.0 | noticed the repeated OF-08 line and collapsed it; Decimal, alias, case and unit handling all correct |
+| difficulty/r3 | task__pBuguR7 | 19:28:18 | 0.0 | MODEL: same as r1, 23 rows and count 9 |
+| difficulty/r4 | task__srLMHNj | 19:28:18 | 1.0 | re-checked the offer count, found the duplicate row, deduplicated |
 
 The four unshipped runs (nGHPxnn 0.0, n28RbZm 1.0, bchiKAg 0.0, JYmka6D 1.0) fail or pass for
 the identical reason. All eight runs handled the metric lengths, the till-case codes, the
@@ -128,7 +128,7 @@ run checks its input for a repeated key before treating each line as an offer. Z
 exceptions, every run wrote both deliverables.
 
 Oracle on this package: 1.0 (harbor job oracle-b7a4-r3, digest-pinned image).
-`evaluations/solvability/r1` is a copy of difficulty/r1 (a GLM-5.2 run, not the oracle).
+`evaluations/solvability/r1` is a copy of difficulty/r2, trial task__jWv5Q6m (a GLM-5.2 run, not the oracle).
 
 **Evidence format note.** This harbor build writes `verifier/reward.txt` and
 `verifier/score.json`; the bundle's `verifier/reward.json` and
