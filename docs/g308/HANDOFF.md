@@ -1,6 +1,6 @@
 # g308 — your steps (Windows cmd, in the Turing1 folder)
 
-> **Status:** Platform battery on round 4: 2/4 (in band) but six Harbor Check findings. Round 5 fixes the policy ambiguities and the memo grading. Re-run Steps A, C, D with `oracle-g308-r5` / `glm-g308-r5`.
+> **Status:** Round 5 measured 8/8 (too easy once the ambiguities were stated). Round 6 adds a repeated line-list row and accounting-style negatives. Re-run Steps A, C, D with `oracle-g308-r6` / `glm-g308-r6`.
 
 ## Step A — pull and refresh
 
@@ -24,21 +24,21 @@ Send me the four rewards. (Expected 4/4.)
 ## Step C — oracle on the hardened task
 
 ```bat
-harbor run -p task-g308 -a oracle -k 1 -n 1 --env-file glm.env -o jobs --job-name oracle-g308-r5 -y
-for /d %d in (jobs\oracle-g308-r5\*) do @type "%d\verifier\reward.txt"
+harbor run -p task-g308 -a oracle -k 1 -n 1 --env-file glm.env -o jobs --job-name oracle-g308-r6 -y
+for /d %d in (jobs\oracle-g308-r6\*) do @type "%d\verifier\reward.txt"
 ```
 
-Must print `1.0`. If not, stop and send me `jobs\oracle-g308-r5\<trial>\verifier\test-stdout.txt`.
+Must print `1.0`. If not, stop and send me `jobs\oracle-g308-r6\<trial>\verifier\test-stdout.txt`.
 
 ## Step D — eight GLM runs
 
 ```bat
 docker ps --format "{{.Names}}"
-harbor run -p task-g308 -a terminus-2 -m openai/glm-5.2 -k 8 -n 4 --env-file glm.env -o jobs --job-name glm-g308-r5 -y
-for /d %d in (jobs\glm-g308-r5\*) do @type "%d\verifier\reward.txt"
+harbor run -p task-g308 -a terminus-2 -m openai/glm-5.2 -k 8 -n 4 --env-file glm.env -o jobs --job-name glm-g308-r6 -y
+for /d %d in (jobs\glm-g308-r6\*) do @type "%d\verifier\reward.txt"
 ```
 
-Send me the eight rewards and a zip of the whole `jobs\glm-g308-r5` folder. I classify
+Send me the eight rewards and a zip of the whole `jobs\glm-g308-r6` folder. I classify
 every failure, pick the first four by start time if 3–5 of 8 passed, and build the
 evidence, README figures and review.csv. If 7–8 pass I push round 2 (job names `-r2`);
 if 0–1 pass I check for unfairness first.

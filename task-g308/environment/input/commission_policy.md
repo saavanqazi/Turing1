@@ -39,8 +39,8 @@ is paid. A line is matched when the ledger's **net June revenue** for its deal, 
 ## R3 — Duplicate lines and registered co-sells
 
 A deal may be claimed once in the consolidated list. A deal that appears on more than one
-line, whether in different partner reports or twice in the same report, is a
-`DUPLICATE_LINE` on every one of those lines, with one exception: a registered co-sell.
+line (more than one `line_id`), whether in different partner reports or twice in the same
+report, is a `DUPLICATE_LINE` on every one of those lines, with one exception: a registered co-sell.
 `co_sell_register.csv` lists deals sold jointly. The exception applies only when every
 register row for the deal has `status = active`, the partners named in the register are
 exactly the `source_report` values of the deal's lines (one line per named partner), and the

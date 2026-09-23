@@ -29,6 +29,7 @@
 
 ## Lines that look wrong but are compliant
 
+- **L-21** appears twice in `commission_lines.csv` as an identical row; `line_id` is the list's key, so it is one line, counted once and not a duplicate claim.
 - **L-05 DEAL-05 (PartnerC)** — a house line at 0% is not commissionable, so the absence of a June ledger posting is not a finding.
 - **L-08 DEAL-07 (PartnerB)** — reported 6% against a standard 4% for a renewal line, but override EXC-VP-02 (active, in force on the run date) approves 6.0%.
 - **L-11 DEAL-10 (PartnerA)** — the ledger's net June postings for DEAL-10 total 27,400.00 against revenue 27,500.00, inside the 1% match tolerance.

@@ -34,16 +34,25 @@ def rows(name):
 
 
 def money(text: str) -> Decimal:
-    """'$50,000.00' / '-$48,000.00' -> Decimal (R6)."""
-    neg = text.strip().startswith("-")
-    digits = text.replace("$", "").replace(",", "").replace("-", "").strip()
+    """'$50,000.00' / '-$48,000.00' / '($48,000.00)' -> Decimal (R6): the sign is read as the
+    system printed it, a leading minus or accounting parentheses."""
+    stripped = text.strip()
+    neg = stripped.startswith("-") or (stripped.startswith("(") and stripped.endswith(")"))
+    digits = stripped.replace("$", "").replace(",", "").replace("-", "").strip("() ")
     value = Decimal(digits)
     return -value if neg else value
 
 
 def main() -> int:
     master = {r["customer_id"].upper(): r for r in rows("customer_master.csv")}
-    lines = rows("commission_lines.csv")
+    # line_id is the consolidated list's key: a row the export repeats is one line
+    lines, seen_lines, repeated_lines = [], set(), []
+    for ln in rows("commission_lines.csv"):
+        if ln["line_id"].upper() in seen_lines:
+            repeated_lines.append(ln["line_id"])
+            continue
+        seen_lines.add(ln["line_id"].upper())
+        lines.append(ln)
     ledger = rows("netsuite_revenue_june.csv")
     exceptions = rows("commission_exceptions.csv")
 
@@ -211,6 +220,8 @@ def main() -> int:
             why = f"reported {f['_reported']}%; {src} (R1/R4)"
         memo.append(f"| {f['line_id']} | {f['deal_id']} | {f['source_report']} | {f['finding_code']} | {why} |")
     memo += ["", "## Lines that look wrong but are compliant", ""]
+    for lid in repeated_lines:
+        memo.append(f"- **{lid}** appears twice in `commission_lines.csv` as an identical row; `line_id` is the list's key, so it is one line, counted once and not a duplicate claim.")
     for ln, why in explained:
         memo.append(f"- **{ln['line_id']} {ln['deal_id']} ({ln['source_report']})** — {why}.")
     memo_text = "\n".join(memo) + "\n"

@@ -168,7 +168,30 @@ key before summing. Zero exceptions.
 
 Oracle on this package: 1.0 after every round, re-run after the round-5 grader and policy changes.
 
-**Round-5 battery:** [to be filled from the round-5 GLM job].
+**Round-5 battery (terminus-2, GLM-5.2, 8 runs): 8 of 8 passed; oracle 1.0.** Stating the
+tolerance base and the ledger's key removed the only two behaviours that had separated the
+runs, which confirms the Harbor Check reading: round 4's failures were ambiguity, not
+difficulty. Round 5 is therefore too easy and is not shipped as evidence.
+
+**Round 6 (current).** The rules and the gold counts do not change. Two data shapes, both
+covered by a stated contract and self-evident in the file, punish a row-per-input-line script:
+
+1. **A repeated export row in the line list.** `commission_lines.csv` carries L-21 twice,
+   byte-identical, the way a paginated export overlaps. The format contract keys the findings
+   sheet by `line_id`, "the consolidated list's key", and defines `total_lines` as the number of
+   `line_id`s; R3 says a duplicate is a deal on more than one `line_id`. A script that emits a
+   row per input line reports 36 lines and 16 compliant, or flags DEAL-19 as a duplicate on two
+   rows with the same id, and the population lock rejects the sheet. The gold is unchanged
+   (35 lines, 15 compliant); the gold memo notes the repeated row.
+2. **Accounting-style negatives.** The two ledger reversals print as `($28,000.00)` and
+   `($41,000.00)` instead of a leading minus. R6 says amounts are read as the numbers they
+   denote however the system prints them. A parser that strips every non-digit reads the June
+   reversal as +28,000, triples DEAL-27's net and flags L-30 as unmatched.
+
+Both shortcuts were replayed against the verifier and score 0.0 (row-per-line counts; the
+repeated row read as a duplicate claim; the parenthesised reversal read as positive).
+
+**Round-6 battery:** [to be filled from the round-6 GLM job].
 
 **Evidence format note.** This harbor build writes `verifier/reward.txt` and
 `verifier/score.json`; the bundle's `verifier/reward.json` and `verifier/verifier_summary.json`

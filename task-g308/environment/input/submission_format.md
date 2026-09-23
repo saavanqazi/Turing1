@@ -9,8 +9,8 @@ Deliver exactly these files, in your working directory:
 ## `commission_findings.csv`
 
 Header, exactly: `line_id,deal_id,source_report,finding_code`
-One row per flagged line, keyed by `line_id` as `commission_lines.csv` writes it, in any
-order; compliant lines are not listed. `deal_id` and `source_report` are copied from the
+One row per flagged line, keyed by `line_id` (the consolidated list's key) as
+`commission_lines.csv` writes it, in any order; compliant lines are not listed. `deal_id` and `source_report` are copied from the
 line. `finding_code` is the single finding the policy's precedence rule assigns to the
 line and takes exactly one of: `DUPLICATE_LINE`, `UNMATCHED_TO_LEDGER`, `RATE_MISMATCH`.
 
@@ -40,7 +40,7 @@ Other lines may be discussed too. Nothing else about the memo's form is graded.
 
 A JSON object with exactly these keys and nothing else:
 
-- `total_lines` — number of lines in the consolidated list
+- `total_lines` — number of lines (`line_id`s) in the consolidated list
 - `rate_mismatch_count` — number of lines whose finding is `RATE_MISMATCH`
 - `unmatched_to_ledger_count` — number of lines whose finding is `UNMATCHED_TO_LEDGER`
 - `duplicate_line_count` — number of lines whose finding is `DUPLICATE_LINE`

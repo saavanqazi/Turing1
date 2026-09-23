@@ -25,9 +25,9 @@ P-1032,2026-06-23,DEAL-22,CUST-09,"$52,000.00",June invoice
 P-1022,2026-06-25,DEAL-24,CUST-14,"$36,000.00",June invoice - billed to Ironbridge Civil
 P-1023,2026-06-25,DEAL-25,CUST-15,"$24,000.00",June invoice
 P-1024,2026-06-26,DEAL-26,CUST-16,"$41,000.00",June invoice
-P-1031,2026-07-02,DEAL-26,CUST-16,"-$41,000.00",reversal of P-1024 - credit note issued July
+P-1031,2026-07-02,DEAL-26,CUST-16,"($41,000.00)",reversal of P-1024 - credit note issued July
 P-1025,2026-06-27,DEAL-27,CUST-07,"$28,000.00",June invoice
-P-1026,2026-06-27,DEAL-27,CUST-07,"-$28,000.00",reversal of P-1025 - wrong entity
+P-1026,2026-06-27,DEAL-27,CUST-07,"($28,000.00)",reversal of P-1025 - wrong entity
 P-1027,2026-06-28,DEAL-27,CUST-07,"$28,000.00",June invoice re-posted
 P-1028,2026-06-29,DEAL-28,CUST-10,"$30,000.00",June invoice
 P-1029,2026-06-30,DEAL-29,CUST-03,"$45,000.00",June invoice
