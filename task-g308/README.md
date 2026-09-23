@@ -201,7 +201,7 @@ findings, addressed in round 5:
 **PreQC round 1 fixes.** The first Gate run flagged the memo's lookahead regex as
 reward-hackable (replaced by the five substring checks above), the solvability run being a
 byte copy of a difficulty run (now an independent held-out run), and job names of the form
-`-r4` in the review being misread as rollout scores (reworded).
+job-name suffixes in the review being misread as rollout scores (reworded).
 
 ## QC flags left as-is
 
