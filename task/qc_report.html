@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QC report — content-2ca4a6df8608812f146041045f5fbf4a-v2</title>
+<style>
+  .subchecks { margin-top: 6px; }
+  .subchecks > summary { cursor: pointer; font-size: 12px; color: #667; }
+  .subchecks ul { list-style: none; margin: 8px 0 2px; padding: 0; }
+  li.sub { display: grid; grid-template-columns: 74px 1fr; gap: 2px 10px;
+           padding: 5px 0 5px 8px; border-left: 3px solid #d8dde5;
+           margin-bottom: 4px; font-size: 12px; }
+  li.sub.finding { border-left-color: #c0392b; background: #fdf3f2; }
+  li.sub.indeterminate { border-left-color: #b8860b; background: #fdfaf0; }
+  li.sub.na { border-left-color: #b9c0cc; }
+  li.sub.pass { border-left-color: #7fb069; }
+  .sub-mark { font-weight: 600; font-size: 11px; text-transform: uppercase;
+              letter-spacing: .02em; }
+  li.sub.finding .sub-mark { color: #c0392b; }
+  li.sub.pass .sub-mark { color: #4a7c3f; }
+  .sub-name { font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+              word-break: break-word; }
+  .sub-why { grid-column: 2; color: #4a5568; line-height: 1.45; }
+  body { margin: 0; padding: 32px 40px 48px; background: #fff; color: #1a2029;
+         font: 14px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  main { max-width: 880px; margin: 0 auto; }
+  h1 { font-size: 21px; margin: 0 0 2px; }
+  h2 { font-size: 15px; margin: 28px 0 10px; border-bottom: 1px solid #dde3ea;
+       padding-bottom: 6px; }
+  .meta { color: #5b6572; font-size: 12.5px; margin-bottom: 20px; }
+  .meta code { background: #f0f3f7; padding: 1px 5px; border-radius: 4px; }
+  .band { border: 1px solid; border-radius: 8px; padding: 12px 16px; margin: 18px 0; }
+  .band b { font-size: 15px; display: block; margin-bottom: 2px; }
+  .band.ready { border-color: #9fd3ae; background: #f2faf4; color: #1c5c31; }
+  .band.review { border-color: #e8cd8d; background: #fdf8ec; color: #6d5416; }
+  .band.changes { border-color: #e3a8a8; background: #fcf1f1; color: #7a2727; }
+  .band.incomplete { border-color: #c3c9d4; background: #f5f7fa; color: #3d4552; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+  th { text-align: left; color: #5b6572; font-weight: 600; font-size: 12px;
+       text-transform: uppercase; letter-spacing: .04em; }
+  th, td { padding: 7px 10px 7px 0; border-bottom: 1px solid #eceff3;
+           vertical-align: top; }
+  .pill { display: inline-block; padding: 1px 9px; border-radius: 999px;
+          font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .pill.pass { background: #e5f5ea; color: #1c5c31; }
+  .pill.finding { background: #fdeaea; color: #8c2f2f; }
+  .pill.indeterminate { background: #fdf3dd; color: #6d5416; }
+  .pill.na { background: #eef1f5; color: #5b6572; }
+  .engine-note { color: #6d5416; font-size: 12.5px; }
+  details.raw { margin-top: 3px; }
+  details.raw summary { color: #8892a0; font-size: 11.5px; cursor: pointer; }
+  .finding { border: 1px solid #e4e8ee; border-radius: 8px; padding: 14px 16px;
+             margin: 12px 0; page-break-inside: avoid; }
+  .finding h3 { font-size: 14px; margin: 0 0 6px; }
+  .owner { float: right; font-size: 11.5px; font-weight: 600; padding: 1px 8px;
+           border-radius: 999px; background: #eef1f5; color: #5b6572; }
+  .owner.trainer { background: #fdeaea; color: #8c2f2f; }
+  .finding-meta { display: inline-block; margin: 2px 6px 4px 0; padding: 1px 8px;
+                  border-radius: 999px; background: #eef1f5; color: #5b6572;
+                  font-size: 11.5px; font-weight: 600; }
+  .finding-meta.blocking { background: #fdeaea; color: #8c2f2f; }
+  .finding-meta.advisory { background: #fdf3dd; color: #6d5416; }
+  .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .05em;
+         color: #8892a0; margin: 8px 0 1px; }
+  pre { background: #f6f8fa; border: 1px solid #eceff3; border-radius: 6px;
+        padding: 8px 10px; font-size: 12px; overflow-x: auto; margin: 4px 0;
+        white-space: pre-wrap; word-break: break-word; }
+  .path { color: #5b6572; font-size: 12px; }
+  footer { margin-top: 36px; color: #8892a0; font-size: 12px;
+           border-top: 1px solid #eceff3; padding-top: 12px; }
+  @media print { body { padding: 0; } .finding { border-color: #ccc; } }
+</style></head><body><main>
+<h1>content-2ca4a6df8608812f146041045f5fbf4a-v2</h1>
+<div class="meta">59-criterion harbor check · run <code>evaluation-aa093bad7c3c41e0</code> · gate delivery · generated 2026-09-22T20:27:53+00:00</div>
+<div class="band ready"><b>Ready for finalization</b>Every required category completed and no confirmed semantic defect remains.</div>
+
+<h2>Category results</h2>
+<table><tr><th>Category</th><th>Result</th><th></th></tr><tr><td>layer1_package_consistency</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer1_package_consistency__cross_artifact_consistency</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer1_package_consistency__instruction_verifier_consistency</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer1_package_consistency__solution_instruction_consistency</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer1_package_consistency__solution_verifier_consistency</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer1_package_consistency__manifest_environment_consistency</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer1_package_consistency__declared_executed_verifier_consistency</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer1_package_consistency__artifact_contract_consistency</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer1_clarity_scope</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer1_clarity_scope__output_surface_contract</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer1_clarity_scope__representation_contract</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer1_clarity_scope__process_requirement_disclosure</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer1_clarity_scope__redaction_readability</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer1_realism_leakage</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer1_realism_leakage__domain_correctness</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer1_realism_leakage__authoritative_reference_validity</td><td><span class="pill na">N/A</span></td><td>No external authoritative references are cited or embedded. The task is entirely self-contained: all rules, data, and specifications live in environment/input/ (same_day_terms.md, power_supply_spec.md, store_notices.md, standard_delivery.md, submission_format.md, and the CSV data files). There are no URLs, no statute citations, no API documentation links, no external standards bodies referenced beyond the IEC/NEMA connector names which are descriptive labels within the task&#x27;s own data sheet. No reference needs to be current, resolvable, or applicable because none is cited as an authority the agent must consult.</td></tr><tr><td>layer1_realism_leakage__workflow_realism</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer1_realism_leakage__golden_isolation</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer2_difficulty</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer2_difficulty__evidence_pairing_count</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer2_difficulty__provenance_validity</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer2_difficulty__strict_pass_distribution</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer2_difficulty__failure_cause_validity</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer2_solvability</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer2_solvability__eligible_strict_pass</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer2_solvability__saved_evidence_completeness</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer2_solvability__solution_legitimacy</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer2_solvability__instruction_environment_sufficiency</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer2_stability</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer2_stability__frozen_identity</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer2_stability__repeat_count</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer2_stability__verifier_judge_config_identity</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer2_stability__reward_equality</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer2_stability__per_check_stability</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer5_verifier_fairness_static</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer5_verifier_fairness_static__requirement_traceability</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer5_verifier_fairness_static__coverage_depth</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer5_verifier_fairness_static__evidence_routing</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer5_verifier_fairness_static__semantic_equivalence</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer5_verifier_fairness_static__surface_form_brittleness</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer5_verifier_fairness_static__verifier_execution_completeness</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer5_verifier_fairness_static__score_bucket_activation</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer5_verifier_fairness_static__aggregation_normalization</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer5_verifier_fairness_static__scoring_proportionality</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer5_verifier_fairness_static__check_independence</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer5_verifier_fairness_static__counterfactual_strength</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer5_verifier_fairness_static__process_grading_justification</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer5_llm_judge_design</td><td><span class="pill na">N/A</span></td><td>No LLM judge exists in this task. tests/verifier.json declares no top-level &quot;config&quot; and all 6 assertions are type &quot;deterministic&quot; (verifier.json:24,48,72,89,282,323). The rubric path in verifiers.py:58-67 is never reached; models.py:595-597 would require config.models/temperature for any rubric assertion, and none is present. Therefore all LLM-judge-design subchecks are not applicable.</td></tr><tr><td>layer5_llm_judge_design__judge_execution_validity</td><td><span class="pill na">N/A</span></td><td>No LLM judge is configured in this task (verifier.json has no config.models, all assertions deterministic), so judge execution validity does not apply.</td></tr><tr><td>layer5_llm_judge_design__judge_failure_handling</td><td><span class="pill na">N/A</span></td><td>No LLM judge is configured in this task (verifier.json has no config.models, all assertions deterministic), so judge failure handling does not apply.</td></tr><tr><td>layer5_llm_judge_design__judge_context_completeness</td><td><span class="pill na">N/A</span></td><td>No LLM judge is configured in this task (verifier.json has no config.models, all assertions deterministic), so judge context completeness does not apply.</td></tr><tr><td>layer5_llm_judge_design__judge_context_truncation</td><td><span class="pill na">N/A</span></td><td>No LLM judge is configured in this task (verifier.json has no config.models, all assertions deterministic), so judge context truncation does not apply.</td></tr><tr><td>layer5_llm_judge_design__artifact_grounding</td><td><span class="pill na">N/A</span></td><td>No LLM judge is configured in this task (verifier.json has no config.models, all assertions deterministic), so artifact grounding of judge criteria does not apply.</td></tr><tr><td>layer5_llm_judge_design__repeat_stability</td><td><span class="pill na">N/A</span></td><td>No LLM judge is configured in this task (verifier.json has no config.models, all assertions deterministic), so judge repeat-stability does not apply.</td></tr><tr><td>layer5_reward_hacking_static</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer5_reward_hacking_static__rollout_legitimacy</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer5_reward_hacking_static__sanctioned_interface_use</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer5_reward_hacking_static__golden_or_internal_access</td><td><span class="pill pass">Pass</span></td><td></td></tr><tr><td>layer5_reward_hacking_static__state_spoofing</td><td><span class="pill pass">Pass</span></td><td></td></tr></table>
+<h2>Findings</h2><p>No trainer action is required by any completed category.</p>
+
+
+<footer>Rendered by Shannon QC Control from this run's report.json — the JSON
+is the authoritative record. Categories the engine could not finish are QC
+tool issues, not task defects.</footer>
+</main></body></html>

@@ -35,5 +35,9 @@ head -1 $TASK_DIR/review.csv 2>/dev/null | grep -qx 'review_check,status,review_
 [ $fail -eq 0 ] || { echo "preflight failed"; exit 1; }
 
 rm -f "$OUT"
-zip -qr "$OUT" "$TASK_DIR" -x '$TASK_DIR/**/__pycache__/*'
+# archive root is the task name (the accepted bundles are laid out this way; the platform
+# reads the task id from the root folder), whatever the repo folder is called
+STAGE="$(mktemp -d)"; cp -r "$TASK_DIR" "$STAGE/${NAME:-$TASK_DIR}"
+( cd "$STAGE" && zip -qr "$OUT" "${NAME:-$TASK_DIR}" -x '*/__pycache__/*' )
+rm -rf "$STAGE"
 echo "== wrote $OUT"; unzip -l "$OUT" | tail -1

@@ -1,7 +1,5 @@
 # Change summary — same-day replacement cord sourcing
 
-> Fill the bracketed figures after the GLM batteries. Everything else is final.
-
 ## What the task asks
 
 A buyer in Phenix City, AL needs a 10-ft figure-8 (IEC C7, non-polarized) AC cord the
@@ -137,6 +135,13 @@ shipped difficulty run).
 `verifier/verifier_summary.json` were derived from those two files by
 `tools/annotate_rollout.py` (a format conversion, no new facts), which also added
 `model`, `overall_pass`, `final_answer`, `reward` and `judge` to each `result.json`.
+
+**Platform Delivery Gate on this version (opencode harness): oracle 1.0, GLM-5.2 3 of 4,
+Gate PASS with no blocking finding, every Harbor Check category PASS or N/A.** The platform's one
+failed run is the same cause as the local failures: it emitted OF-08 twice and counted 9 eligible,
+every other cell correct. `qc_report.html` is the platform's report for that run, shipped
+unchanged; the platform recorded the task id as `task` because the earlier archive's root folder
+carried the repo folder's name, so this archive's root is the task name.
 
 **PreQC round 1 fixes.** The base image is pinned to its immutable digest
 (`python@sha256:392307d2…`, the digest `python:3.12-slim-bookworm` resolved to) and every
