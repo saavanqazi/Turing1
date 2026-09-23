@@ -1,7 +1,7 @@
 {
-  "total_lines": 32,
-  "rate_mismatch_count": 6,
+  "total_lines": 34,
+  "rate_mismatch_count": 7,
   "unmatched_to_ledger_count": 5,
   "duplicate_line_count": 6,
-  "compliant_lines": 15
+  "compliant_lines": 16
 }

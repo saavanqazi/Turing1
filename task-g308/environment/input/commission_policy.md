@@ -7,8 +7,11 @@ or the NetSuite ledger disagree on a fact, the master and the ledger win.
 
 ## R1 — End-user type and standard rate
 
-The end-user type of a line is determined from `customer_master.csv`, not from the type the
-partner wrote on its report:
+The customer of a line is the customer NetSuite records against the deal's June postings
+(`customer_id` in `netsuite_revenue_june.csv`); the partner's `customer_id` is used only
+where the ledger carries no June posting for the deal. The end-user type of a line is then
+determined from `customer_master.csv` for that customer, not from the type the partner
+wrote on its report:
 
 - `house` if the customer's `account_class` is `house`;
 - otherwise `new` if the customer's `first_invoice_date` is on or after 1 July 2025 (within
@@ -34,11 +37,17 @@ is paid. A line is matched when the ledger's **net June revenue** for its deal, 
 Postings dated outside June 2026 do not count. A commissionable line that is not matched is
 `UNMATCHED_TO_LEDGER`. A line that is not commissionable needs no ledger match.
 
-## R3 — Duplicate lines
+## R3 — Duplicate lines and registered co-sells
 
 A deal may be claimed once in the consolidated list. A deal that appears on more than one
 line, whether in different partner reports or twice in the same report, is a
-`DUPLICATE_LINE` on every one of those lines.
+`DUPLICATE_LINE` on every one of those lines, with one exception: a registered co-sell.
+`co_sell_register.csv` lists deals sold jointly. The exception applies only when every
+register row for the deal has `status = active`, the partners named in the register are
+exactly the `source_report` values of the deal's lines (one line per named partner), and the
+shares sum to 100. For such a deal the lines are not duplicates, and under R2 each line is
+matched against its share of the deal's net June revenue (`share_pct` of the net) instead
+of the full net. A register entry that fails any of these tests changes nothing.
 
 ## R4 — VP-approved rate overrides
 

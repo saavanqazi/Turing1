@@ -64,8 +64,9 @@ def main() -> int:
         approved[e["deal_id"].upper()] = (e["exception_code"], Decimal(e["approved_rate_pct"]))
 
     # R2: net June revenue per deal (case-insensitive); posting_id identifies a posting, so a
-    # repeated export row counts once
+    # repeated export row counts once. R1: the ledger's customer for the deal governs.
     net: dict[str, Decimal] = {}
+    ledger_customer: dict[str, str] = {}
     seen_postings: set[str] = set()
     for p in ledger:
         if p["posting_id"].upper() in seen_postings:
@@ -75,27 +76,47 @@ def main() -> int:
         if JUNE[0] <= d <= JUNE[1]:
             key = p["deal_ref"].upper()
             net[key] = net.get(key, Decimal(0)) + money(p["amount_usd"])
+            ledger_customer.setdefault(key, p["customer_id"].upper())
+
+    # R3: registered co-sells
+    cosell: dict[str, list[dict]] = {}
+    for r in rows("co_sell_register.csv"):
+        cosell.setdefault(r["deal_id"].upper(), []).append(r)
 
     # R3: deal occurrence counts (case-insensitive)
     occurrences: dict[str, int] = {}
     for ln in lines:
         occurrences[ln["deal_id"].upper()] = occurrences.get(ln["deal_id"].upper(), 0) + 1
 
+    def registered_cosell(deal: str) -> dict[str, Decimal] | None:
+        """partner -> share if the co-sell exception applies to this deal, else None."""
+        regs = cosell.get(deal)
+        if not regs or any(r["status"].strip().lower() != "active" for r in regs):
+            return None
+        named = {r["partner"].upper(): Decimal(r["share_pct"]) for r in regs}
+        sources = [ln["source_report"].upper() for ln in lines if ln["deal_id"].upper() == deal]
+        if sorted(sources) != sorted(named) or sum(named.values()) != 100:
+            return None
+        return named
+
     findings, explained = [], []
     counts = {c: 0 for c in PRECEDENCE}
     for ln in lines:
         deal = ln["deal_id"].upper()
-        etype = end_user_type(ln["customer_id"])
+        cust = ledger_customer.get(deal, ln["customer_id"].upper())
+        etype = end_user_type(cust)
+        split = registered_cosell(deal)
         exc = approved.get(deal)
         pays = exc[1] if exc else STANDARD[etype]
         reported = Decimal(ln["reported_rate_pct"])
         revenue = Decimal(ln["revenue_usd"])
         commissionable = pays > 0
         june_net = net.get(deal, Decimal(0))
-        matched = abs(june_net - revenue) <= revenue * TOLERANCE
+        target = june_net * split[ln["source_report"].upper()] / 100 if split else june_net
+        matched = abs(target - revenue) <= revenue * TOLERANCE
 
         fails = set()
-        if occurrences[deal] > 1:
+        if occurrences[deal] > 1 and not split:
             fails.add("DUPLICATE_LINE")
         if commissionable and not matched:
             fails.add("UNMATCHED_TO_LEDGER")
@@ -103,8 +124,8 @@ def main() -> int:
             fails.add("RATE_MISMATCH")
         code = next((c for c in PRECEDENCE if c in fails), None)
 
-        note = (f"{ln['line_id']} {ln['source_report']:8s} {ln['deal_id']:8s} type={etype:7s} "
-                f"(partner said {ln['partner_customer_type']}) pays={pays}% reported={reported}% "
+        note = (f"{ln['line_id']} {ln['source_report']:8s} {ln['deal_id']:8s} cust={cust}{'*' if cust != ln['customer_id'].upper() else ''} type={etype:7s} "
+                f"(partner said {ln['partner_customer_type']}) pays={pays}% reported={reported}% {'split=' + str(split[ln['source_report'].upper()]) + '%' if split else ''} "
                 f"exc={exc[0] if exc else '-'} juneNet={june_net} rev={revenue} matched={matched} "
                 f"occ={occurrences[deal]} fails={sorted(fails, key=PRECEDENCE.index) or '-'} -> {code or 'compliant'}")
         print(note)
@@ -113,10 +134,18 @@ def main() -> int:
             findings.append({"line_id": ln["line_id"], "deal_id": ln["deal_id"],
                              "source_report": ln["source_report"], "finding_code": code,
                              "_etype": etype, "_pays": pays, "_reported": reported, "_exc": exc,
-                             "_net": june_net, "_rev": revenue, "_partner_type": ln["partner_customer_type"]})
+                             "_net": june_net, "_rev": revenue, "_partner_type": ln["partner_customer_type"],
+                             "_cust": cust, "_line_cust": ln["customer_id"].upper()})
         else:
             # lines that look wrong but are compliant, for the memo
-            if exc and reported != STANDARD[etype]:
+            if split:
+                explained.append((ln, f"{ln['deal_id']} is claimed by {' and '.join(sorted(split))}, but the co-sell register carries an "
+                                      f"active {'/'.join(str(v) for v in split.values())} split naming exactly those partners, so the two lines "
+                                      f"are not duplicates and each matches its share of the {june_net:,.2f} net"))
+            elif cust != ln["customer_id"].upper() and reported == pays:
+                explained.append((ln, f"the partner attributes the deal to {ln['customer_id']} but NetSuite bills it to {cust}; "
+                                      f"both are {etype} customers so the reported {reported}% stands"))
+            elif exc and reported != STANDARD[etype]:
                 explained.append((ln, f"reported {reported}% against a standard {STANDARD[etype]}% for a {etype} line, "
                                       f"but override {exc[0]} (active, in force on the run date) approves {exc[1]}%"))
             elif etype != ln["partner_customer_type"]:
@@ -165,7 +194,9 @@ def main() -> int:
                    f"{f['_rev']:,.2f} (R2)")
         else:
             src = f"override {f['_exc'][0]} approves {f['_exc'][1]}%" if f["_exc"] else \
-                  f"master makes it {f['_etype']} (partner said {f['_partner_type']}), standard {f['_pays']}%"
+                  (f"NetSuite bills the deal to {f['_cust']}, a {f['_etype']} customer per the master (partner said {f['_partner_type']}), standard {f['_pays']}%"
+                   if f["_cust"] != f["_line_cust"] else
+                   f"master makes it {f['_etype']} (partner said {f['_partner_type']}), standard {f['_pays']}%")
             why = f"reported {f['_reported']}%; {src} (R1/R4)"
         memo.append(f"| {f['line_id']} | {f['deal_id']} | {f['source_report']} | {f['finding_code']} | {why} |")
     memo += ["", "## Lines that look wrong but are compliant", ""]
@@ -176,7 +207,8 @@ def main() -> int:
 
     # ---- golden trajectory ------------------------------------------------------------
     reads = ["commission_policy.md", "commission_lines.csv", "customer_master.csv",
-             "netsuite_revenue_june.csv", "commission_exceptions.csv", "submission_format.md"]
+             "netsuite_revenue_june.csv", "commission_exceptions.csv", "co_sell_register.csv",
+             "submission_format.md"]
     steps = [{"name": "bash", "server": "local", "arguments": {"command": f"cat input/{f}"}} for f in reads]
     steps.append({"name": "bash", "server": "local", "arguments": {
         "command": "cat > commission_findings.csv << 'FINDINGSEOF'\n" + csv_text + "FINDINGSEOF"}})

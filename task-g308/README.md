@@ -70,8 +70,26 @@ silent: no error, a different answer.
     master. Exact-string joins drop the DEAL-28 override (harmless there), fail the L-24
     master lookup and make CUST-11 a renewal, which flags L-12 at 0%.
 
-Result: 32 lines, 6 `RATE_MISMATCH`, 5 `UNMATCHED_TO_LEDGER`, 6 `DUPLICATE_LINE`,
-15 compliant.
+Round 2 result: unchanged gold. GLM-5.2 passed 7/8 locally (harbor job glm-g308-r2): the
+policy's R6 tells a careful reader how values compare, and GLM codes what the policy says.
+
+**Round 3 (current).** Two inferences that are explicit as principles but not as steps:
+
+11. **The ledger's customer governs.** The policy already said the master and the ledger win
+    over a partner report on a fact; R1 now says the customer of a line is the one NetSuite
+    bills. Two deals are billed to a different customer than the partner wrote: DEAL-02 to
+    the new customer CUST-17 (L-02 reports the renewal rate and is a `RATE_MISMATCH`) and
+    DEAL-24 to CUST-14 (same type, compliant). Reading the partner's customer misses L-02.
+12. **Registered co-sells are not duplicates.** `co_sell_register.csv` lists joint deals.
+    DEAL-30 is claimed by PartnerA (7,500) and PartnerB (5,000) under an active 60/40 split
+    that names exactly those partners: not duplicates, and each line matches its share of
+    the 12,500 net. DEAL-06's split is `proposed` and DEAL-25's names PartnerB where both
+    lines are PartnerD, so both stay `DUPLICATE_LINE`. Ignoring the register flags L-33/L-34;
+    honouring a failing entry clears real duplicates; matching a split line against the full
+    net flags it unmatched.
+
+Result: 34 lines, 7 `RATE_MISMATCH`, 5 `UNMATCHED_TO_LEDGER`, 6 `DUPLICATE_LINE`,
+16 compliant.
 
 **Grading rebuilt.** The findings sheet is keyed by `line_id` and graded with one
 `table_equals` check: every flagged line's cells plus a `row_set` lock, so listing a
@@ -92,7 +110,7 @@ No column answers a rule on its own. The rate test needs the master and the regi
 its status and window; the ledger test needs a case-insensitive join, currency parsing, a
 June date filter and a net sum with a tolerance; the duplicate test needs a case-insensitive
 count across the whole list; and every line then takes exactly one code by precedence.
-Sixteen shortcuts (trusting the partner type, flagging DEAL-07, applying a pending or
+Twenty-one shortcuts (trusting the partner type or the partner's customer, ignoring or over-honouring the co-sell register, matching a split line against the full net, flagging DEAL-07, applying a pending or
 out-of-window override, case-sensitive joins on either file, gross instead of net revenue,
 a reversal read as a failure, wrong precedence, flagging house lines for missing ledger
 postings, double-counting a repeated posting row, netting a July reversal into June, comparing
@@ -104,7 +122,7 @@ class) were replayed against the verifier and each scores 0.0.
 All checks are core, so a run scores exactly 1.0 or 0.0; the difficulty signal is the pass
 count.
 
-**Final battery:** [to be filled from harbor job glm-g308-r2].
+**Final battery:** [to be filled from harbor job glm-g308-r3].
 
 ## QC flags left as-is
 

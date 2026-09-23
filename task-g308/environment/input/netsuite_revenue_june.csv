@@ -1,6 +1,6 @@
 posting_id,posting_date,deal_ref,customer_id,amount_usd,memo
 P-1001,2026-06-03,DEAL-01,CUST-01,"$50,000.00",June invoice
-P-1002,2026-06-04,DEAL-02,CUST-02,"$30,000.00",June invoice
+P-1002,2026-06-04,DEAL-02,CUST-17,"$30,000.00",June invoice - billed to Fenwick Optics
 P-1003,2026-06-05,DEAL-03,CUST-03,"$40,000.00",June invoice
 P-1004,2026-06-06,DEAL-04,CUST-04,"$20,000.00",June invoice
 P-1005,2026-06-09,DEAL-06,CUST-06,"$60,000.00",June invoice
@@ -21,7 +21,7 @@ P-1019,2026-06-20,DEAL-20,CUST-01,"$47,000.00",June invoice
 P-1019,2026-06-20,DEAL-20,CUST-01,"$47,000.00",June invoice
 P-1020,2026-05-30,DEAL-21,CUST-13,"$19,500.00",May invoice
 P-1021,2026-06-23,DEAL-22,CUST-09,"$52,000.00",June invoice
-P-1022,2026-06-25,DEAL-24,CUST-12,"$36,000.00",June invoice
+P-1022,2026-06-25,DEAL-24,CUST-14,"$36,000.00",June invoice - billed to Ironbridge Civil
 P-1023,2026-06-25,DEAL-25,CUST-15,"$24,000.00",June invoice
 P-1024,2026-06-26,DEAL-26,CUST-16,"$41,000.00",June invoice
 P-1031,2026-07-02,DEAL-26,CUST-16,"-$41,000.00",reversal of P-1024 - credit note issued July

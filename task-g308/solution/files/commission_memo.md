@@ -1,11 +1,12 @@
-# June 2026 commission reconciliation — 32 consolidated lines
+# June 2026 commission reconciliation — 34 consolidated lines
 
-32 lines from four partner reports checked against COMM-POL-6 on the run date 30 June 2026. 15 lines are compliant; 17 carry a finding (6 duplicate, 5 unmatched to the ledger, 6 rate mismatches). One finding per line under R5 precedence.
+34 lines from four partner reports checked against COMM-POL-6 on the run date 30 June 2026. 16 lines are compliant; 18 carry a finding (6 duplicate, 5 unmatched to the ledger, 7 rate mismatches). One finding per line under R5 precedence.
 
 ## Findings
 
 | Line | Deal | Source | Finding | Why |
 |---|---|---|---|---|
+| L-02 | DEAL-02 | PartnerA | RATE_MISMATCH | reported 4%; NetSuite bills the deal to CUST-17, a new customer per the master (partner said renewal), standard 8% (R1/R4) |
 | L-03 | DEAL-03 | PartnerB | RATE_MISMATCH | reported 6%; master makes it new (partner said new), standard 8% (R1/R4) |
 | L-04 | DEAL-04 | PartnerB | RATE_MISMATCH | reported 8%; master makes it renewal (partner said new), standard 4% (R1/R4) |
 | L-06 | DEAL-06 | PartnerA | DUPLICATE_LINE | DEAL-06 is claimed on more than one line (R3) |
@@ -26,11 +27,13 @@
 
 ## Lines that look wrong but are compliant
 
-- **L-02 DEAL-02 (PartnerA)** — register row EXC-VP-01 names this deal but is expired, so it grants nothing and the standard 4% applies, which is what was reported.
 - **L-05 DEAL-05 (PartnerC)** — a house line at 0% is not commissionable, so the absence of a June ledger posting is not a finding.
 - **L-08 DEAL-07 (PartnerB)** — reported 6% against a standard 4% for a renewal line, but override EXC-VP-02 (active, in force on the run date) approves 6.0%.
 - **L-11 DEAL-10 (PartnerA)** — the ledger's net June postings for DEAL-10 total 27,400.00 against revenue 27,500.00, inside the 1% match tolerance.
 - **L-12 DEAL-11 (PartnerB)** — a house line at 0% is not commissionable, so the absence of a June ledger posting is not a finding.
 - **L-14 DEAL-13 (PartnerD)** — register row EXC-VP-05 names this deal but is pending, so it grants nothing and the standard 4% applies, which is what was reported.
+- **L-26 DEAL-24 (PartnerC)** — the partner attributes the deal to CUST-12 but NetSuite bills it to CUST-14; both are new customers so the reported 8% stands.
 - **L-29 DEAL-26 (PartnerA)** — the ledger carries a reversal for DEAL-26 but the re-posting brings net June revenue back to 41,000.00, which matches.
 - **L-30 DEAL-27 (PartnerB)** — the ledger carries a reversal for DEAL-27 but the re-posting brings net June revenue back to 28,000.00, which matches.
+- **L-33 DEAL-30 (PartnerA)** — DEAL-30 is claimed by PARTNERA and PARTNERB, but the co-sell register carries an active 60/40 split naming exactly those partners, so the two lines are not duplicates and each matches its share of the 12,500.00 net.
+- **L-34 DEAL-30 (PartnerB)** — DEAL-30 is claimed by PARTNERA and PARTNERB, but the co-sell register carries an active 60/40 split naming exactly those partners, so the two lines are not duplicates and each matches its share of the 12,500.00 net.

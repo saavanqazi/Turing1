@@ -1,0 +1,7 @@
+deal_id,partner,share_pct,status
+DEAL-30,PartnerA,60,active
+DEAL-30,PartnerB,40,active
+DEAL-06,PartnerA,50,proposed
+DEAL-06,PartnerC,50,proposed
+DEAL-25,PartnerD,50,active
+DEAL-25,PartnerB,50,active
