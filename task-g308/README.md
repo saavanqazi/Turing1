@@ -176,9 +176,10 @@ were derived from those two files by `tools/annotate_rollout.py` (a format conve
 facts), which also added `model`, `overall_pass`, `final_answer`, `reward` and `judge` to each
 `result.json`.
 
-**Platform battery on round 4 (first QC run): oracle 1.0, GLM-5.2 2 of 4.** The platform's
-two failures read the 1% tolerance against the ledger figure instead of the line's revenue
-(L-35) and, in one run, summed the repeated P-1019 row (L-22). Its Harbor Check raised six
+**Platform battery on round 4 (first QC run, opencode harness): oracle 1.0, GLM-5.2 2 of 4.**
+The platform's two failures (its runs 2 and 4, read from the downloaded trials) both read the
+1% tolerance against the ledger figure instead of the line's revenue (L-35 flagged), and run 2
+also summed the repeated P-1019 row (L-22 flagged); every other graded cell matched. Its Harbor Check raised six
 findings, addressed in round 5:
 
 - **Ambiguous rule (confirmed).** R2 now says "at most 1% of the line's `revenue_usd`", and
@@ -196,7 +197,9 @@ findings, addressed in round 5:
 - **Golden access (disputed).** The finding says the agent can read `tests/verifier.json`.
   The Dockerfile copies `input/` only, and harbor uploads `tests/` for the verifier phase
   after the agent has finished; the accepted b39 bundle ships its expected rows inline the
-  same way. Marked as a false positive with that note.
+  same way. The finding cites `tests/test.sh` lines 226-227 for the copy; the script is 25
+  lines long and copies nothing. Marked as a false positive with that note.
+- **`qc_report.html`** is the platform's report for that round-4 upload, shipped unchanged.
 
 **PreQC round 1 fixes.** The first Gate run flagged the memo's lookahead regex as
 reward-hackable (replaced by substring checks, widened to one per fact in round 5), the solvability run being a
