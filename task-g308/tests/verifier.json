@@ -56,7 +56,7 @@
     {
       "name": "findings_table",
       "metadata": {
-        "how_justification": "Parses commission_findings.csv with csv.read_rows and applies table_equals: every graded cell of the 18 flagged lines plus the population as a row_set lock (a compliant line listed, a flagged line missing, or a duplicated id fails), columns closed to the stated header, id-typed cells normalised on both sides.",
+        "how_justification": "Parses commission_findings.csv with csv.read_rows and applies table_equals: every graded cell of the 20 flagged lines plus the population as a row_set lock (a compliant line listed, a flagged line missing, or a duplicated id fails), columns closed to the stated header, id-typed cells normalised on both sides.",
         "why_justification": "Every flagged line's deal, source and single precedence-assigned finding are graded, so a trusted partner type, a case-sensitive or gross ledger join, an out-of-window or pending override applied, or a duplicate missed shows on the lines it moves. Entailed by: \"One row per flagged line, keyed by `line_id` ... `finding_code` is the single finding the policy's precedence rule assigns to the line\"",
         "tag": "core"
       },
@@ -115,6 +115,11 @@
               "source_report": "PartnerC",
               "finding_code": "UNMATCHED_TO_LEDGER"
             },
+            "L-14": {
+              "deal_id": "DEAL-13",
+              "source_report": "PartnerD",
+              "finding_code": "RATE_MISMATCH"
+            },
             "L-15": {
               "deal_id": "DEAL-14",
               "source_report": "PartnerA",
@@ -143,6 +148,11 @@
             "L-23": {
               "deal_id": "DEAL-21",
               "source_report": "PartnerD",
+              "finding_code": "UNMATCHED_TO_LEDGER"
+            },
+            "L-24": {
+              "deal_id": "DEAL-22",
+              "source_report": "PartnerA",
               "finding_code": "UNMATCHED_TO_LEDGER"
             },
             "L-25": {
@@ -175,12 +185,14 @@
             "L-09",
             "L-10",
             "L-13",
+            "L-14",
             "L-15",
             "L-16",
             "L-17",
             "L-18",
             "L-19",
             "L-23",
+            "L-24",
             "L-25",
             "L-27",
             "L-28",
@@ -249,7 +261,7 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "(?is)(?=.*\\bDEAL-02\\b)(?=.*\\bDEAL-03\\b)(?=.*\\bDEAL-04\\b)(?=.*\\bDEAL-06\\b)(?=.*\\bDEAL-08\\b)(?=.*\\bDEAL-09\\b)(?=.*\\bDEAL-12\\b)(?=.*\\bDEAL-14\\b)(?=.*\\bDEAL-15\\b)(?=.*\\bDEAL-16\\b)(?=.*\\bDEAL-17\\b)(?=.*\\bDEAL-21\\b)(?=.*\\bDEAL-23\\b)(?=.*\\bDEAL-25\\b)(?=.*\\bDEAL-28\\b)(?=.*\\bDEAL-07\\b)(?=.*\\bEXC-VP-02\\b).*",
+        "expected": "(?is)(?=.*\\bDEAL-02\\b)(?=.*\\bDEAL-03\\b)(?=.*\\bDEAL-04\\b)(?=.*\\bDEAL-06\\b)(?=.*\\bDEAL-08\\b)(?=.*\\bDEAL-09\\b)(?=.*\\bDEAL-12\\b)(?=.*\\bDEAL-13\\b)(?=.*\\bDEAL-14\\b)(?=.*\\bDEAL-15\\b)(?=.*\\bDEAL-16\\b)(?=.*\\bDEAL-17\\b)(?=.*\\bDEAL-21\\b)(?=.*\\bDEAL-22\\b)(?=.*\\bDEAL-23\\b)(?=.*\\bDEAL-25\\b)(?=.*\\bDEAL-28\\b)(?=.*\\bDEAL-07\\b)(?=.*\\bEXC-VP-02\\b).*",
         "deterministic": {
           "path": "$.text",
           "comparison": "regex_match"
@@ -304,15 +316,15 @@
         "expected": {
           "keys": {
             "total_lines": {
-              "value": 34,
+              "value": 35,
               "tolerance": null
             },
             "rate_mismatch_count": {
-              "value": 7,
+              "value": 8,
               "tolerance": null
             },
             "unmatched_to_ledger_count": {
-              "value": 5,
+              "value": 6,
               "tolerance": null
             },
             "duplicate_line_count": {
@@ -320,7 +332,7 @@
               "tolerance": null
             },
             "compliant_lines": {
-              "value": 16,
+              "value": 15,
               "tolerance": null
             }
           },

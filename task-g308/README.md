@@ -88,8 +88,29 @@ policy's R6 tells a careful reader how values compare, and GLM codes what the po
     honouring a failing entry clears real duplicates; matching a split line against the full
     net flags it unmatched.
 
-Result: 34 lines, 7 `RATE_MISMATCH`, 5 `UNMATCHED_TO_LEDGER`, 6 `DUPLICATE_LINE`,
-16 compliant.
+Round 3 result: 34 lines, 7 / 5 / 6 / 16. GLM-5.2 passed 8/8 locally (harbor job
+glm-g308-r3). Across every battery on both tasks, no failure has ever come from a rule the
+policy states; failures come from anomalies nothing points at. Round 2's R6 had listed its
+own traps as a checklist, and the runs ticked them off.
+
+**Round 4 (current).** The policy now states principles only (R6 is two sentences; R2 no
+longer enumerates reversals or out-of-month postings), and the data carries anomalies whose
+handling follows from the ordinary meaning of a key or a rule:
+
+13. **Two kinds of repeated posting.** P-1019 appears twice with the same `posting_id`
+    (an export repeat: one posting, DEAL-20 matches). DEAL-22 has two postings with
+    different ids for the same amount on the same day (a genuine double booking: net is
+    twice the line, L-24 is `UNMATCHED_TO_LEDGER`). Summing every row breaks L-22;
+    deduplicating on content breaks L-24; only deduplicating on the key gets both.
+14. **Two register rows for one deal.** DEAL-13 has an active override (EXC-VP-07, listed
+    first) and a pending one (EXC-VP-05). R4 applies to the row that is active and in
+    window; taking the first row, or a last-row-wins dictionary, misses that L-14 reports
+    4% against an approved 6%.
+15. **The tolerance boundary.** L-35 reports 20,000 against 19,800 in the ledger, exactly
+    1%. R2 says at most 1%, so it matches; a strict comparison flags it.
+
+Result: 35 lines, 8 `RATE_MISMATCH`, 6 `UNMATCHED_TO_LEDGER`, 6 `DUPLICATE_LINE`,
+15 compliant.
 
 **Grading rebuilt.** The findings sheet is keyed by `line_id` and graded with one
 `table_equals` check: every flagged line's cells plus a `row_set` lock, so listing a
@@ -110,7 +131,7 @@ No column answers a rule on its own. The rate test needs the master and the regi
 its status and window; the ledger test needs a case-insensitive join, currency parsing, a
 June date filter and a net sum with a tolerance; the duplicate test needs a case-insensitive
 count across the whole list; and every line then takes exactly one code by precedence.
-Twenty-one shortcuts (trusting the partner type or the partner's customer, ignoring or over-honouring the co-sell register, matching a split line against the full net, flagging DEAL-07, applying a pending or
+Twenty-five shortcuts (summing a repeated export row, deduplicating postings on content, taking the first or last register row, a strict tolerance, trusting the partner type or the partner's customer, ignoring or over-honouring the co-sell register, matching a split line against the full net, flagging DEAL-07, applying a pending or
 out-of-window override, case-sensitive joins on either file, gross instead of net revenue,
 a reversal read as a failure, wrong precedence, flagging house lines for missing ledger
 postings, double-counting a repeated posting row, netting a July reversal into June, comparing
@@ -122,7 +143,7 @@ class) were replayed against the verifier and each scores 0.0.
 All checks are core, so a run scores exactly 1.0 or 0.0; the difficulty signal is the pass
 count.
 
-**Final battery:** [to be filled from harbor job glm-g308-r3].
+**Final battery:** [to be filled from harbor job glm-g308-r4].
 
 ## QC flags left as-is
 

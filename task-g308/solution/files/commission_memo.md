@@ -1,6 +1,6 @@
-# June 2026 commission reconciliation — 34 consolidated lines
+# June 2026 commission reconciliation — 35 consolidated lines
 
-34 lines from four partner reports checked against COMM-POL-6 on the run date 30 June 2026. 16 lines are compliant; 18 carry a finding (6 duplicate, 5 unmatched to the ledger, 7 rate mismatches). One finding per line under R5 precedence.
+35 lines from four partner reports checked against COMM-POL-6 on the run date 30 June 2026. 15 lines are compliant; 20 carry a finding (6 duplicate, 6 unmatched to the ledger, 8 rate mismatches). One finding per line under R5 precedence.
 
 ## Findings
 
@@ -14,12 +14,14 @@
 | L-09 | DEAL-08 | PartnerD | UNMATCHED_TO_LEDGER | commissionable at 4% but net June ledger revenue is 0.00 against 22,000.00 (R2) |
 | L-10 | DEAL-09 | PartnerD | UNMATCHED_TO_LEDGER | commissionable at 8% but net June ledger revenue is 0.00 against 48,000.00 (R2) |
 | L-13 | DEAL-12 | PartnerC | UNMATCHED_TO_LEDGER | commissionable at 8% but net June ledger revenue is 29,800.00 against 31,000.00 (R2) |
+| L-14 | DEAL-13 | PartnerD | RATE_MISMATCH | reported 4.0%; override EXC-VP-07 approves 6% (R1/R4) |
 | L-15 | DEAL-14 | PartnerA | DUPLICATE_LINE | DEAL-14 is claimed on more than one line (R3) |
 | L-16 | deal-14 | PartnerD | DUPLICATE_LINE | deal-14 is claimed on more than one line (R3) |
 | L-17 | DEAL-15 | PartnerB | RATE_MISMATCH | reported 5%; master makes it renewal (partner said renewal), standard 4% (R1/R4) |
 | L-18 | DEAL-16 | PartnerC | RATE_MISMATCH | reported 4%; master makes it new (partner said renewal), standard 8% (R1/R4) |
 | L-19 | DEAL-17 | PartnerD | UNMATCHED_TO_LEDGER | commissionable at 2% but net June ledger revenue is 0.00 against 9,000.00 (R2) |
 | L-23 | DEAL-21 | PartnerD | UNMATCHED_TO_LEDGER | commissionable at 4% but net June ledger revenue is 0.00 against 19,500.00 (R2) |
+| L-24 | DEAL-22 | PartnerA | UNMATCHED_TO_LEDGER | commissionable at 8% but net June ledger revenue is 104,000.00 against 52,000.00 (R2) |
 | L-25 | DEAL-23 | PartnerB | RATE_MISMATCH | reported 4%; master makes it house (partner said house), standard 0% (R1/R4) |
 | L-27 | DEAL-25 | PartnerD | DUPLICATE_LINE | DEAL-25 is claimed on more than one line (R3) |
 | L-28 | DEAL-25 | PartnerD | DUPLICATE_LINE | DEAL-25 is claimed on more than one line (R3) |
@@ -31,9 +33,9 @@
 - **L-08 DEAL-07 (PartnerB)** — reported 6% against a standard 4% for a renewal line, but override EXC-VP-02 (active, in force on the run date) approves 6.0%.
 - **L-11 DEAL-10 (PartnerA)** — the ledger's net June postings for DEAL-10 total 27,400.00 against revenue 27,500.00, inside the 1% match tolerance.
 - **L-12 DEAL-11 (PartnerB)** — a house line at 0% is not commissionable, so the absence of a June ledger posting is not a finding.
-- **L-14 DEAL-13 (PartnerD)** — register row EXC-VP-05 names this deal but is pending, so it grants nothing and the standard 4% applies, which is what was reported.
 - **L-26 DEAL-24 (PartnerC)** — the partner attributes the deal to CUST-12 but NetSuite bills it to CUST-14; both are new customers so the reported 8% stands.
 - **L-29 DEAL-26 (PartnerA)** — the ledger carries a reversal for DEAL-26 but the re-posting brings net June revenue back to 41,000.00, which matches.
 - **L-30 DEAL-27 (PartnerB)** — the ledger carries a reversal for DEAL-27 but the re-posting brings net June revenue back to 28,000.00, which matches.
 - **L-33 DEAL-30 (PartnerA)** — DEAL-30 is claimed by PARTNERA and PARTNERB, but the co-sell register carries an active 60/40 split naming exactly those partners, so the two lines are not duplicates and each matches its share of the 12,500.00 net.
 - **L-34 DEAL-30 (PartnerB)** — DEAL-30 is claimed by PARTNERA and PARTNERB, but the co-sell register carries an active 60/40 split naming exactly those partners, so the two lines are not duplicates and each matches its share of the 12,500.00 net.
+- **L-35 DEAL-31 (PartnerC)** — the ledger's net June postings for DEAL-31 total 19,800.00 against revenue 20,000.00, inside the 1% match tolerance.

@@ -32,9 +32,8 @@ standard rate for its end-user type, or an approved rate under R4) is a `RATE_MI
 A line is **commissionable** when the rate the policy pays for it is above 0%. Every
 commissionable line must be matched to June revenue in `netsuite_revenue_june.csv` before it
 is paid. A line is matched when the ledger's **net June revenue** for its deal, the sum of
-`amount_usd` over every posting for that deal whose `posting_date` falls in June 2026
-(reversals are negative postings and count), is within 1% of the line's `revenue_usd`.
-Postings dated outside June 2026 do not count. A commissionable line that is not matched is
+`amount_usd` over the deal's postings dated in June 2026, differs from the line's
+`revenue_usd` by at most 1% of that revenue. A commissionable line that is not matched is
 `UNMATCHED_TO_LEDGER`. A line that is not commissionable needs no ledger match.
 
 ## R3 — Duplicate lines and registered co-sells
@@ -67,11 +66,8 @@ compliant.
 
 ## R6 — Identifiers and amounts as exported
 
-Identifiers and coded values (deal, customer and posting identifiers, account classes,
-statuses) are matched without regard to case. Rates and amounts are numbers however a
-report prints them: `6`, `6.0` and `$6.00` denote the same value, and ledger amounts carry
-the accounting system's currency symbol, thousands separators and a leading minus for
-reversals. `posting_id` identifies a ledger posting.
+Identifiers and coded values are matched without regard to case. Rates and amounts are
+read as the numbers they denote, however the system that printed them formats them.
 
 ## Finding codes
 

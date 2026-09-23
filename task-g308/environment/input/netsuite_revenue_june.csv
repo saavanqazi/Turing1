@@ -21,6 +21,7 @@ P-1019,2026-06-20,DEAL-20,CUST-01,"$47,000.00",June invoice
 P-1019,2026-06-20,DEAL-20,CUST-01,"$47,000.00",June invoice
 P-1020,2026-05-30,DEAL-21,CUST-13,"$19,500.00",May invoice
 P-1021,2026-06-23,DEAL-22,CUST-09,"$52,000.00",June invoice
+P-1032,2026-06-23,DEAL-22,CUST-09,"$52,000.00",June invoice
 P-1022,2026-06-25,DEAL-24,CUST-14,"$36,000.00",June invoice - billed to Ironbridge Civil
 P-1023,2026-06-25,DEAL-25,CUST-15,"$24,000.00",June invoice
 P-1024,2026-06-26,DEAL-26,CUST-16,"$41,000.00",June invoice
@@ -31,3 +32,4 @@ P-1027,2026-06-28,DEAL-27,CUST-07,"$28,000.00",June invoice re-posted
 P-1028,2026-06-29,DEAL-28,CUST-10,"$30,000.00",June invoice
 P-1029,2026-06-30,DEAL-29,CUST-03,"$45,000.00",June invoice
 P-1030,2026-06-15,DEAL-30,CUST-06,"$12,500.00",June invoice - not on any partner report
+P-1033,2026-06-21,DEAL-31,CUST-13,"$19,800.00",June invoice net of early-payment discount
