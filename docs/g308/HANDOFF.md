@@ -1,8 +1,6 @@
 # g308 — your steps (Windows cmd, in the Turing1 folder)
 
-> **Status:** rounds 1–3 measured 8/8, 7/8, 8/8. Round 4 pushed (principle-only policy, unhinted data anomalies): run Steps A, C, D again with the `-r4` job names.
-
-Same pattern as the cord task. Task folder is `task-g308`. Job names carry `g308`.
+> **Status:** Round 4 done: oracle 1.0, GLM-5.2 3/8, first batch of four shipped (3/4), review.csv written. Remaining: Step E (Delivery Gate twice).
 
 ## Step A — pull and refresh
 

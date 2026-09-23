@@ -53,7 +53,9 @@ def final_answer_of(trial: Path):
         # otherwise take the last JSON object with the three graded keys that appeared
         # anywhere in the trajectory (the agent's own `cat results.json` echo)
         found = None
-        for m in re.finditer(r'\{[^{}]*eligible_offer_count[^{}]*\}', text):
+        gold = trial.parents[2] / "solution" / "files" / "results.json"   # <task>/evaluations/<kind>/<r>
+        keys = list(json.loads(gold.read_text()).keys()) if gold.is_file() else ["eligible_offer_count"]
+        for m in re.finditer(r'\{[^{}]*' + re.escape(keys[0]) + r'[^{}]*\}', text):
             try:
                 found = json.loads(json.loads('"' + m.group(0).replace('"', '\\"') + '"'))
             except Exception:

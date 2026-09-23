@@ -125,7 +125,13 @@
     "step_results": null,
     "model": "GLM-5.2",
     "overall_pass": true,
-    "final_answer": null,
+    "final_answer": {
+        "total_lines": 0,
+        "rate_mismatch_count": 0,
+        "unmatched_to_ledger_count": 0,
+        "duplicate_line_count": 0,
+        "compliant_lines": 0
+    },
     "reward": 1.0,
     "judge": {
         "type": "deterministic file_check",

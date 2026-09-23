@@ -10,5 +10,6 @@
 Dockerfile      text eol=lf
 # harness output is evidence; never rewrite its bytes
 task/evaluations/** -text
+task-*/evaluations/** -text
 *.zip           binary
 *.png           binary

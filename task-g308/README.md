@@ -164,7 +164,7 @@ genuine DEAL-22 double booking and the 1% boundary. The one discriminating behav
 whether the run treats the ledger's key as a key before summing. Zero exceptions.
 
 Oracle on this package: 1.0 (harbor job oracle-g308-r4).
-`evaluations/solvability/r1` is a copy of difficulty/r2, trial task-g308__R9iyPo4 (GLM-5.2, not the oracle).
+`evaluations/solvability/r1` is a copy of difficulty/r1, trial task-g308__AxAgMA6 (GLM-5.2, not the oracle).
 
 **Evidence format note.** This harbor build writes `verifier/reward.txt` and
 `verifier/score.json`; the bundle's `verifier/reward.json` and `verifier/verifier_summary.json`
