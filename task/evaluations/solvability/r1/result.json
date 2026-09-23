@@ -1,8 +1,8 @@
 {
-    "id": "ca927975-0bfa-4e9c-9b87-7e4786a088bd",
+    "id": "b26d5ad3-1aaf-495d-9b4e-5343086ec375",
     "task_name": "obi/bus-mg-bus-b7-a4-same-day-power-cord-sourcing",
-    "trial_name": "task__jWv5Q6m",
-    "trial_uri": "file:///C:/Users/amitb/Turing1/jobs/glm-b7a4-r3/task__jWv5Q6m",
+    "trial_name": "task__n28RbZm",
+    "trial_uri": "file:///C:/Users/amitb/Turing1/jobs/glm-b7a4-r3/task__n28RbZm",
     "task_id": {
         "path": "task"
     },
@@ -19,7 +19,7 @@
             "download_dir": null,
             "source": null
         },
-        "trial_name": "task__jWv5Q6m",
+        "trial_name": "task__n28RbZm",
         "trials_dir": "jobs\\glm-b7a4-r3",
         "install_only": false,
         "timeout_multiplier": 1.0,
@@ -78,24 +78,20 @@
         }
     },
     "agent_result": {
-        "n_input_tokens": 140377,
-        "n_cache_tokens": 36288,
-        "n_output_tokens": 76337,
-        "cost_usd": 0.2689235,
+        "n_input_tokens": 47552,
+        "n_cache_tokens": 11776,
+        "n_output_tokens": 57146,
+        "cost_usd": 0.16713171999999998,
         "rollout_details": [],
         "metadata": {
-            "n_episodes": 10,
+            "n_episodes": 6,
             "api_request_times_msec": [
-                5616.215705871582,
-                7748.3391761779785,
-                8665.064334869385,
-                211258.37755203247,
-                137405.5643081665,
-                46694.41890716553,
-                185577.40831375122,
-                122156.86869621277,
-                79644.86289024353,
-                2968.681573867798
+                3820.993185043335,
+                7839.946746826172,
+                7915.35210609436,
+                289341.45188331604,
+                187176.97405815125,
+                99894.30785179138
             ],
             "summarization_count": 0
         }
@@ -106,23 +102,23 @@
         }
     },
     "exception_info": null,
-    "started_at": "2026-09-22T19:28:18.784557Z",
-    "finished_at": "2026-09-22T19:42:24.707120Z",
+    "started_at": "2026-09-22T19:40:33.074501Z",
+    "finished_at": "2026-09-22T19:50:55.763958Z",
     "environment_setup": {
-        "started_at": "2026-09-22T19:28:19.034153Z",
-        "finished_at": "2026-09-22T19:28:24.026497Z"
+        "started_at": "2026-09-22T19:40:33.100189Z",
+        "finished_at": "2026-09-22T19:40:36.400854Z"
     },
     "agent_setup": {
-        "started_at": "2026-09-22T19:28:24.026542Z",
-        "finished_at": "2026-09-22T19:28:38.812760Z"
+        "started_at": "2026-09-22T19:40:36.400877Z",
+        "finished_at": "2026-09-22T19:40:47.004179Z"
     },
     "agent_execution": {
-        "started_at": "2026-09-22T19:28:38.812866Z",
-        "finished_at": "2026-09-22T19:42:18.446346Z"
+        "started_at": "2026-09-22T19:40:47.004247Z",
+        "finished_at": "2026-09-22T19:50:49.722245Z"
     },
     "verifier": {
-        "started_at": "2026-09-22T19:42:18.447264Z",
-        "finished_at": "2026-09-22T19:42:20.930493Z"
+        "started_at": "2026-09-22T19:50:49.723178Z",
+        "finished_at": "2026-09-22T19:50:52.024024Z"
     },
     "step_results": null,
     "model": "GLM-5.2",

@@ -243,10 +243,10 @@
       }
     },
     {
-      "name": "memo_names_lines",
+      "name": "memo_names_protected_deal_07",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and requires, anywhere in the text and in any wording, every flagged deal id, every look-wrong-but-compliant deal id and the exception code(s) that protect them. Values only; no phrasing is graded.",
-        "why_justification": "Entailed by: \"It must name every flagged line by its `deal_id` ... and separately name each line that looks wrong but is compliant, quoting the exception code or the ledger postings that make it so. Wording is free.\"",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains the value 'DEAL-07' (plain substring, no pattern; wording, order and layout are not graded).",
+        "why_justification": "The memo must name the line that is reported off the standard mapping yet compliant. Entailed by: \"separately name the line that is reported off the standard mapping yet is compliant, quoting the exception code that makes it so\"; that line is DEAL-07.",
         "tag": "core"
       },
       "source": {
@@ -261,10 +261,114 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "(?is)(?=.*\\bDEAL-02\\b)(?=.*\\bDEAL-03\\b)(?=.*\\bDEAL-04\\b)(?=.*\\bDEAL-06\\b)(?=.*\\bDEAL-08\\b)(?=.*\\bDEAL-09\\b)(?=.*\\bDEAL-12\\b)(?=.*\\bDEAL-13\\b)(?=.*\\bDEAL-14\\b)(?=.*\\bDEAL-15\\b)(?=.*\\bDEAL-16\\b)(?=.*\\bDEAL-17\\b)(?=.*\\bDEAL-21\\b)(?=.*\\bDEAL-22\\b)(?=.*\\bDEAL-23\\b)(?=.*\\bDEAL-25\\b)(?=.*\\bDEAL-28\\b)(?=.*\\bDEAL-07\\b)(?=.*\\bEXC-VP-02\\b).*",
+        "expected": "DEAL-07",
         "deterministic": {
           "path": "$.text",
-          "comparison": "regex_match"
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_quotes_exc_vp_02",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains the value 'EXC-VP-02' (plain substring, no pattern; wording, order and layout are not graded).",
+        "why_justification": "The memo must quote the exception code that protects that line (EXC-VP-02). Same contract sentence.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "EXC-VP-02",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_explains_duplicate_line",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains the value 'DUPLICATE_LINE' (plain substring, no pattern; wording, order and layout are not graded).",
+        "why_justification": "The memo must explain every flagged line with the rule behind it; 6 line(s) carry DUPLICATE_LINE, so the memo names that finding. Entailed by: \"It must name every flagged line by its deal_id with the rule behind the finding\".",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DUPLICATE_LINE",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_explains_unmatched_to_ledger",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains the value 'UNMATCHED_TO_LEDGER' (plain substring, no pattern; wording, order and layout are not graded).",
+        "why_justification": "The memo must explain every flagged line with the rule behind it; 6 line(s) carry UNMATCHED_TO_LEDGER, so the memo names that finding. Entailed by: \"It must name every flagged line by its deal_id with the rule behind the finding\".",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "UNMATCHED_TO_LEDGER",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_explains_rate_mismatch",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains the value 'RATE_MISMATCH' (plain substring, no pattern; wording, order and layout are not graded).",
+        "why_justification": "The memo must explain every flagged line with the rule behind it; 8 line(s) carry RATE_MISMATCH, so the memo names that finding. Entailed by: \"It must name every flagged line by its deal_id with the rule behind the finding\".",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "RATE_MISMATCH",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
         }
       }
     },

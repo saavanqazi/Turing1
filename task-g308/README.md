@@ -53,7 +53,7 @@ second source* rather than read off the line, and the data has the shapes real e
    findings (L-05, L-12), while a house line reported at 4% is a rate mismatch (L-25).
 
 Round 1 result: 32 lines, 6 `RATE_MISMATCH`, 5 `UNMATCHED_TO_LEDGER`, 6 `DUPLICATE_LINE`,
-15 compliant. GLM-5.2 passed 8/8 locally (harbor job glm-g308-r1): every explicit rule,
+15 compliant. GLM-5.2 passed 8/8 locally (harbor job the round-1 GLM job): every explicit rule,
 however derived, was coded correctly.
 
 **Round 2 (current).** The gold answer is unchanged; the data stops matching the assumptions
@@ -73,7 +73,7 @@ silent: no error, a different answer.
     master. Exact-string joins drop the DEAL-28 override (harmless there), fail the L-24
     master lookup and make CUST-11 a renewal, which flags L-12 at 0%.
 
-Round 2 result: unchanged gold. GLM-5.2 passed 7/8 locally (harbor job glm-g308-r2): the
+Round 2 result: unchanged gold. GLM-5.2 passed 7/8 locally (harbor job the round-2 GLM job): the
 policy's R6 tells a careful reader how values compare, and GLM codes what the policy says.
 
 **Round 3 (current).** Two inferences that are explicit as principles but not as steps:
@@ -92,7 +92,7 @@ policy's R6 tells a careful reader how values compare, and GLM codes what the po
     net flags it unmatched.
 
 Round 3 result: 34 lines, 7 / 5 / 6 / 16. GLM-5.2 passed 8/8 locally (harbor job
-glm-g308-r3). Across every battery on both tasks, no failure has ever come from a rule the
+the round-3 GLM job). Across every battery on both tasks, no failure has ever come from a rule the
 policy states; failures come from anomalies nothing points at. Round 2's R6 had listed its
 own traps as a checklist, and the runs ticked them off.
 
@@ -117,9 +117,9 @@ Result: 35 lines, 8 `RATE_MISMATCH`, 6 `UNMATCHED_TO_LEDGER`, 6 `DUPLICATE_LINE`
 
 **Grading rebuilt.** The findings sheet is keyed by `line_id` and graded with one
 `table_equals` check: every flagged line's cells plus a `row_set` lock, so listing a
-compliant line, missing a flagged one or duplicating an id all fail. The memo is graded on
-values only: it must mention every flagged deal id, DEAL-07 and `EXC-VP-02`, in any
-wording and any case. `results.json` is a closed five-key object. Scoring is the core-gated
+compliant line, missing a flagged one or duplicating an id all fail. The memo is graded by five
+plain substring checks, no regex on prose: it must name DEAL-07 and quote `EXC-VP-02`, and
+it must name each of the three finding codes it explains. Wording, order and layout are free. `results.json` is a closed five-key object. Scoring is the core-gated
 `tests/score.py` with the positive/incomplete/corrupted/extra-key lanes in
 `tests/test_outputs.py`. `input/submission_format.md` carries the contract.
 
@@ -146,31 +146,38 @@ class) were replayed against the verifier and each scores 0.0.
 All checks are core, so a run scores exactly 1.0 or 0.0; the difficulty signal is the pass
 count.
 
-**Final battery (harbor job glm-g308-r4, terminus-2, GLM-5.2, 8 runs at -k 8): 3 of 8 passed;
-rewards in start order 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0.** The four shipped rollouts are
-the first concurrent batch of four (all started 15:25:47), a mechanical choice, and score 3 of 4:
+**Final battery (round-4 GLM job, terminus-2, GLM-5.2, 8 runs at -k 8): 3 of 8 passed;
+rewards in start order 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0.** Selection is mechanical:
+the earliest passing run is held out as the solvability evidence, and the next four runs by
+start time are the difficulty rollouts, which score 2 of 4:
 
 | rollout | harbor trial | reward | outcome |
 |---|---|---|---|
-| difficulty/r1 | task-g308__AxAgMA6 | 1.0 | keyed the ledger on `posting_id`, counted P-1019 once, kept both DEAL-22 postings |
-| difficulty/r2 | task-g308__R9iyPo4 | 1.0 | as above |
+| difficulty/r1 | task-g308__5rgWFcx | 0.0 | MODEL: summed every ledger row, doubled DEAL-20's revenue and flagged compliant L-22 `UNMATCHED_TO_LEDGER` (count 7, compliant 14); every other cell correct |
+| difficulty/r2 | task-g308__R9iyPo4 | 1.0 | keyed the ledger on `posting_id`, counted P-1019 once, kept both DEAL-22 postings |
 | difficulty/r3 | task-g308__bMp9PbM | 1.0 | as above |
-| difficulty/r4 | task-g308__kxNUbJJ | 0.0 | MODEL: summed every ledger row, doubled DEAL-20's revenue and flagged compliant L-22 `UNMATCHED_TO_LEDGER` (count 7, compliant 14); every other cell correct |
+| difficulty/r4 | task-g308__kxNUbJJ | 0.0 | MODEL: same as r1 |
 
-The four unshipped runs (5rgWFcx, eLmrW6p, mCYs8hN, YaVSACn, all 0.0) fail for the identical
-reason. All eight handled the derived customer type, the ledger-governed customer, the
-override statuses and windows including the second DEAL-13 row, the co-sell register, the
-genuine DEAL-22 double booking and the 1% boundary. The one discriminating behaviour is
-whether the run treats the ledger's key as a key before summing. Zero exceptions.
+`evaluations/solvability/r1` is the held-out run task-g308__AxAgMA6 (GLM-5.2, reward 1.0, not
+an oracle and not one of the four difficulty rollouts). The three unshipped runs (eLmrW6p,
+mCYs8hN, YaVSACn, all 0.0) fail for the identical reason. All eight handled the derived
+customer type, the ledger-governed customer, the override statuses and windows including the
+second DEAL-13 row, the co-sell register, the genuine DEAL-22 double booking and the 1%
+boundary. The one discriminating behaviour is whether the run treats the ledger's key as a
+key before summing. Zero exceptions.
 
-Oracle on this package: 1.0 (harbor job oracle-g308-r4).
-`evaluations/solvability/r1` is a copy of difficulty/r1, trial task-g308__AxAgMA6 (GLM-5.2, not the oracle).
+Oracle on this package: 1.0 after every round, re-run after the memo checks were rewritten.
 
 **Evidence format note.** This harbor build writes `verifier/reward.txt` and
 `verifier/score.json`; the bundle's `verifier/reward.json` and `verifier/verifier_summary.json`
 were derived from those two files by `tools/annotate_rollout.py` (a format conversion, no new
 facts), which also added `model`, `overall_pass`, `final_answer`, `reward` and `judge` to each
 `result.json`.
+
+**PreQC round 1 fixes.** The first Gate run flagged the memo's lookahead regex as
+reward-hackable (replaced by the five substring checks above), the solvability run being a
+byte copy of a difficulty run (now an independent held-out run), and job names of the form
+`-r4` in the review being misread as rollout scores (reworded).
 
 ## QC flags left as-is
 

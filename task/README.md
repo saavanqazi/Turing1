@@ -19,7 +19,7 @@ and a local engine replay). GLM-5.2 baseline battery: 4/4 passing, rewards 1.0, 
 1.0 (harbor job glm-b7a4-baseline, terminus-2, on the untouched package at commit b41f537).
 
 **Round 1 (measured 4/4, rewards 1.0, 1.0, 1.0, 1.0; oracle 1.0; harbor jobs
-oracle-b7a4-r1, glm-b7a4-r1; terminus-2 harness).**
+the round-1 oracle job, the round-1 GLM job; terminus-2 harness).**
 Stock ledger in store-local time with `NO_STOCK`, destination-based tax on delivery,
 a same-cent tie resolved by distance, precedence edge rows. GLM-5.2 scripted every
 explicit rule correctly, so round 1 was not enough.
@@ -61,7 +61,7 @@ the shortcuts a one-pass script takes. Each is governed by a clause in
    half-cent rounds up (18.62); `round()` on a float gives 18.61 on the chosen offer.
 
 Round 2 result: 7 eligible of 20, chosen OF-12 at USD 18.62. Locally GLM-5.2 passed 3/4
-(job glm-b7a4-r2); the QC platform's own four runs passed 4/4 and the version was
+(job the round-2 GLM job); the QC platform's own four runs passed 4/4 and the version was
 rejected. Every scripted run handled every explicit rule, so round 3 moves the difficulty
 into the data.
 
@@ -109,7 +109,7 @@ Every verifier is core and the reward is core-gated (`tests/score.py`), so a run
 exactly 1.0 or 0.0. A spread like 0.2–0.35 cannot occur on this task by design; the
 difficulty signal is the pass count.
 
-**Final battery (harbor job glm-b7a4-r3, terminus-2, GLM-5.2, 8 runs at -k 8): 4 of 8 passed;
+**Final battery (harbor job the round-3 GLM job, terminus-2, GLM-5.2, 8 runs at -k 8): 4 of 8 passed;
 rewards in start order 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0.** Eight runs were made so the
 pass rate could be estimated before spending a platform upload. The four shipped rollouts are
 the first four by start time, a mechanical choice, and score 2 of 4:
@@ -127,8 +127,10 @@ conductor tiers and every round 2 element; the one discriminating behaviour is w
 run checks its input for a repeated key before treating each line as an offer. Zero
 exceptions, every run wrote both deliverables.
 
-Oracle on this package: 1.0 (harbor job oracle-b7a4-r3, digest-pinned image).
-`evaluations/solvability/r1` is a copy of difficulty/r2, trial task__jWv5Q6m (a GLM-5.2 run, not the oracle).
+Oracle on this package: 1.0 (round-3 oracle job, digest-pinned image).
+`evaluations/solvability/r1` is task__n28RbZm, the earliest passing run outside the four
+difficulty rollouts (GLM-5.2, reward 1.0, not the oracle, trajectory distinct from every
+shipped difficulty run).
 
 **Evidence format note.** This harbor build writes `verifier/reward.txt` and
 `verifier/score.json`; the bundle's `verifier/reward.json` and

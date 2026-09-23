@@ -1,7 +1,10 @@
 {
-  "reward": 1.0,
-  "core_failures": [],
-  "passed": 7,
+  "reward": 0.0,
+  "core_failures": [
+    "findings_table",
+    "results_figures"
+  ],
+  "passed": 5,
   "total": 7,
   "checks": [
     {
@@ -21,9 +24,9 @@
     {
       "name": "findings_table",
       "tag": "core",
-      "passed": true,
+      "passed": false,
       "weight": 0.1428571429,
-      "detail": ""
+      "detail": "population mismatch: extra ['L-22'], missing []"
     },
     {
       "name": "memo_exists",
@@ -49,9 +52,9 @@
     {
       "name": "results_figures",
       "tag": "core",
-      "passed": true,
+      "passed": false,
       "weight": 0.1428571426,
-      "detail": ""
+      "detail": "key unmatched_to_ledger_count: expected 6, got 7; key compliant_lines: expected 15, got 14"
     }
   ]
 }

@@ -11,16 +11,16 @@
             "skipped": 0,
             "pending": 0,
             "other": 0,
-            "start": 1790106139.4485734,
-            "stop": 1790106140.3183281
+            "start": 1790106650.796343,
+            "stop": 1790106651.5007982
         },
         "tests": [
             {
                 "name": "test_outputs.py::test_deliverable",
                 "status": "passed",
-                "duration": 0.010095376000094802,
-                "start": 1790106139.7739334,
-                "stop": 1790106139.7855623,
+                "duration": 0.013058774999990419,
+                "start": 1790106651.1114652,
+                "stop": 1790106651.1259909,
                 "retries": 5,
                 "file_path": "test_outputs.py",
                 "tags": [
@@ -30,9 +30,9 @@
             {
                 "name": "test_outputs.py::test_incomplete_output",
                 "status": "passed",
-                "duration": 0.34263387500004683,
-                "start": 1790106139.8082068,
-                "stop": 1790106140.1695225,
+                "duration": 0.32068030800019187,
+                "start": 1790106651.1503685,
+                "stop": 1790106651.472745,
                 "file_path": "test_outputs.py",
                 "tags": [
                     "parametrize::path::['offer_evaluation.csv', 'results.json']"
@@ -41,9 +41,9 @@
             {
                 "name": "test_outputs.py::test_negative_corrupted_value",
                 "status": "passed",
-                "duration": 0.004328290999865203,
-                "start": 1790106140.176435,
-                "stop": 1790106140.1823628,
+                "duration": 0.004269479999948089,
+                "start": 1790106651.478619,
+                "stop": 1790106651.484052,
                 "retries": 2,
                 "file_path": "test_outputs.py",
                 "tags": [
@@ -53,9 +53,9 @@
             {
                 "name": "test_outputs.py::test_adversarial_extra_key",
                 "status": "passed",
-                "duration": 0.004674915000009605,
-                "start": 1790106140.1956553,
-                "stop": 1790106140.287543,
+                "duration": 0.004000610000275628,
+                "start": 1790106651.494774,
+                "stop": 1790106651.499906,
                 "retries": 0,
                 "file_path": "test_outputs.py"
             }

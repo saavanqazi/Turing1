@@ -20,7 +20,7 @@ PASSED ../tests/test_outputs.py::test_negative_corrupted_value[chosen_offer_id]
 PASSED ../tests/test_outputs.py::test_negative_corrupted_value[chosen_total_usd]
 PASSED ../tests/test_outputs.py::test_negative_corrupted_value[eligible_offer_count]
 PASSED ../tests/test_outputs.py::test_adversarial_extra_key
-============================== 12 passed in 0.95s ==============================
+============================== 12 passed in 0.71s ==============================
 {
   "reward": 1.0,
   "core_failures": [],

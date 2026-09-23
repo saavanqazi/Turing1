@@ -230,12 +230,31 @@ def main() -> int:
                               "deterministic": {"path": "$.is_file", "comparison": "equals"}}}
 
     flagged_ids = [f["line_id"] for f in findings]
-    # graded memo content: every flagged deal, plus the override-protected compliant deal(s) and
-    # the exception code(s) that protect them. Case-insensitive, wording-free.
+    # graded memo content, one plain substring check per fact (no regex on prose): the
+    # override-protected deal, its exception code, and each finding code the memo must explain.
     protected_exc = sorted({(ln["deal_id"].upper(), approved[ln["deal_id"].upper()][0])
                             for ln, _ in explained if ln["deal_id"].upper() in approved})
-    memo_values = sorted({f["deal_id"].upper() for f in findings}) + [d for d, _ in protected_exc] + [c for _, c in protected_exc]
-    memo_regex = "(?is)" + "".join(f"(?=.*\\b{v}\\b)" for v in memo_values) + ".*"
+    memo_values = [d for d, _ in protected_exc] + [c for _, c in protected_exc] + \
+                  [c for c in PRECEDENCE if counts[c] > 0]
+
+    def memo_contains(name, value, why):
+        return {"name": name,
+                "metadata": {"how_justification": f"Reads commission_memo.md with md.extract_text and checks the text contains the value {value!r} (plain substring, no pattern; wording, order and layout are not graded).",
+                             "why_justification": why, "tag": "core"},
+                "source": {"type": "file", "file": {"type": "md", "command": "extract_text", "arguments": {"path": "commission_memo.md"}}},
+                "assertion": {"type": "deterministic", "expected": value,
+                              "deterministic": {"path": "$.text", "comparison": "contains"}}}
+
+    memo_checks = []
+    for d, c in protected_exc:
+        memo_checks.append(memo_contains(f"memo_names_protected_{d.lower().replace('-', '_')}", d,
+            f"The memo must name the line that is reported off the standard mapping yet compliant. Entailed by: \"separately name the line that is reported off the standard mapping yet is compliant, quoting the exception code that makes it so\"; that line is {d}."))
+        memo_checks.append(memo_contains(f"memo_quotes_{c.lower().replace('-', '_')}", c,
+            f"The memo must quote the exception code that protects that line ({c}). Same contract sentence."))
+    for c in PRECEDENCE:
+        if counts[c] > 0:
+            memo_checks.append(memo_contains(f"memo_explains_{c.lower()}", c,
+                f"The memo must explain every flagged line with the rule behind it; {counts[c]} line(s) carry {c}, so the memo names that finding. Entailed by: \"It must name every flagged line by its deal_id with the rule behind the finding\"."))
 
     spec = {"task_id": "gen-g308-commission-report-reconciliation-audit", "verifiers": [
         exists("findings_exists", "commission_findings.csv", "The findings sheet is delivered."),
@@ -258,12 +277,7 @@ def main() -> int:
                                     "cell_types": {"deal_id": "id", "source_report": "id", "finding_code": "id"}},
                        "deterministic": {"path": "$", "comparison": "table_equals"}}},
         exists("memo_exists", "commission_memo.md", "The memo is delivered."),
-        {"name": "memo_names_lines",
-         "metadata": {"how_justification": "Reads commission_memo.md with md.extract_text and requires, anywhere in the text and in any wording, every flagged deal id, every look-wrong-but-compliant deal id and the exception code(s) that protect them. Values only; no phrasing is graded.",
-                      "why_justification": "Entailed by: \"It must name every flagged line by its `deal_id` ... and separately name each line that looks wrong but is compliant, quoting the exception code or the ledger postings that make it so. Wording is free.\"", "tag": "core"},
-         "source": {"type": "file", "file": {"type": "md", "command": "extract_text", "arguments": {"path": "commission_memo.md"}}},
-         "assertion": {"type": "deterministic", "expected": memo_regex,
-                       "deterministic": {"path": "$.text", "comparison": "regex_match"}}},
+        *memo_checks,
         exists("results_exists", "results.json", "Derived figures delivered."),
         {"name": "results_figures",
          "metadata": {"how_justification": "Reads results.json with json.read_file and applies object_equals over the 5 graded keys with the key set closed; a failure names the exact key.",
@@ -276,7 +290,7 @@ def main() -> int:
     text = json.dumps(spec, indent=2) + "\n"
     (TESTS / "verifier.json").write_text(text, encoding="utf-8")
     (TESTS / "manifest.json").write_text(text, encoding="utf-8")
-    print(f"\nmemo must mention: {memo_values}")
+    print(f"\nmemo must contain: {memo_values}")
     print(f"wrote {FILES}, golden_trajectory.json, verifier.json + manifest.json (identical)")
     return 0
 

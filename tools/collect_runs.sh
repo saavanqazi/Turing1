@@ -34,7 +34,18 @@ done
 
 [ "$i" -eq 4 ] || echo "WARN: expected 4 trials, found $i — ship exactly four"
 
-if [ -n "$solv" ]; then
+if [ -n "${SOLV_TRIAL:-}" ]; then
+  # an independent passing run, never one of the shipped difficulty rollouts
+  mkdir -p "$EVAL/solvability/r1/agent" "$EVAL/solvability/r1/verifier"
+  cp "$SOLV_TRIAL/agent/trajectory.json" "$EVAL/solvability/r1/agent/"
+  cp "$SOLV_TRIAL/result.json" "$EVAL/solvability/r1/"
+  [ -f "$SOLV_TRIAL/config.json" ] && cp "$SOLV_TRIAL/config.json" "$EVAL/solvability/r1/"
+  for f in reward.json reward.txt verifier_summary.json ctrf.json score.json test-stdout.txt; do
+    [ -f "$SOLV_TRIAL/verifier/$f" ] && cp "$SOLV_TRIAL/verifier/$f" "$EVAL/solvability/r1/verifier/"
+  done
+  solv="$EVAL/solvability/r1"
+  echo "solvability/r1 <- $(basename "$SOLV_TRIAL") (independent run)"
+elif [ -n "$solv" ]; then
   cp -r "$solv" "$EVAL/solvability/r1"
   echo "solvability/r1 <- $(basename "$solv")"
 else
@@ -42,7 +53,7 @@ else
   echo "NOTE: no run scored 1.0 — no solvability/ folder (0/4 case, Turing re-runs)"
 fi
 
-python3 "$REPO/tools/annotate_rollout.py" "$EVAL"/difficulty/r* ${solv:+"$EVAL/solvability/r1"}
+python3 "$REPO/tools/annotate_rollout.py" "$EVAL"/difficulty/r* ${solv:+"$EVAL/solvability/r1"} | cut -c1-100
 
 # never ship job-level artifacts
 find "$EVAL" -maxdepth 1 -type f -delete
