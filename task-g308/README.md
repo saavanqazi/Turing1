@@ -17,7 +17,10 @@ override). Every rule was a one-column lookup. Findings were graded by per-row r
 no population lock (flagging every line except DEAL-07 passed the sheet checks), the memo
 by wording regexes (`standard…rate`, `override…approv`, `ledger…match`), and the package
 shipped no `golden_trajectory.json`, no format document and no `manifest.json`.
-GLM-5.2 baseline battery: [N]/4, rewards [r1, r2, r3, r4] (harbor job glm-g308-baseline).
+GLM-5.2 baseline battery: 0/4 (harbor job glm-g308-baseline), but not from difficulty. All four
+runs failed only `result_compliant_lines`: the mined expected value 5 contradicts the mined
+sheet, which flags 4 of 8 lines, so GLM's answer of 4 was arguably right. The mined memo
+also failed a wording regex in one run. The mined package was unfair rather than hard.
 
 **Hardened (current).** The rules are unchanged in kind and stay explicit in
 `commission_policy.md`; what changed is that each of them now has to be *computed from a
@@ -143,7 +146,31 @@ class) were replayed against the verifier and each scores 0.0.
 All checks are core, so a run scores exactly 1.0 or 0.0; the difficulty signal is the pass
 count.
 
-**Final battery:** [to be filled from harbor job glm-g308-r4].
+**Final battery (harbor job glm-g308-r4, terminus-2, GLM-5.2, 8 runs at -k 8): 3 of 8 passed;
+rewards in start order 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0.** The four shipped rollouts are
+the first concurrent batch of four (all started 15:25:47), a mechanical choice, and score 3 of 4:
+
+| rollout | harbor trial | reward | outcome |
+|---|---|---|---|
+| difficulty/r1 | task-g308__AxAgMA6 | 1.0 | keyed the ledger on `posting_id`, counted P-1019 once, kept both DEAL-22 postings |
+| difficulty/r2 | task-g308__R9iyPo4 | 1.0 | as above |
+| difficulty/r3 | task-g308__bMp9PbM | 1.0 | as above |
+| difficulty/r4 | task-g308__kxNUbJJ | 0.0 | MODEL: summed every ledger row, doubled DEAL-20's revenue and flagged compliant L-22 `UNMATCHED_TO_LEDGER` (count 7, compliant 14); every other cell correct |
+
+The four unshipped runs (5rgWFcx, eLmrW6p, mCYs8hN, YaVSACn, all 0.0) fail for the identical
+reason. All eight handled the derived customer type, the ledger-governed customer, the
+override statuses and windows including the second DEAL-13 row, the co-sell register, the
+genuine DEAL-22 double booking and the 1% boundary. The one discriminating behaviour is
+whether the run treats the ledger's key as a key before summing. Zero exceptions.
+
+Oracle on this package: 1.0 (harbor job oracle-g308-r4).
+`evaluations/solvability/r1` is a copy of difficulty/r2, trial task-g308__R9iyPo4 (GLM-5.2, not the oracle).
+
+**Evidence format note.** This harbor build writes `verifier/reward.txt` and
+`verifier/score.json`; the bundle's `verifier/reward.json` and `verifier/verifier_summary.json`
+were derived from those two files by `tools/annotate_rollout.py` (a format conversion, no new
+facts), which also added `model`, `overall_pass`, `final_answer`, `reward` and `judge` to each
+`result.json`.
 
 ## QC flags left as-is
 

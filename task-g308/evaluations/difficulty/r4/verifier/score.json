@@ -1,0 +1,60 @@
+{
+  "reward": 0.0,
+  "core_failures": [
+    "findings_table",
+    "results_figures"
+  ],
+  "passed": 5,
+  "total": 7,
+  "checks": [
+    {
+      "name": "findings_exists",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1428571429,
+      "detail": ""
+    },
+    {
+      "name": "findings_header",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1428571429,
+      "detail": ""
+    },
+    {
+      "name": "findings_table",
+      "tag": "core",
+      "passed": false,
+      "weight": 0.1428571429,
+      "detail": "population mismatch: extra ['L-22'], missing []"
+    },
+    {
+      "name": "memo_exists",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1428571429,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_lines",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1428571429,
+      "detail": ""
+    },
+    {
+      "name": "results_exists",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1428571429,
+      "detail": ""
+    },
+    {
+      "name": "results_figures",
+      "tag": "core",
+      "passed": false,
+      "weight": 0.1428571426,
+      "detail": "key unmatched_to_ledger_count: expected 6, got 7; key compliant_lines: expected 15, got 14"
+    }
+  ]
+}

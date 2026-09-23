@@ -1,0 +1,134 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-8.4.1, pluggy-1.6.0
+rootdir: /tests
+plugins: json-ctrf-0.3.5
+collected 16 items
+
+../tests/test_outputs.py ..F...F.........                                [100%]
+
+=================================== FAILURES ===================================
+_______________________ test_deliverable[findings_table] _______________________
+
+definition = VerifierDefinition(name='findings_table', metadata=VerifierMetadata(how_justification='Parses commission_findings.csv ...ng_code': 'id'}}, deterministic=DeterministicConfig(path='$', comparison='table_equals', tolerance=None), rubric=None))
+
+    @pytest.mark.parametrize(
+        "definition",
+        SPEC.verifiers,
+        ids=[definition.name for definition in SPEC.verifiers],
+    )
+    def test_deliverable(definition):
+        outcome = verify_definition(
+            definition,
+            REGISTRY,
+            WEIGHTS[definition.name],
+            config=SPEC.config,
+            completion_fn=None,
+        )["result"]
+        detail = outcome.get("error") or outcome.get("reason") or "assertion failed"
+>       assert outcome["success"], f"{definition.name}: {detail}"
+E       AssertionError: findings_table: population mismatch: extra ['L-22'], missing []
+E       assert False
+
+/tests/test_outputs.py:144: AssertionError
+______________________ test_deliverable[results_figures] _______________________
+
+definition = VerifierDefinition(name='results_figures', metadata=VerifierMetadata(how_justification='Reads results.json with json.r...'closed': True}, deterministic=DeterministicConfig(path='$', comparison='object_equals', tolerance=None), rubric=None))
+
+    @pytest.mark.parametrize(
+        "definition",
+        SPEC.verifiers,
+        ids=[definition.name for definition in SPEC.verifiers],
+    )
+    def test_deliverable(definition):
+        outcome = verify_definition(
+            definition,
+            REGISTRY,
+            WEIGHTS[definition.name],
+            config=SPEC.config,
+            completion_fn=None,
+        )["result"]
+        detail = outcome.get("error") or outcome.get("reason") or "assertion failed"
+>       assert outcome["success"], f"{definition.name}: {detail}"
+E       AssertionError: results_figures: key unmatched_to_ledger_count: expected 6, got 7; key compliant_lines: expected 15, got 14
+E       assert False
+
+/tests/test_outputs.py:144: AssertionError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED ../tests/test_outputs.py::test_deliverable[findings_exists]
+PASSED ../tests/test_outputs.py::test_deliverable[findings_header]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_exists]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_lines]
+PASSED ../tests/test_outputs.py::test_deliverable[results_exists]
+PASSED ../tests/test_outputs.py::test_incomplete_output[commission_findings.csv]
+PASSED ../tests/test_outputs.py::test_incomplete_output[commission_memo.md]
+PASSED ../tests/test_outputs.py::test_incomplete_output[results.json]
+PASSED ../tests/test_outputs.py::test_negative_corrupted_value[compliant_lines]
+PASSED ../tests/test_outputs.py::test_negative_corrupted_value[duplicate_line_count]
+PASSED ../tests/test_outputs.py::test_negative_corrupted_value[rate_mismatch_count]
+PASSED ../tests/test_outputs.py::test_negative_corrupted_value[total_lines]
+PASSED ../tests/test_outputs.py::test_negative_corrupted_value[unmatched_to_ledger_count]
+PASSED ../tests/test_outputs.py::test_adversarial_extra_key
+FAILED ../tests/test_outputs.py::test_deliverable[findings_table] - Assertion...
+FAILED ../tests/test_outputs.py::test_deliverable[results_figures] - Assertio...
+========================= 2 failed, 14 passed in 1.01s =========================
+{
+  "reward": 0.0,
+  "core_failures": [
+    "findings_table",
+    "results_figures"
+  ],
+  "passed": 5,
+  "total": 7,
+  "checks": [
+    {
+      "name": "findings_exists",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1428571429,
+      "detail": ""
+    },
+    {
+      "name": "findings_header",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1428571429,
+      "detail": ""
+    },
+    {
+      "name": "findings_table",
+      "tag": "core",
+      "passed": false,
+      "weight": 0.1428571429,
+      "detail": "population mismatch: extra ['L-22'], missing []"
+    },
+    {
+      "name": "memo_exists",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1428571429,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_lines",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1428571429,
+      "detail": ""
+    },
+    {
+      "name": "results_exists",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1428571429,
+      "detail": ""
+    },
+    {
+      "name": "results_figures",
+      "tag": "core",
+      "passed": false,
+      "weight": 0.1428571426,
+      "detail": "key unmatched_to_ledger_count: expected 6, got 7; key compliant_lines: expected 15, got 14"
+    }
+  ]
+}

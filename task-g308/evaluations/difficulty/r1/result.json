@@ -1,0 +1,136 @@
+{
+    "id": "000ccb9a-f9e7-4e5d-8b27-de0e0583a177",
+    "task_name": "obi/gen-g308-commission-report-reconciliation-audit",
+    "trial_name": "task-g308__AxAgMA6",
+    "trial_uri": "file:///C:/Users/amitb/Turing1/jobs/glm-g308-r4/task-g308__AxAgMA6",
+    "task_id": {
+        "path": "task-g308"
+    },
+    "source": null,
+    "task_checksum": "b8a726c71680eee0106fed08ca08c309bdab601a67ef1a5e0a726d849df9e640",
+    "config": {
+        "task": {
+            "path": "task-g308",
+            "git_url": null,
+            "git_commit_id": null,
+            "name": null,
+            "ref": null,
+            "overwrite": false,
+            "download_dir": null,
+            "source": null
+        },
+        "trial_name": "task-g308__AxAgMA6",
+        "trials_dir": "jobs\\glm-g308-r4",
+        "install_only": false,
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": "terminus-2",
+            "import_path": null,
+            "model_name": "openai/glm-5.2",
+            "n_concurrent": null,
+            "concurrency_group": null,
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "resume_trajectory": false,
+            "load_trajectory": null,
+            "extra_allowed_hosts": [],
+            "kwargs": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "cpu_enforcement_policy": "auto",
+            "memory_enforcement_policy": "auto",
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "override_tpu": null,
+            "mounts": null,
+            "extra_docker_compose": [],
+            "kwargs": {},
+            "extra_allowed_hosts": []
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "disable": false
+        },
+        "artifacts": [],
+        "extra_instruction_paths": [],
+        "job_id": "ecb5ba98-08f2-4408-beaa-3ae8ef98486e"
+    },
+    "agent_info": {
+        "name": "terminus-2",
+        "version": "2.0.0",
+        "model_info": {
+            "name": "glm-5.2",
+            "provider": "openai"
+        }
+    },
+    "agent_result": {
+        "n_input_tokens": 152310,
+        "n_cache_tokens": 33344,
+        "n_output_tokens": 69767,
+        "cost_usd": 0.26391846,
+        "rollout_details": [],
+        "metadata": {
+            "n_episodes": 10,
+            "api_request_times_msec": [
+                4506.87837600708,
+                5910.879850387573,
+                6114.904165267944,
+                448636.0168457031,
+                165614.54105377197,
+                130981.02307319641,
+                155263.63682746887,
+                52258.18085670471,
+                103256.7069530487,
+                139601.37104988098
+            ],
+            "summarization_count": 0
+        }
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 1.0
+        }
+    },
+    "exception_info": null,
+    "started_at": "2026-09-23T15:25:47.704823Z",
+    "finished_at": "2026-09-23T15:47:07.778348Z",
+    "environment_setup": {
+        "started_at": "2026-09-23T15:25:48.306475Z",
+        "finished_at": "2026-09-23T15:25:56.712647Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-09-23T15:25:56.712709Z",
+        "finished_at": "2026-09-23T15:26:30.412318Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-09-23T15:26:30.412519Z",
+        "finished_at": "2026-09-23T15:47:01.073321Z"
+    },
+    "verifier": {
+        "started_at": "2026-09-23T15:47:01.076172Z",
+        "finished_at": "2026-09-23T15:47:03.994997Z"
+    },
+    "step_results": null,
+    "model": "GLM-5.2",
+    "overall_pass": true,
+    "final_answer": null,
+    "reward": 1.0,
+    "judge": {
+        "type": "deterministic file_check",
+        "judge_model": null
+    }
+}

@@ -1,0 +1,57 @@
+{
+  "reward": 1.0,
+  "core_failures": [],
+  "passed": 7,
+  "total": 7,
+  "checks": [
+    {
+      "name": "findings_exists",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1428571429,
+      "detail": ""
+    },
+    {
+      "name": "findings_header",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1428571429,
+      "detail": ""
+    },
+    {
+      "name": "findings_table",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1428571429,
+      "detail": ""
+    },
+    {
+      "name": "memo_exists",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1428571429,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_lines",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1428571429,
+      "detail": ""
+    },
+    {
+      "name": "results_exists",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1428571429,
+      "detail": ""
+    },
+    {
+      "name": "results_figures",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.1428571426,
+      "detail": ""
+    }
+  ]
+}

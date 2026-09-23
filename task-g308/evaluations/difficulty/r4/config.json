@@ -1,0 +1,12 @@
+{
+    "task": {
+        "path": "task-g308"
+    },
+    "trial_name": "task-g308__kxNUbJJ",
+    "trials_dir": "jobs\\glm-g308-r4",
+    "agent": {
+        "name": "terminus-2",
+        "model_name": "openai/glm-5.2"
+    },
+    "job_id": "ecb5ba98-08f2-4408-beaa-3ae8ef98486e"
+}
