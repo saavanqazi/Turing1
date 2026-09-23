@@ -33,7 +33,7 @@ A line is **commissionable** when the rate the policy pays for it is above 0%. E
 commissionable line must be matched to June revenue in `netsuite_revenue_june.csv` before it
 is paid. A line is matched when the ledger's **net June revenue** for its deal, the sum of
 `amount_usd` over the deal's postings dated in June 2026, differs from the line's
-`revenue_usd` by at most 1% of that revenue. A commissionable line that is not matched is
+`revenue_usd` by at most 1% of the line's `revenue_usd`. A commissionable line that is not matched is
 `UNMATCHED_TO_LEDGER`. A line that is not commissionable needs no ledger match.
 
 ## R3 — Duplicate lines and registered co-sells
@@ -68,6 +68,9 @@ compliant.
 
 Identifiers and coded values are matched without regard to case. Rates and amounts are
 read as the numbers they denote, however the system that printed them formats them.
+`posting_id` is the ledger's key: rows that share a `posting_id` are one posting, however
+many times the extract repeats them; postings with different ids are different postings
+even when every other field agrees.
 
 ## Finding codes
 

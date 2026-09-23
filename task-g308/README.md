@@ -146,7 +146,7 @@ class) were replayed against the verifier and each scores 0.0.
 All checks are core, so a run scores exactly 1.0 or 0.0; the difficulty signal is the pass
 count.
 
-**Final battery (round-4 GLM job, terminus-2, GLM-5.2, 8 runs at -k 8): 3 of 8 passed;
+**Round-4 battery (round-4 GLM job, terminus-2, GLM-5.2, 8 runs at -k 8): 3 of 8 passed;
 rewards in start order 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0.** Selection is mechanical:
 the earliest passing run is held out as the solvability evidence, and the next four runs by
 start time are the difficulty rollouts, which score 2 of 4:
@@ -166,13 +166,37 @@ second DEAL-13 row, the co-sell register, the genuine DEAL-22 double booking and
 boundary. The one discriminating behaviour is whether the run treats the ledger's key as a
 key before summing. Zero exceptions.
 
-Oracle on this package: 1.0 after every round, re-run after the memo checks were rewritten.
+Oracle on this package: 1.0 after every round, re-run after the round-5 grader and policy changes.
+
+**Round-5 battery:** [to be filled from the round-5 GLM job].
 
 **Evidence format note.** This harbor build writes `verifier/reward.txt` and
 `verifier/score.json`; the bundle's `verifier/reward.json` and `verifier/verifier_summary.json`
 were derived from those two files by `tools/annotate_rollout.py` (a format conversion, no new
 facts), which also added `model`, `overall_pass`, `final_answer`, `reward` and `judge` to each
 `result.json`.
+
+**Platform battery on round 4 (first QC run): oracle 1.0, GLM-5.2 2 of 4.** The platform's
+two failures read the 1% tolerance against the ledger figure instead of the line's revenue
+(L-35) and, in one run, summed the repeated P-1019 row (L-22). Its Harbor Check raised six
+findings, addressed in round 5:
+
+- **Ambiguous rule (confirmed).** R2 now says "at most 1% of the line's `revenue_usd`", and
+  R6 states the ledger's key: rows sharing a `posting_id` are one posting, postings with
+  different ids are different postings. The repeated P-1019 row also says in its memo column
+  that it is repeated by export page overlap. The gold is unchanged.
+- **Memo grading (confirmed, four findings with one root cause).** The memo contract in
+  `submission_format.md` is now three enumerated items, and the grader holds one plain
+  substring check per fact those items name: every flagged `deal_id` (17), the protected
+  deal and its exception code (2), and the posting or deal ids behind the compliant lines
+  whose ledger evidence looks wrong (6: P-1019, P-1026, P-1027, P-1031, DEAL-10, DEAL-31).
+  No finding-code tokens are required in prose, no regex is used, and the reviewer's
+  five-token stub scores 0.0 while a plain-language memo carrying the facts scores 1.0.
+  Item 3 is new reasoning work: the model must recognise which compliant lines look wrong.
+- **Golden access (disputed).** The finding says the agent can read `tests/verifier.json`.
+  The Dockerfile copies `input/` only, and harbor uploads `tests/` for the verifier phase
+  after the agent has finished; the accepted b39 bundle ships its expected rows inline the
+  same way. Marked as a false positive with that note.
 
 **PreQC round 1 fixes.** The first Gate run flagged the memo's lookahead regex as
 reward-hackable (replaced by the five substring checks above), the solvability run being a

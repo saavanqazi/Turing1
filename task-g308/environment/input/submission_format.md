@@ -23,10 +23,18 @@ L-00,DEAL-00,PartnerX,RATE_MISMATCH
 
 ## `commission_memo.md`
 
-Markdown. It must name every flagged line by its `deal_id` with the rule behind the
-finding, and separately name the line that is reported off the standard mapping yet is
-compliant, quoting the exception code that makes it so. Other lines that look wrong but
-are compliant may be explained too. Wording is free.
+Markdown, wording free. It must:
+
+1. name every flagged line by its `deal_id`, with the rule behind the finding;
+2. name the line that is reported off the standard mapping yet is compliant, quoting the
+   exception code that makes it so;
+3. name every commissionable line that is compliant although its June ledger evidence
+   looks wrong: a repeated export row, a reversal (with or without a re-posting), or a net
+   that differs from the line's `revenue_usd` yet stays within the tolerance. For the first
+   two kinds quote the `posting_id` of every posting involved (the repeated row, the
+   reversal, the re-posting); for the third name the line's `deal_id`.
+
+Other lines may be discussed too. Nothing else about the memo's form is graded.
 
 ## `results.json`
 

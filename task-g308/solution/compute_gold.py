@@ -68,8 +68,11 @@ def main() -> int:
     net: dict[str, Decimal] = {}
     ledger_customer: dict[str, str] = {}
     seen_postings: set[str] = set()
+    repeated_ids: dict[str, list[str]] = {}
+    evidence_values: list[str] = []
     for p in ledger:
         if p["posting_id"].upper() in seen_postings:
+            repeated_ids.setdefault(p["deal_ref"].upper(), []).append(p["posting_id"])
             continue
         seen_postings.add(p["posting_id"].upper())
         d = date.fromisoformat(p["posting_date"])
@@ -139,7 +142,7 @@ def main() -> int:
         else:
             # lines that look wrong but are compliant, for the memo
             if split:
-                explained.append((ln, f"{ln['deal_id']} is claimed by {' and '.join(sorted(split))}, but the co-sell register carries an "
+                explained.append((ln, f"{ln['deal_id']} is claimed by {' and '.join(sorted(ln2['source_report'] for ln2 in lines if ln2['deal_id'].upper() == deal))}, but the co-sell register carries an "
                                       f"active {'/'.join(str(v) for v in split.values())} split naming exactly those partners, so the two lines "
                                       f"are not duplicates and each matches its share of the {june_net:,.2f} net"))
             elif cust != ln["customer_id"].upper() and reported == pays:
@@ -154,9 +157,17 @@ def main() -> int:
             elif commissionable and june_net != revenue:
                 explained.append((ln, f"the ledger's net June postings for {ln['deal_id']} total {june_net:,.2f} against "
                                       f"revenue {revenue:,.2f}, inside the 1% match tolerance"))
+                evidence_values.append(ln["deal_id"].upper())
             elif commissionable and any(money(p["amount_usd"]) < 0 and p["deal_ref"].upper() == deal for p in ledger):
-                explained.append((ln, f"the ledger carries a reversal for {ln['deal_id']} but the re-posting brings net June "
-                                      f"revenue back to {june_net:,.2f}, which matches"))
+                ids = [p["posting_id"] for p in ledger if p["deal_ref"].upper() == deal
+                       and (money(p["amount_usd"]) < 0 or "re-post" in p["memo"].lower())]
+                explained.append((ln, f"the ledger carries a reversal for {ln['deal_id']} ({', '.join(ids)}) but the net June "
+                                      f"revenue is still {june_net:,.2f}, which matches"))
+                evidence_values += ids
+            elif commissionable and repeated_ids.get(deal):
+                explained.append((ln, f"the extract repeats posting {', '.join(repeated_ids[deal])} for {ln['deal_id']}; it is one "
+                                      f"posting, so net June revenue is {june_net:,.2f}, which matches"))
+                evidence_values += repeated_ids[deal]
             elif not commissionable and june_net == 0:
                 explained.append((ln, f"a {etype} line at 0% is not commissionable, so the absence of a June ledger posting is not a finding"))
             elif any(e["deal_id"].upper() == deal for e in exceptions):
@@ -230,31 +241,32 @@ def main() -> int:
                               "deterministic": {"path": "$.is_file", "comparison": "equals"}}}
 
     flagged_ids = [f["line_id"] for f in findings]
-    # graded memo content, one plain substring check per fact (no regex on prose): the
-    # override-protected deal, its exception code, and each finding code the memo must explain.
+    # graded memo content: one plain substring check per fact the format names (no regex on
+    # prose): every flagged deal (contract item 1), the protected deal and its code (item 2),
+    # the posting ids / deal ids of the compliant-but-looks-wrong lines (item 3).
     protected_exc = sorted({(ln["deal_id"].upper(), approved[ln["deal_id"].upper()][0])
                             for ln, _ in explained if ln["deal_id"].upper() in approved})
-    memo_values = [d for d, _ in protected_exc] + [c for _, c in protected_exc] + \
-                  [c for c in PRECEDENCE if counts[c] > 0]
+    flagged_deals = sorted({f["deal_id"].upper() for f in findings})
+    ev = sorted(set(evidence_values))
+    memo_values = flagged_deals + [d for d, _ in protected_exc] + [c for _, c in protected_exc] + ev
 
     def memo_contains(name, value, why):
         return {"name": name,
-                "metadata": {"how_justification": f"Reads commission_memo.md with md.extract_text and checks the text contains the value {value!r} (plain substring, no pattern; wording, order and layout are not graded).",
+                "metadata": {"how_justification": f"Reads commission_memo.md with md.extract_text and checks the text contains {value!r} (plain substring; wording, order and layout are not graded).",
                              "why_justification": why, "tag": "core"},
                 "source": {"type": "file", "file": {"type": "md", "command": "extract_text", "arguments": {"path": "commission_memo.md"}}},
                 "assertion": {"type": "deterministic", "expected": value,
                               "deterministic": {"path": "$.text", "comparison": "contains"}}}
 
-    memo_checks = []
+    def slug(v): return v.lower().replace('-', '_')
+    memo_checks = [memo_contains(f"memo_names_{slug(d)}", d,
+                   f"Contract item 1: the memo names every flagged line by its deal_id; {d} is flagged.") for d in flagged_deals]
     for d, c in protected_exc:
-        memo_checks.append(memo_contains(f"memo_names_protected_{d.lower().replace('-', '_')}", d,
-            f"The memo must name the line that is reported off the standard mapping yet compliant. Entailed by: \"separately name the line that is reported off the standard mapping yet is compliant, quoting the exception code that makes it so\"; that line is {d}."))
-        memo_checks.append(memo_contains(f"memo_quotes_{c.lower().replace('-', '_')}", c,
-            f"The memo must quote the exception code that protects that line ({c}). Same contract sentence."))
-    for c in PRECEDENCE:
-        if counts[c] > 0:
-            memo_checks.append(memo_contains(f"memo_explains_{c.lower()}", c,
-                f"The memo must explain every flagged line with the rule behind it; {counts[c]} line(s) carry {c}, so the memo names that finding. Entailed by: \"It must name every flagged line by its deal_id with the rule behind the finding\"."))
+        memo_checks.append(memo_contains(f"memo_names_protected_{slug(d)}", d, f"Contract item 2: the line reported off the standard mapping yet compliant is {d}."))
+        memo_checks.append(memo_contains(f"memo_quotes_{slug(c)}", c, f"Contract item 2: the exception code that protects that line is {c}."))
+    for v in ev:
+        kind = "posting id of a repeated, reversed or re-posted ledger row" if v.startswith("P-") else "deal id of a within-tolerance line"
+        memo_checks.append(memo_contains(f"memo_evidence_{slug(v)}", v, f"Contract item 3: {kind} behind a compliant line that looks wrong ({v})."))
 
     spec = {"task_id": "gen-g308-commission-report-reconciliation-audit", "verifiers": [
         exists("findings_exists", "commission_findings.csv", "The findings sheet is delivered."),
@@ -290,7 +302,7 @@ def main() -> int:
     text = json.dumps(spec, indent=2) + "\n"
     (TESTS / "verifier.json").write_text(text, encoding="utf-8")
     (TESTS / "manifest.json").write_text(text, encoding="utf-8")
-    print(f"\nmemo must contain: {memo_values}")
+    print(f"\nmemo must contain ({len(memo_values)} values): {memo_values}")
     print(f"wrote {FILES}, golden_trajectory.json, verifier.json + manifest.json (identical)")
     return 0
 

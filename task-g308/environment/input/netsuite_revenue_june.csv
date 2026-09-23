@@ -18,7 +18,7 @@ P-1016,2026-06-19,DEAL-18,CUST-02,"$20,000.00",June invoice part 1
 P-1017,2026-06-24,DEAL-18,CUST-02,"$13,000.00",June invoice part 2
 P-1018,2026-06-20,deal-19,CUST-08,"$21,000.00",June invoice
 P-1019,2026-06-20,DEAL-20,CUST-01,"$47,000.00",June invoice
-P-1019,2026-06-20,DEAL-20,CUST-01,"$47,000.00",June invoice
+P-1019,2026-06-20,DEAL-20,CUST-01,"$47,000.00",June invoice (row repeated by export page overlap)
 P-1020,2026-05-30,DEAL-21,CUST-13,"$19,500.00",May invoice
 P-1021,2026-06-23,DEAL-22,CUST-09,"$52,000.00",June invoice
 P-1032,2026-06-23,DEAL-22,CUST-09,"$52,000.00",June invoice

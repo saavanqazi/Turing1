@@ -243,10 +243,452 @@
       }
     },
     {
+      "name": "memo_names_deal_02",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-02' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-02 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-02",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_03",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-03' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-03 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-03",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_04",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-04' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-04 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-04",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_06",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-06' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-06 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-06",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_08",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-08' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-08 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-08",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_09",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-09' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-09 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-09",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_12",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-12' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-12 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-12",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_13",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-13' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-13 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-13",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_14",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-14' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-14 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-14",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_15",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-15' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-15 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-15",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_16",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-16' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-16 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-16",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_17",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-17' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-17 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-17",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_21",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-21' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-21 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-21",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_22",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-22' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-22 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-22",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_23",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-23' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-23 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-23",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_25",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-25' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-25 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-25",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_28",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-28' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-28 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-28",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
       "name": "memo_names_protected_deal_07",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains the value 'DEAL-07' (plain substring, no pattern; wording, order and layout are not graded).",
-        "why_justification": "The memo must name the line that is reported off the standard mapping yet compliant. Entailed by: \"separately name the line that is reported off the standard mapping yet is compliant, quoting the exception code that makes it so\"; that line is DEAL-07.",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-07' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 2: the line reported off the standard mapping yet compliant is DEAL-07.",
         "tag": "core"
       },
       "source": {
@@ -271,8 +713,8 @@
     {
       "name": "memo_quotes_exc_vp_02",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains the value 'EXC-VP-02' (plain substring, no pattern; wording, order and layout are not graded).",
-        "why_justification": "The memo must quote the exception code that protects that line (EXC-VP-02). Same contract sentence.",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'EXC-VP-02' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 2: the exception code that protects that line is EXC-VP-02.",
         "tag": "core"
       },
       "source": {
@@ -295,10 +737,10 @@
       }
     },
     {
-      "name": "memo_explains_duplicate_line",
+      "name": "memo_evidence_deal_10",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains the value 'DUPLICATE_LINE' (plain substring, no pattern; wording, order and layout are not graded).",
-        "why_justification": "The memo must explain every flagged line with the rule behind it; 6 line(s) carry DUPLICATE_LINE, so the memo names that finding. Entailed by: \"It must name every flagged line by its deal_id with the rule behind the finding\".",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-10' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 3: deal id of a within-tolerance line behind a compliant line that looks wrong (DEAL-10).",
         "tag": "core"
       },
       "source": {
@@ -313,7 +755,7 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "DUPLICATE_LINE",
+        "expected": "DEAL-10",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -321,10 +763,10 @@
       }
     },
     {
-      "name": "memo_explains_unmatched_to_ledger",
+      "name": "memo_evidence_deal_31",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains the value 'UNMATCHED_TO_LEDGER' (plain substring, no pattern; wording, order and layout are not graded).",
-        "why_justification": "The memo must explain every flagged line with the rule behind it; 6 line(s) carry UNMATCHED_TO_LEDGER, so the memo names that finding. Entailed by: \"It must name every flagged line by its deal_id with the rule behind the finding\".",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-31' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 3: deal id of a within-tolerance line behind a compliant line that looks wrong (DEAL-31).",
         "tag": "core"
       },
       "source": {
@@ -339,7 +781,7 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "UNMATCHED_TO_LEDGER",
+        "expected": "DEAL-31",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -347,10 +789,10 @@
       }
     },
     {
-      "name": "memo_explains_rate_mismatch",
+      "name": "memo_evidence_p_1019",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains the value 'RATE_MISMATCH' (plain substring, no pattern; wording, order and layout are not graded).",
-        "why_justification": "The memo must explain every flagged line with the rule behind it; 8 line(s) carry RATE_MISMATCH, so the memo names that finding. Entailed by: \"It must name every flagged line by its deal_id with the rule behind the finding\".",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'P-1019' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 3: posting id of a repeated, reversed or re-posted ledger row behind a compliant line that looks wrong (P-1019).",
         "tag": "core"
       },
       "source": {
@@ -365,7 +807,85 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "RATE_MISMATCH",
+        "expected": "P-1019",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_evidence_p_1026",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'P-1026' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 3: posting id of a repeated, reversed or re-posted ledger row behind a compliant line that looks wrong (P-1026).",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "P-1026",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_evidence_p_1027",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'P-1027' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 3: posting id of a repeated, reversed or re-posted ledger row behind a compliant line that looks wrong (P-1027).",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "P-1027",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_evidence_p_1031",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'P-1031' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 3: posting id of a repeated, reversed or re-posted ledger row behind a compliant line that looks wrong (P-1031).",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "P-1031",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
