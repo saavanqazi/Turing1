@@ -1,0 +1,17 @@
+customer_id,customer_name,account_class,first_invoice_date
+CUST-01,Halden Foods,standard,2025-09-14
+CUST-02,Pinemoor Logistics,standard,2023-02-01
+CUST-03,Orrin Health,standard,2025-07-01
+CUST-04,Tessaly Retail,standard,2025-06-30
+CUST-05,Kestrel Internal Ops,house,2019-01-10
+CUST-06,Brightwater Media,standard,2025-11-03
+CUST-07,Corvid Manufacturing,standard,2021-05-20
+CUST-08,Lumen Dental Group,standard,2024-12-12
+CUST-09,Ashgrove Schools,standard,2026-01-20
+CUST-10,Northfield Energy,standard,2022-08-08
+CUST-11,Vantage Labs,house,2020-03-03
+CUST-12,Redcliff Marine,standard,2025-08-19
+CUST-13,Sable & Finch LLP,standard,2024-04-01
+CUST-14,Ironbridge Civil,standard,2026-03-05
+CUST-15,Meadowlark Clinics,standard,2023-10-10
+CUST-16,Quarry Hill Farms,standard,2025-12-01

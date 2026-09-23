@@ -1,0 +1,31 @@
+posting_id,posting_date,deal_ref,customer_id,amount_usd,memo
+P-1001,2026-06-03,DEAL-01,CUST-01,"$50,000.00",June invoice
+P-1002,2026-06-04,DEAL-02,CUST-02,"$30,000.00",June invoice
+P-1003,2026-06-05,DEAL-03,CUST-03,"$40,000.00",June invoice
+P-1004,2026-06-06,DEAL-04,CUST-04,"$20,000.00",June invoice
+P-1005,2026-06-09,DEAL-06,CUST-06,"$60,000.00",June invoice
+P-1006,2026-06-10,DEAL-07,CUST-07,"$35,000.00",June invoice
+P-1007,2026-07-01,DEAL-08,CUST-08,"$22,000.00",July invoice
+P-1008,2026-06-11,DEAL-09,CUST-09,"$48,000.00",June invoice
+P-1009,2026-06-18,DEAL-09,CUST-09,"-$48,000.00",reversal of P-1008 - invoice cancelled
+P-1010,2026-06-12,DEAL-10,CUST-10,"$27,400.00",June invoice net of freight credit
+P-1011,2026-06-13,DEAL-12,CUST-12,"$29,800.00",June invoice
+P-1012,2026-06-13,DEAL-13,CUST-13,"$18,000.00",June invoice
+P-1013,2026-06-16,DEAL-14,CUST-14,"$55,000.00",June invoice
+P-1014,2026-06-16,DEAL-15,CUST-15,"$26,000.00",June invoice
+P-1015,2026-06-17,DEAL-16,CUST-16,"$42,000.00",June invoice
+P-1016,2026-06-19,DEAL-18,CUST-02,"$20,000.00",June invoice part 1
+P-1017,2026-06-24,DEAL-18,CUST-02,"$13,000.00",June invoice part 2
+P-1018,2026-06-20,deal-19,CUST-08,"$21,000.00",June invoice
+P-1019,2026-06-20,DEAL-20,CUST-01,"$47,000.00",June invoice
+P-1020,2026-05-30,DEAL-21,CUST-13,"$19,500.00",May invoice
+P-1021,2026-06-23,DEAL-22,CUST-09,"$52,000.00",June invoice
+P-1022,2026-06-25,DEAL-24,CUST-12,"$36,000.00",June invoice
+P-1023,2026-06-25,DEAL-25,CUST-15,"$24,000.00",June invoice
+P-1024,2026-06-26,DEAL-26,CUST-16,"$41,000.00",June invoice
+P-1025,2026-06-27,DEAL-27,CUST-07,"$28,000.00",June invoice
+P-1026,2026-06-27,DEAL-27,CUST-07,"-$28,000.00",reversal of P-1025 - wrong entity
+P-1027,2026-06-28,DEAL-27,CUST-07,"$28,000.00",June invoice re-posted
+P-1028,2026-06-29,DEAL-28,CUST-10,"$30,000.00",June invoice
+P-1029,2026-06-30,DEAL-29,CUST-03,"$45,000.00",June invoice
+P-1030,2026-06-15,DEAL-30,CUST-06,"$12,500.00",June invoice - not on any partner report

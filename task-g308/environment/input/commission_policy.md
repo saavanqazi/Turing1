@@ -1,10 +1,19 @@
 # Commission recognition policy (COMM-POL-6)
 
-Binding for the June 2026 commission run once the partner reports and the NetSuite ledger
-extract are consolidated into one line list. Where a partner report and this policy
-disagree, this policy wins.
+Binding for the June 2026 commission run, whose run date is 30 June 2026, once the partner
+reports are consolidated into one line list (`commission_lines.csv`). Where a partner report
+and this policy disagree, this policy wins. Where a partner report and the customer master
+or the NetSuite ledger disagree on a fact, the master and the ledger win.
 
-## R1 — Standard rate by end-user type
+## R1 — End-user type and standard rate
+
+The end-user type of a line is determined from `customer_master.csv`, not from the type the
+partner wrote on its report:
+
+- `house` if the customer's `account_class` is `house`;
+- otherwise `new` if the customer's `first_invoice_date` is on or after 1 July 2025 (within
+  the twelve months ending on the run date);
+- otherwise `renewal`.
 
 | end-user type | standard rate |
 |---|---|
@@ -12,28 +21,47 @@ disagree, this policy wins.
 | renewal | 4% |
 | house | 0% |
 
-A line whose reported rate does not match the standard rate for its end-user type is a
-`RATE_MISMATCH`.
+A line whose `reported_rate_pct` does not equal the rate the policy pays for that line (the
+standard rate for its end-user type, or an approved rate under R4) is a `RATE_MISMATCH`.
 
 ## R2 — Ledger match
 
-Every commissionable line (standard or approved rate above 0%) must be matched to a June
-NetSuite revenue record before it is paid. A commissionable line with no ledger match is
-`UNMATCHED_TO_LEDGER`.
+A line is **commissionable** when the rate the policy pays for it is above 0%. Every
+commissionable line must be matched to June revenue in `netsuite_revenue_june.csv` before it
+is paid. A line is matched when the ledger's **net June revenue** for its deal, the sum of
+`amount_usd` over every posting for that deal whose `posting_date` falls in June 2026
+(reversals are negative postings and count), is within 1% of the line's `revenue_usd`.
+Postings dated outside June 2026 do not count. A commissionable line that is not matched is
+`UNMATCHED_TO_LEDGER`. A line that is not commissionable needs no ledger match.
 
 ## R3 — Duplicate lines
 
-The same `deal_id` must not appear in more than one source report. A deal that does is a
-`DUPLICATE_LINE` on every occurrence.
+A deal may be claimed once in the consolidated list. A deal that appears on more than one
+line, whether in different partner reports or twice in the same report, is a
+`DUPLICATE_LINE` on every one of those lines.
 
 ## R4 — VP-approved rate overrides
 
-A deal named in the commission exceptions register with `status = active` is paid at the
-register's approved rate instead of the standard rate for its end-user type. A line at the
-approved rate is compliant even though it disagrees with the standard mapping, and flagging
-it as a rate mismatch is the commonest false positive in this audit.
+`commission_exceptions.csv` lists rate overrides. An override applies to a deal only when
+its `status` is `active` and the run date falls within `effective_from` to `effective_to`
+inclusive. A register row that fails either test grants nothing, whatever it says. When an
+override applies, the rate the policy pays for that deal is the `approved_rate_pct`
+instead of the standard rate, and the line is commissionable if that rate is above 0%.
+A line reported at an applicable approved rate is compliant even though it disagrees with
+the standard mapping; flagging it is the commonest false positive in this audit.
+
+## R5 — One finding per line
+
+A line may fail more than one rule. Report the first that applies, in this order:
+`DUPLICATE_LINE`, `UNMATCHED_TO_LEDGER`, `RATE_MISMATCH`. A line that fails none is
+compliant.
+
+## R6 — Identifiers and amounts as exported
+
+Deal, customer and posting identifiers are matched without regard to case. Ledger amounts
+are exported as the accounting system prints them (currency symbol, thousands separators,
+a leading minus for reversals) and are to be read as the numbers they denote.
 
 ## Finding codes
 
-`RATE_MISMATCH`, `UNMATCHED_TO_LEDGER`, `DUPLICATE_LINE`. A line with none of these is
-compliant.
+`RATE_MISMATCH`, `UNMATCHED_TO_LEDGER`, `DUPLICATE_LINE`.

@@ -2,13 +2,14 @@
 # collect_runs.sh — copy four GLM trial folders into task/evaluations/difficulty/r1..r4,
 # put the first passing one into solvability/r1, and annotate result.json.
 #
-# Usage:  tools/collect_runs.sh /tmp/harbor-jobs/<glm-job-dir>
+# Usage:  [TASK_DIR=task-g308] tools/collect_runs.sh <job-dir-with-the-4-trials>
 # Run from the repo root after the four-run battery is finished.
 set -euo pipefail
 
 JOB_DIR="${1:?usage: tools/collect_runs.sh /tmp/harbor-jobs/<job>}"
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-EVAL="$REPO/task/evaluations"
+TASK_DIR="${TASK_DIR:-task}"
+EVAL="$REPO/$TASK_DIR/evaluations"
 
 rm -rf "$EVAL"
 mkdir -p "$EVAL/difficulty" "$EVAL/solvability"

@@ -1,2 +1,7 @@
-exception_code,deal_id,approved_rate_pct,status
-EXC-VP-02,DEAL-07,6,active
+exception_code,deal_id,approved_rate_pct,status,effective_from,effective_to
+EXC-VP-01,DEAL-02,5,expired,2025-01-01,2025-12-31
+EXC-VP-02,DEAL-07,6,active,2026-04-01,2026-09-30
+EXC-VP-03,DEAL-15,5,active,2026-01-01,2026-05-31
+EXC-VP-04,DEAL-17,2,active,2026-06-01,2026-12-31
+EXC-VP-05,DEAL-13,6,pending,2026-06-01,2026-12-31
+EXC-VP-06,DEAL-28,5,active,2026-05-01,2026-10-31
