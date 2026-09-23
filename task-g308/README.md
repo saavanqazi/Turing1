@@ -49,6 +49,27 @@ second source* rather than read off the line, and the data has the shapes real e
 6. **House lines at 0% are not commissionable**, so their missing ledger postings are not
    findings (L-05, L-12), while a house line reported at 4% is a rate mismatch (L-25).
 
+Round 1 result: 32 lines, 6 `RATE_MISMATCH`, 5 `UNMATCHED_TO_LEDGER`, 6 `DUPLICATE_LINE`,
+15 compliant. GLM-5.2 passed 8/8 locally (harbor job glm-g308-r1): every explicit rule,
+however derived, was coded correctly.
+
+**Round 2 (current).** The gold answer is unchanged; the data stops matching the assumptions
+a rule-to-code script makes, and R6 says in one sentence how such values compare. Each is
+silent: no error, a different answer.
+
+7. **A repeated posting row.** The NetSuite extract lists P-1019 twice, identically.
+   `posting_id` identifies a posting; a script that sums rows doubles DEAL-20's June revenue
+   and turns compliant L-22 into `UNMATCHED_TO_LEDGER`.
+8. **A July reversal of a June invoice.** P-1031 (2026-07-02) reverses DEAL-26's June
+   posting. Only June postings count, so L-29 stays matched; a script that nets reversals
+   regardless of date flags it.
+9. **Numbers written differently.** PartnerD writes rates as `4.0`, `8.0`, `2.0`; the
+   register approves `6.0` for DEAL-07. A string comparison against `4`, `8`, `6` flags
+   every PartnerD line and the protected DEAL-07.
+10. **Case in coded values.** `deal-28` in the register, `cust-09` on a line, `House` in the
+    master. Exact-string joins drop the DEAL-28 override (harmless there), fail the L-24
+    master lookup and make CUST-11 a renewal, which flags L-12 at 0%.
+
 Result: 32 lines, 6 `RATE_MISMATCH`, 5 `UNMATCHED_TO_LEDGER`, 6 `DUPLICATE_LINE`,
 15 compliant.
 
@@ -71,17 +92,19 @@ No column answers a rule on its own. The rate test needs the master and the regi
 its status and window; the ledger test needs a case-insensitive join, currency parsing, a
 June date filter and a net sum with a tolerance; the duplicate test needs a case-insensitive
 count across the whole list; and every line then takes exactly one code by precedence.
-Ten shortcuts (trusting the partner type, flagging DEAL-07, applying a pending or
+Sixteen shortcuts (trusting the partner type, flagging DEAL-07, applying a pending or
 out-of-window override, case-sensitive joins on either file, gross instead of net revenue,
 a reversal read as a failure, wrong precedence, flagging house lines for missing ledger
-postings) were replayed against the verifier and each scores 0.0.
+postings, double-counting a repeated posting row, netting a July reversal into June, comparing
+rates as strings, case-sensitive matching of a register deal, a line's customer or an account
+class) were replayed against the verifier and each scores 0.0.
 
 ## Scoring shape
 
 All checks are core, so a run scores exactly 1.0 or 0.0; the difficulty signal is the pass
 count.
 
-**Final battery:** [to be filled from harbor job glm-g308-r1].
+**Final battery:** [to be filled from harbor job glm-g308-r2].
 
 ## QC flags left as-is
 

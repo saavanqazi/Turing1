@@ -58,9 +58,11 @@ compliant.
 
 ## R6 — Identifiers and amounts as exported
 
-Deal, customer and posting identifiers are matched without regard to case. Ledger amounts
-are exported as the accounting system prints them (currency symbol, thousands separators,
-a leading minus for reversals) and are to be read as the numbers they denote.
+Identifiers and coded values (deal, customer and posting identifiers, account classes,
+statuses) are matched without regard to case. Rates and amounts are numbers however a
+report prints them: `6`, `6.0` and `$6.00` denote the same value, and ledger amounts carry
+the accounting system's currency symbol, thousands separators and a leading minus for
+reversals. `posting_id` identifies a ledger posting.
 
 ## Finding codes
 

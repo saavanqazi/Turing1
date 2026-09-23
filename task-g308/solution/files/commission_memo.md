@@ -28,8 +28,9 @@
 
 - **L-02 DEAL-02 (PartnerA)** — register row EXC-VP-01 names this deal but is expired, so it grants nothing and the standard 4% applies, which is what was reported.
 - **L-05 DEAL-05 (PartnerC)** — a house line at 0% is not commissionable, so the absence of a June ledger posting is not a finding.
-- **L-08 DEAL-07 (PartnerB)** — reported 6% against a standard 4% for a renewal line, but override EXC-VP-02 (active, in force on the run date) approves 6%.
+- **L-08 DEAL-07 (PartnerB)** — reported 6% against a standard 4% for a renewal line, but override EXC-VP-02 (active, in force on the run date) approves 6.0%.
 - **L-11 DEAL-10 (PartnerA)** — the ledger's net June postings for DEAL-10 total 27,400.00 against revenue 27,500.00, inside the 1% match tolerance.
 - **L-12 DEAL-11 (PartnerB)** — a house line at 0% is not commissionable, so the absence of a June ledger posting is not a finding.
 - **L-14 DEAL-13 (PartnerD)** — register row EXC-VP-05 names this deal but is pending, so it grants nothing and the standard 4% applies, which is what was reported.
+- **L-29 DEAL-26 (PartnerA)** — the ledger carries a reversal for DEAL-26 but the re-posting brings net June revenue back to 41,000.00, which matches.
 - **L-30 DEAL-27 (PartnerB)** — the ledger carries a reversal for DEAL-27 but the re-posting brings net June revenue back to 28,000.00, which matches.

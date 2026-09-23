@@ -50,22 +50,27 @@ def main() -> int:
     # R1: end-user type from the master
     def end_user_type(cust_id: str) -> str:
         m = master[cust_id.upper()]
-        if m["account_class"] == "house":
+        if m["account_class"].strip().lower() == "house":
             return "house"
         return "new" if date.fromisoformat(m["first_invoice_date"]) >= NEW_CUTOFF else "renewal"
 
     # R4: applicable overrides
     approved: dict[str, tuple[str, Decimal]] = {}
     for e in exceptions:
-        if e["status"] != "active":
+        if e["status"].strip().lower() != "active":
             continue
         if not (date.fromisoformat(e["effective_from"]) <= RUN_DATE <= date.fromisoformat(e["effective_to"])):
             continue
         approved[e["deal_id"].upper()] = (e["exception_code"], Decimal(e["approved_rate_pct"]))
 
-    # R2: net June revenue per deal (case-insensitive)
+    # R2: net June revenue per deal (case-insensitive); posting_id identifies a posting, so a
+    # repeated export row counts once
     net: dict[str, Decimal] = {}
+    seen_postings: set[str] = set()
     for p in ledger:
+        if p["posting_id"].upper() in seen_postings:
+            continue
+        seen_postings.add(p["posting_id"].upper())
         d = date.fromisoformat(p["posting_date"])
         if JUNE[0] <= d <= JUNE[1]:
             key = p["deal_ref"].upper()
