@@ -199,7 +199,7 @@ findings, addressed in round 5:
   same way. Marked as a false positive with that note.
 
 **PreQC round 1 fixes.** The first Gate run flagged the memo's lookahead regex as
-reward-hackable (replaced by the five substring checks above), the solvability run being a
+reward-hackable (replaced by substring checks, widened to one per fact in round 5), the solvability run being a
 byte copy of a difficulty run (now an independent held-out run), and job names of the form
 job-name suffixes in the review being misread as rollout scores (reworded).
 
