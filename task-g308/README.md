@@ -191,7 +191,37 @@ covered by a stated contract and self-evident in the file, punish a row-per-inpu
 Both shortcuts were replayed against the verifier and score 0.0 (row-per-line counts; the
 repeated row read as a duplicate claim; the parenthesised reversal read as positive).
 
-**Round-6 battery:** [to be filled from the round-6 GLM job].
+**Round-6 battery (terminus-2, GLM-5.2, 8 runs): oracle 1.0; 4 passed, 3 failed, 1 agent
+timeout.** Not shipped. Every run noticed the repeated L-21 row; the three failures then argued
+that R6 fixes a key for the ledger but not for the line list, read "twice in the same report" as
+covering an identical repeated row, and flagged DEAL-19 as a duplicate claim on two rows. The
+four passes weighed the same two readings and chose the other. A shape that splits careful
+readers is a contested rule, the finding the platform raised on round 4, so round 6 is treated
+as a measurement of ambiguity, not of difficulty. The parenthesised negatives caught nobody.
+
+**Round 7 (current).** The contested reading is closed and the difficulty moves to a place
+where a rule-by-rule script fails without noticing anything:
+
+1. **The line key is stated.** R6 now says `line_id` is the consolidated list's key in the same
+   way as `posting_id`: rows that share a `line_id` are one line. The repeated L-21 row stays
+   as realism.
+2. **A wrong-entity reversal re-posted to a different customer.** DEAL-27's June invoice P-1025
+   was posted to CUST-07 (Corvid Manufacturing, a renewal customer), reversed by P-1026 as a
+   wrong entity, and re-posted by P-1027 to CUST-18 (Corvid Manufacturing (UK) Ltd, first
+   invoiced in June 2026, so `new`). R1 says the ledger's customer governs and that a posting
+   that a later posting reverses, and the reversal, record nothing for this purpose. The
+   customer of L-30 is therefore CUST-18, the standard rate is 8%, and the reported 4% is a
+   `RATE_MISMATCH`. A script that takes the customer of the deal's first ledger row keeps
+   CUST-07 and passes L-30 as compliant; the net is 28,000 either way, so nothing else warns
+   it. The memo explains the chain.
+3. **Agent timeout raised** from 30 to 60 minutes in `task.toml`; one round-6 run hit the limit
+   while still reading the inputs. Grading is unaffected.
+
+Gold: 35 lines, 9 rate mismatches, 6 unmatched, 6 duplicates, 14 compliant. Replayed shortcuts,
+each 0.0: first-seen ledger customer for DEAL-27; a row per input line (36 lines); the repeated
+row read as a duplicate claim.
+
+**Round-7 battery:** [to be filled from the round-7 GLM job].
 
 **Evidence format note.** This harbor build writes `verifier/reward.txt` and
 `verifier/score.json`; the bundle's `verifier/reward.json` and `verifier/verifier_summary.json`

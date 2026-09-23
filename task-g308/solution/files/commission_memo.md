@@ -1,6 +1,6 @@
 # June 2026 commission reconciliation — 35 consolidated lines
 
-35 lines from four partner reports checked against COMM-POL-6 on the run date 30 June 2026. 15 lines are compliant; 20 carry a finding (6 duplicate, 6 unmatched to the ledger, 8 rate mismatches). One finding per line under R5 precedence.
+35 lines from four partner reports checked against COMM-POL-6 on the run date 30 June 2026. 14 lines are compliant; 21 carry a finding (6 duplicate, 6 unmatched to the ledger, 9 rate mismatches). One finding per line under R5 precedence.
 
 ## Findings
 
@@ -25,6 +25,7 @@
 | L-25 | DEAL-23 | PartnerB | RATE_MISMATCH | reported 4%; master makes it house (partner said house), standard 0% (R1/R4) |
 | L-27 | DEAL-25 | PartnerD | DUPLICATE_LINE | DEAL-25 is claimed on more than one line (R3) |
 | L-28 | DEAL-25 | PartnerD | DUPLICATE_LINE | DEAL-25 is claimed on more than one line (R3) |
+| L-30 | DEAL-27 | PartnerB | RATE_MISMATCH | reported 4%; NetSuite bills the deal to CUST-18, a new customer per the master (partner said renewal), standard 8% - the posting to the partner's customer was reversed as a wrong entity and re-posted (R1/R4) |
 | L-31 | DEAL-28 | PartnerC | RATE_MISMATCH | reported 6%; override EXC-VP-06 approves 5% (R1/R4) |
 
 ## Lines that look wrong but are compliant
@@ -37,7 +38,6 @@
 - **L-22 DEAL-20 (PartnerC)** — the extract repeats posting P-1019 for DEAL-20; it is one posting, so net June revenue is 47,000.00, which matches.
 - **L-26 DEAL-24 (PartnerC)** — the partner attributes the deal to CUST-12 but NetSuite bills it to CUST-14; both are new customers so the reported 8% stands.
 - **L-29 DEAL-26 (PartnerA)** — the ledger carries a reversal for DEAL-26 (P-1031) but the net June revenue is still 41,000.00, which matches.
-- **L-30 DEAL-27 (PartnerB)** — the ledger carries a reversal for DEAL-27 (P-1026, P-1027) but the net June revenue is still 28,000.00, which matches.
 - **L-33 DEAL-30 (PartnerA)** — DEAL-30 is claimed by PartnerA and PartnerB, but the co-sell register carries an active 60/40 split naming exactly those partners, so the two lines are not duplicates and each matches its share of the 12,500.00 net.
 - **L-34 DEAL-30 (PartnerB)** — DEAL-30 is claimed by PartnerA and PartnerB, but the co-sell register carries an active 60/40 split naming exactly those partners, so the two lines are not duplicates and each matches its share of the 12,500.00 net.
 - **L-35 DEAL-31 (PartnerC)** — the ledger's net June postings for DEAL-31 total 19,800.00 against revenue 20,000.00, inside the 1% match tolerance.

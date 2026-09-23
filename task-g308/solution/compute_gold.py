@@ -76,6 +76,7 @@ def main() -> int:
     # repeated export row counts once. R1: the ledger's customer for the deal governs.
     net: dict[str, Decimal] = {}
     ledger_customer: dict[str, str] = {}
+    june_postings: dict[str, list[dict]] = {}
     seen_postings: set[str] = set()
     repeated_ids: dict[str, list[str]] = {}
     evidence_values: list[str] = []
@@ -88,7 +89,22 @@ def main() -> int:
         if JUNE[0] <= d <= JUNE[1]:
             key = p["deal_ref"].upper()
             net[key] = net.get(key, Decimal(0)) + money(p["amount_usd"])
-            ledger_customer.setdefault(key, p["customer_id"].upper())
+            june_postings.setdefault(key, []).append(p)
+
+    # R1: the ledger's customer for a deal, disregarding a posting and the reversal that cancels
+    # it (a later posting of the opposite amount). Whatever remains names the customer.
+    for key, ps in june_postings.items():
+        cancelled: set[str] = set()
+        for i, later in enumerate(ps):
+            amt = money(later["amount_usd"])
+            if amt >= 0:
+                continue
+            for earlier in ps[:i]:
+                if earlier["posting_id"] not in cancelled and money(earlier["amount_usd"]) == -amt:
+                    cancelled.update({earlier["posting_id"], later["posting_id"]})
+                    break
+        live = [p for p in ps if p["posting_id"] not in cancelled] or ps
+        ledger_customer[key] = live[0]["customer_id"].upper()
 
     # R3: registered co-sells
     cosell: dict[str, list[dict]] = {}
@@ -147,7 +163,8 @@ def main() -> int:
                              "source_report": ln["source_report"], "finding_code": code,
                              "_etype": etype, "_pays": pays, "_reported": reported, "_exc": exc,
                              "_net": june_net, "_rev": revenue, "_partner_type": ln["partner_customer_type"],
-                             "_cust": cust, "_line_cust": ln["customer_id"].upper()})
+                             "_cust": cust, "_line_cust": ln["customer_id"].upper(),
+                             "_reversed": any(money(p["amount_usd"]) < 0 for p in june_postings.get(deal, []))})
         else:
             # lines that look wrong but are compliant, for the memo
             if split:
@@ -215,6 +232,7 @@ def main() -> int:
         else:
             src = f"override {f['_exc'][0]} approves {f['_exc'][1]}%" if f["_exc"] else \
                   (f"NetSuite bills the deal to {f['_cust']}, a {f['_etype']} customer per the master (partner said {f['_partner_type']}), standard {f['_pays']}%"
+                   + (" - the posting to the partner's customer was reversed as a wrong entity and re-posted" if f["_reversed"] else "")
                    if f["_cust"] != f["_line_cust"] else
                    f"master makes it {f['_etype']} (partner said {f['_partner_type']}), standard {f['_pays']}%")
             why = f"reported {f['_reported']}%; {src} (R1/R4)"

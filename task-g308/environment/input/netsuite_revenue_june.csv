@@ -28,7 +28,7 @@ P-1024,2026-06-26,DEAL-26,CUST-16,"$41,000.00",June invoice
 P-1031,2026-07-02,DEAL-26,CUST-16,"($41,000.00)",reversal of P-1024 - credit note issued July
 P-1025,2026-06-27,DEAL-27,CUST-07,"$28,000.00",June invoice
 P-1026,2026-06-27,DEAL-27,CUST-07,"($28,000.00)",reversal of P-1025 - wrong entity
-P-1027,2026-06-28,DEAL-27,CUST-07,"$28,000.00",June invoice re-posted
+P-1027,2026-06-28,DEAL-27,CUST-18,"$28,000.00",June invoice re-posted to the correct entity (Corvid Manufacturing (UK) Ltd)
 P-1028,2026-06-29,DEAL-28,CUST-10,"$30,000.00",June invoice
 P-1029,2026-06-30,DEAL-29,CUST-03,"$45,000.00",June invoice
 P-1030,2026-06-15,DEAL-30,CUST-06,"$12,500.00",June invoice - not on any partner report

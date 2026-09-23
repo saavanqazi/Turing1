@@ -56,7 +56,7 @@
     {
       "name": "findings_table",
       "metadata": {
-        "how_justification": "Parses commission_findings.csv with csv.read_rows and applies table_equals: every graded cell of the 20 flagged lines plus the population as a row_set lock (a compliant line listed, a flagged line missing, or a duplicated id fails), columns closed to the stated header, id-typed cells normalised on both sides.",
+        "how_justification": "Parses commission_findings.csv with csv.read_rows and applies table_equals: every graded cell of the 21 flagged lines plus the population as a row_set lock (a compliant line listed, a flagged line missing, or a duplicated id fails), columns closed to the stated header, id-typed cells normalised on both sides.",
         "why_justification": "Every flagged line's deal, source and single precedence-assigned finding are graded, so a trusted partner type, a case-sensitive or gross ledger join, an out-of-window or pending override applied, or a duplicate missed shows on the lines it moves. Entailed by: \"One row per flagged line, keyed by `line_id` ... `finding_code` is the single finding the policy's precedence rule assigns to the line\"",
         "tag": "core"
       },
@@ -170,6 +170,11 @@
               "source_report": "PartnerD",
               "finding_code": "DUPLICATE_LINE"
             },
+            "L-30": {
+              "deal_id": "DEAL-27",
+              "source_report": "PartnerB",
+              "finding_code": "RATE_MISMATCH"
+            },
             "L-31": {
               "deal_id": "DEAL-28",
               "source_report": "PartnerC",
@@ -196,6 +201,7 @@
             "L-25",
             "L-27",
             "L-28",
+            "L-30",
             "L-31"
           ],
           "columns": [
@@ -659,6 +665,32 @@
       }
     },
     {
+      "name": "memo_names_deal_27",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-27' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-27 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-27",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
       "name": "memo_names_deal_28",
       "metadata": {
         "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-28' (plain substring; wording, order and layout are not graded).",
@@ -815,58 +847,6 @@
       }
     },
     {
-      "name": "memo_evidence_p_1026",
-      "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'P-1026' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 3: posting id of a repeated, reversed or re-posted ledger row behind a compliant line that looks wrong (P-1026).",
-        "tag": "core"
-      },
-      "source": {
-        "type": "file",
-        "file": {
-          "type": "md",
-          "command": "extract_text",
-          "arguments": {
-            "path": "commission_memo.md"
-          }
-        }
-      },
-      "assertion": {
-        "type": "deterministic",
-        "expected": "P-1026",
-        "deterministic": {
-          "path": "$.text",
-          "comparison": "contains"
-        }
-      }
-    },
-    {
-      "name": "memo_evidence_p_1027",
-      "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'P-1027' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 3: posting id of a repeated, reversed or re-posted ledger row behind a compliant line that looks wrong (P-1027).",
-        "tag": "core"
-      },
-      "source": {
-        "type": "file",
-        "file": {
-          "type": "md",
-          "command": "extract_text",
-          "arguments": {
-            "path": "commission_memo.md"
-          }
-        }
-      },
-      "assertion": {
-        "type": "deterministic",
-        "expected": "P-1027",
-        "deterministic": {
-          "path": "$.text",
-          "comparison": "contains"
-        }
-      }
-    },
-    {
       "name": "memo_evidence_p_1031",
       "metadata": {
         "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'P-1031' (plain substring; wording, order and layout are not graded).",
@@ -944,7 +924,7 @@
               "tolerance": null
             },
             "rate_mismatch_count": {
-              "value": 8,
+              "value": 9,
               "tolerance": null
             },
             "unmatched_to_ledger_count": {
@@ -956,7 +936,7 @@
               "tolerance": null
             },
             "compliant_lines": {
-              "value": 15,
+              "value": 14,
               "tolerance": null
             }
           },

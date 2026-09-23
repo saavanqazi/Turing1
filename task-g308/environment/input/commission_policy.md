@@ -8,7 +8,8 @@ or the NetSuite ledger disagree on a fact, the master and the ledger win.
 ## R1 — End-user type and standard rate
 
 The customer of a line is the customer NetSuite records against the deal's June postings
-(`customer_id` in `netsuite_revenue_june.csv`); the partner's `customer_id` is used only
+(`customer_id` in `netsuite_revenue_june.csv`); a posting that a later posting reverses, and
+that reversal, record nothing for this purpose. The partner's `customer_id` is used only
 where the ledger carries no June posting for the deal. The end-user type of a line is then
 determined from `customer_master.csv` for that customer, not from the type the partner
 wrote on its report:
@@ -70,7 +71,8 @@ Identifiers and coded values are matched without regard to case. Rates and amoun
 read as the numbers they denote, however the system that printed them formats them.
 `posting_id` is the ledger's key: rows that share a `posting_id` are one posting, however
 many times the extract repeats them; postings with different ids are different postings
-even when every other field agrees.
+even when every other field agrees. `line_id` is the consolidated list's key in the same
+way: rows that share a `line_id` are one line.
 
 ## Finding codes
 
