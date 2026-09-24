@@ -221,7 +221,43 @@ Gold: 35 lines, 9 rate mismatches, 6 unmatched, 6 duplicates, 14 compliant. Repl
 each 0.0: first-seen ledger customer for DEAL-27; a row per input line (36 lines); the repeated
 row read as a duplicate claim.
 
-**Round-7 battery:** [to be filled from the round-7 GLM job].
+**Round-7 battery (terminus-2, GLM-5.2, 8 runs): 8 of 8; oracle 1.0.** Every run printed all
+five input files (about 35 rows each), read them row by row, saw the wrong-entity re-post and
+coded R1's reversed-pair sentence. At this size a careful reader checks every line by hand, so a
+stated rule is always applied. Not shipped.
+
+**Round 8 (current): a run-sized line list.** The rules, the 35 hand-built lines and their
+stories are unchanged; the consolidated list now carries 138 lines from the same four partner
+reports, 137 ledger postings and 58 customers, which is what a monthly commission run looks like
+and is too long to reconcile by eye. `tools/g308_extend_inputs.py` in the repository built the
+filler deterministically; deal and line ids were padded to three digits (DEAL-07 is now
+DEAL-007, L-30 is L-030) so that no graded id is a prefix of another. Among the filler, each
+of these shapes is ruled on by a sentence the policy already carries, and each flips at least
+one graded cell when a script skips the rule:
+
+1. an identical line-list row re-sent near the end of the file (L-109; R6 line key);
+2. an identical ledger row repeated 26 postings after its twin, unlabelled (P-1092; R6 posting
+   key);
+3. a second wrong-entity reversal and re-post, this time to a customer of the other type, with
+   the partner reporting the first entity's rate (DEAL-096, L-100; R1);
+4. a ledger row in lower case (`deal-102`, `cust-28`; R6);
+5. an override that expired the day before the run date (EXC-VP-08, DEAL-108; R4) and a valid
+   one (EXC-VP-09, DEAL-114);
+6. a co-sell register that names a partner who is not on the lines (DEAL-121; R3) and a valid
+   50/50 one (DEAL-131);
+7. a house customer claimed at 4% (DEAL-119) and one at 0% (DEAL-125); a `House` class value;
+8. plain cases: a July posting, a deal never posted, a net 0.6% short (inside tolerance,
+   DEAL-071), a net 3% short, a split posting, a plain double claim (DEAL-128), a renewal
+   customer tagged new at 8%.
+
+Gold: 138 lines, 14 rate mismatches, 9 unmatched, 10 duplicates, 105 compliant; 44 checks
+(6 structural, 38 memo facts). Six shortcut solvers were built by removing one rule each from
+the generator and replayed against the verifier, every one 0.0: no line dedup (140 lines, L-021
+and L-109 doubled), no posting dedup (L-022 and L-094 unmatched), first-row customer (L-030 and
+L-100 passed), case-sensitive ledger join (L-021 and L-106 unmatched), sign stripped from
+parenthesised amounts (L-030, L-100 unmatched), override window ignored (L-017, L-112 passed).
+
+**Round-8 battery:** [to be filled from the round-8 GLM job].
 
 **Evidence format note.** This harbor build writes `verifier/reward.txt` and
 `verifier/score.json`; the bundle's `verifier/reward.json` and `verifier/verifier_summary.json`

@@ -18,7 +18,7 @@ Example (placeholder values):
 
 ```
 line_id,deal_id,source_report,finding_code
-L-00,DEAL-00,PartnerX,RATE_MISMATCH
+L-000,DEAL-000,PartnerX,RATE_MISMATCH
 ```
 
 ## `commission_memo.md`
@@ -26,7 +26,7 @@ L-00,DEAL-00,PartnerX,RATE_MISMATCH
 Markdown, wording free. It must:
 
 1. name every flagged line by its `deal_id`, with the rule behind the finding;
-2. name the line that is reported off the standard mapping yet is compliant, quoting the
+2. name every line that is reported off the standard mapping yet is compliant, quoting the
    exception code that makes it so;
 3. name every commissionable line that is compliant although its June ledger evidence
    looks wrong: a repeated export row, a reversal (with or without a re-posting), or a net

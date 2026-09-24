@@ -1,7 +1,11 @@
 deal_id,partner,share_pct,status
-DEAL-30,PartnerA,60,active
-DEAL-30,PartnerB,40,active
-DEAL-06,PartnerA,50,proposed
-DEAL-06,PartnerC,50,proposed
-DEAL-25,PartnerD,50,active
-DEAL-25,PartnerB,50,active
+DEAL-030,PartnerA,60,active
+DEAL-030,PartnerB,40,active
+DEAL-006,PartnerA,50,proposed
+DEAL-006,PartnerC,50,proposed
+DEAL-025,PartnerD,50,active
+DEAL-025,PartnerB,50,active
+DEAL-121,PartnerB,60,active
+DEAL-121,PartnerC,40,active
+DEAL-131,PartnerA,50,active
+DEAL-131,PartnerD,50,active

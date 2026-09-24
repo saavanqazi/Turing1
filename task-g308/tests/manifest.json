@@ -56,7 +56,7 @@
     {
       "name": "findings_table",
       "metadata": {
-        "how_justification": "Parses commission_findings.csv with csv.read_rows and applies table_equals: every graded cell of the 21 flagged lines plus the population as a row_set lock (a compliant line listed, a flagged line missing, or a duplicated id fails), columns closed to the stated header, id-typed cells normalised on both sides.",
+        "how_justification": "Parses commission_findings.csv with csv.read_rows and applies table_equals: every graded cell of the 33 flagged lines plus the population as a row_set lock (a compliant line listed, a flagged line missing, or a duplicated id fails), columns closed to the stated header, id-typed cells normalised on both sides.",
         "why_justification": "Every flagged line's deal, source and single precedence-assigned finding are graded, so a trusted partner type, a case-sensitive or gross ledger join, an out-of-window or pending override applied, or a duplicate missed shows on the lines it moves. Entailed by: \"One row per flagged line, keyed by `line_id` ... `finding_code` is the single finding the policy's precedence rule assigns to the line\"",
         "tag": "core"
       },
@@ -75,134 +75,206 @@
         "expected": {
           "id_column": "line_id",
           "rows": {
-            "L-02": {
-              "deal_id": "DEAL-02",
+            "L-002": {
+              "deal_id": "DEAL-002",
               "source_report": "PartnerA",
               "finding_code": "RATE_MISMATCH"
             },
-            "L-03": {
-              "deal_id": "DEAL-03",
+            "L-003": {
+              "deal_id": "DEAL-003",
               "source_report": "PartnerB",
               "finding_code": "RATE_MISMATCH"
             },
-            "L-04": {
-              "deal_id": "DEAL-04",
+            "L-004": {
+              "deal_id": "DEAL-004",
               "source_report": "PartnerB",
               "finding_code": "RATE_MISMATCH"
             },
-            "L-06": {
-              "deal_id": "DEAL-06",
+            "L-006": {
+              "deal_id": "DEAL-006",
               "source_report": "PartnerA",
               "finding_code": "DUPLICATE_LINE"
             },
-            "L-07": {
-              "deal_id": "DEAL-06",
+            "L-007": {
+              "deal_id": "DEAL-006",
               "source_report": "PartnerC",
               "finding_code": "DUPLICATE_LINE"
             },
-            "L-09": {
-              "deal_id": "DEAL-08",
+            "L-009": {
+              "deal_id": "DEAL-008",
               "source_report": "PartnerD",
               "finding_code": "UNMATCHED_TO_LEDGER"
             },
-            "L-10": {
-              "deal_id": "DEAL-09",
+            "L-010": {
+              "deal_id": "DEAL-009",
               "source_report": "PartnerD",
               "finding_code": "UNMATCHED_TO_LEDGER"
             },
-            "L-13": {
-              "deal_id": "DEAL-12",
+            "L-013": {
+              "deal_id": "DEAL-012",
               "source_report": "PartnerC",
               "finding_code": "UNMATCHED_TO_LEDGER"
             },
-            "L-14": {
-              "deal_id": "DEAL-13",
+            "L-014": {
+              "deal_id": "DEAL-013",
               "source_report": "PartnerD",
               "finding_code": "RATE_MISMATCH"
             },
-            "L-15": {
-              "deal_id": "DEAL-14",
+            "L-015": {
+              "deal_id": "DEAL-014",
               "source_report": "PartnerA",
               "finding_code": "DUPLICATE_LINE"
             },
-            "L-16": {
-              "deal_id": "deal-14",
+            "L-016": {
+              "deal_id": "deal-014",
               "source_report": "PartnerD",
               "finding_code": "DUPLICATE_LINE"
             },
-            "L-17": {
-              "deal_id": "DEAL-15",
+            "L-017": {
+              "deal_id": "DEAL-015",
               "source_report": "PartnerB",
               "finding_code": "RATE_MISMATCH"
             },
-            "L-18": {
-              "deal_id": "DEAL-16",
+            "L-018": {
+              "deal_id": "DEAL-016",
               "source_report": "PartnerC",
               "finding_code": "RATE_MISMATCH"
             },
-            "L-19": {
-              "deal_id": "DEAL-17",
+            "L-019": {
+              "deal_id": "DEAL-017",
               "source_report": "PartnerD",
               "finding_code": "UNMATCHED_TO_LEDGER"
             },
-            "L-23": {
-              "deal_id": "DEAL-21",
+            "L-023": {
+              "deal_id": "DEAL-021",
               "source_report": "PartnerD",
               "finding_code": "UNMATCHED_TO_LEDGER"
             },
-            "L-24": {
-              "deal_id": "DEAL-22",
+            "L-024": {
+              "deal_id": "DEAL-022",
               "source_report": "PartnerA",
               "finding_code": "UNMATCHED_TO_LEDGER"
             },
-            "L-25": {
-              "deal_id": "DEAL-23",
+            "L-025": {
+              "deal_id": "DEAL-023",
               "source_report": "PartnerB",
               "finding_code": "RATE_MISMATCH"
             },
-            "L-27": {
-              "deal_id": "DEAL-25",
+            "L-027": {
+              "deal_id": "DEAL-025",
               "source_report": "PartnerD",
               "finding_code": "DUPLICATE_LINE"
             },
-            "L-28": {
-              "deal_id": "DEAL-25",
+            "L-028": {
+              "deal_id": "DEAL-025",
               "source_report": "PartnerD",
               "finding_code": "DUPLICATE_LINE"
             },
-            "L-30": {
-              "deal_id": "DEAL-27",
+            "L-030": {
+              "deal_id": "DEAL-027",
               "source_report": "PartnerB",
               "finding_code": "RATE_MISMATCH"
             },
-            "L-31": {
-              "deal_id": "DEAL-28",
+            "L-031": {
+              "deal_id": "DEAL-028",
               "source_report": "PartnerC",
               "finding_code": "RATE_MISMATCH"
+            },
+            "L-044": {
+              "deal_id": "DEAL-040",
+              "source_report": "PartnerB",
+              "finding_code": "RATE_MISMATCH"
+            },
+            "L-051": {
+              "deal_id": "DEAL-047",
+              "source_report": "PartnerD",
+              "finding_code": "RATE_MISMATCH"
+            },
+            "L-059": {
+              "deal_id": "DEAL-055",
+              "source_report": "PartnerB",
+              "finding_code": "UNMATCHED_TO_LEDGER"
+            },
+            "L-067": {
+              "deal_id": "DEAL-063",
+              "source_report": "PartnerC",
+              "finding_code": "UNMATCHED_TO_LEDGER"
+            },
+            "L-082": {
+              "deal_id": "DEAL-078",
+              "source_report": "PartnerB",
+              "finding_code": "UNMATCHED_TO_LEDGER"
+            },
+            "L-100": {
+              "deal_id": "DEAL-096",
+              "source_report": "PartnerD",
+              "finding_code": "RATE_MISMATCH"
+            },
+            "L-112": {
+              "deal_id": "DEAL-108",
+              "source_report": "PartnerA",
+              "finding_code": "RATE_MISMATCH"
+            },
+            "L-123": {
+              "deal_id": "DEAL-119",
+              "source_report": "PartnerC",
+              "finding_code": "RATE_MISMATCH"
+            },
+            "L-125": {
+              "deal_id": "DEAL-121",
+              "source_report": "PartnerB",
+              "finding_code": "DUPLICATE_LINE"
+            },
+            "L-126": {
+              "deal_id": "DEAL-121",
+              "source_report": "PartnerD",
+              "finding_code": "DUPLICATE_LINE"
+            },
+            "L-133": {
+              "deal_id": "DEAL-128",
+              "source_report": "PartnerD",
+              "finding_code": "DUPLICATE_LINE"
+            },
+            "L-134": {
+              "deal_id": "DEAL-128",
+              "source_report": "PartnerA",
+              "finding_code": "DUPLICATE_LINE"
             }
           },
           "row_set": [
-            "L-02",
-            "L-03",
-            "L-04",
-            "L-06",
-            "L-07",
-            "L-09",
-            "L-10",
-            "L-13",
-            "L-14",
-            "L-15",
-            "L-16",
-            "L-17",
-            "L-18",
-            "L-19",
-            "L-23",
-            "L-24",
-            "L-25",
-            "L-27",
-            "L-28",
-            "L-30",
-            "L-31"
+            "L-002",
+            "L-003",
+            "L-004",
+            "L-006",
+            "L-007",
+            "L-009",
+            "L-010",
+            "L-013",
+            "L-014",
+            "L-015",
+            "L-016",
+            "L-017",
+            "L-018",
+            "L-019",
+            "L-023",
+            "L-024",
+            "L-025",
+            "L-027",
+            "L-028",
+            "L-030",
+            "L-031",
+            "L-044",
+            "L-051",
+            "L-059",
+            "L-067",
+            "L-082",
+            "L-100",
+            "L-112",
+            "L-123",
+            "L-125",
+            "L-126",
+            "L-133",
+            "L-134"
           ],
           "columns": [
             "line_id",
@@ -249,10 +321,10 @@
       }
     },
     {
-      "name": "memo_names_deal_02",
+      "name": "memo_names_deal_002",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-02' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-02 is flagged.",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-002' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-002 is flagged.",
         "tag": "core"
       },
       "source": {
@@ -267,7 +339,7 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "DEAL-02",
+        "expected": "DEAL-002",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -275,10 +347,10 @@
       }
     },
     {
-      "name": "memo_names_deal_03",
+      "name": "memo_names_deal_003",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-03' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-03 is flagged.",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-003' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-003 is flagged.",
         "tag": "core"
       },
       "source": {
@@ -293,7 +365,7 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "DEAL-03",
+        "expected": "DEAL-003",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -301,10 +373,10 @@
       }
     },
     {
-      "name": "memo_names_deal_04",
+      "name": "memo_names_deal_004",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-04' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-04 is flagged.",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-004' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-004 is flagged.",
         "tag": "core"
       },
       "source": {
@@ -319,7 +391,7 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "DEAL-04",
+        "expected": "DEAL-004",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -327,10 +399,10 @@
       }
     },
     {
-      "name": "memo_names_deal_06",
+      "name": "memo_names_deal_006",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-06' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-06 is flagged.",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-006' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-006 is flagged.",
         "tag": "core"
       },
       "source": {
@@ -345,7 +417,7 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "DEAL-06",
+        "expected": "DEAL-006",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -353,10 +425,10 @@
       }
     },
     {
-      "name": "memo_names_deal_08",
+      "name": "memo_names_deal_008",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-08' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-08 is flagged.",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-008' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-008 is flagged.",
         "tag": "core"
       },
       "source": {
@@ -371,7 +443,7 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "DEAL-08",
+        "expected": "DEAL-008",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -379,10 +451,10 @@
       }
     },
     {
-      "name": "memo_names_deal_09",
+      "name": "memo_names_deal_009",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-09' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-09 is flagged.",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-009' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-009 is flagged.",
         "tag": "core"
       },
       "source": {
@@ -397,7 +469,7 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "DEAL-09",
+        "expected": "DEAL-009",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -405,10 +477,10 @@
       }
     },
     {
-      "name": "memo_names_deal_12",
+      "name": "memo_names_deal_012",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-12' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-12 is flagged.",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-012' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-012 is flagged.",
         "tag": "core"
       },
       "source": {
@@ -423,7 +495,7 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "DEAL-12",
+        "expected": "DEAL-012",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -431,10 +503,10 @@
       }
     },
     {
-      "name": "memo_names_deal_13",
+      "name": "memo_names_deal_013",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-13' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-13 is flagged.",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-013' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-013 is flagged.",
         "tag": "core"
       },
       "source": {
@@ -449,7 +521,7 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "DEAL-13",
+        "expected": "DEAL-013",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -457,10 +529,10 @@
       }
     },
     {
-      "name": "memo_names_deal_14",
+      "name": "memo_names_deal_014",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-14' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-14 is flagged.",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-014' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-014 is flagged.",
         "tag": "core"
       },
       "source": {
@@ -475,7 +547,7 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "DEAL-14",
+        "expected": "DEAL-014",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -483,10 +555,10 @@
       }
     },
     {
-      "name": "memo_names_deal_15",
+      "name": "memo_names_deal_015",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-15' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-15 is flagged.",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-015' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-015 is flagged.",
         "tag": "core"
       },
       "source": {
@@ -501,7 +573,7 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "DEAL-15",
+        "expected": "DEAL-015",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -509,10 +581,10 @@
       }
     },
     {
-      "name": "memo_names_deal_16",
+      "name": "memo_names_deal_016",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-16' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-16 is flagged.",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-016' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-016 is flagged.",
         "tag": "core"
       },
       "source": {
@@ -527,7 +599,7 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "DEAL-16",
+        "expected": "DEAL-016",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -535,10 +607,10 @@
       }
     },
     {
-      "name": "memo_names_deal_17",
+      "name": "memo_names_deal_017",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-17' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-17 is flagged.",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-017' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-017 is flagged.",
         "tag": "core"
       },
       "source": {
@@ -553,7 +625,7 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "DEAL-17",
+        "expected": "DEAL-017",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -561,10 +633,10 @@
       }
     },
     {
-      "name": "memo_names_deal_21",
+      "name": "memo_names_deal_021",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-21' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-21 is flagged.",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-021' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-021 is flagged.",
         "tag": "core"
       },
       "source": {
@@ -579,7 +651,7 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "DEAL-21",
+        "expected": "DEAL-021",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -587,10 +659,10 @@
       }
     },
     {
-      "name": "memo_names_deal_22",
+      "name": "memo_names_deal_022",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-22' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-22 is flagged.",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-022' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-022 is flagged.",
         "tag": "core"
       },
       "source": {
@@ -605,7 +677,7 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "DEAL-22",
+        "expected": "DEAL-022",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -613,10 +685,10 @@
       }
     },
     {
-      "name": "memo_names_deal_23",
+      "name": "memo_names_deal_023",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-23' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-23 is flagged.",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-023' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-023 is flagged.",
         "tag": "core"
       },
       "source": {
@@ -631,7 +703,7 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "DEAL-23",
+        "expected": "DEAL-023",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -639,10 +711,10 @@
       }
     },
     {
-      "name": "memo_names_deal_25",
+      "name": "memo_names_deal_025",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-25' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-25 is flagged.",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-025' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-025 is flagged.",
         "tag": "core"
       },
       "source": {
@@ -657,7 +729,7 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "DEAL-25",
+        "expected": "DEAL-025",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -665,10 +737,10 @@
       }
     },
     {
-      "name": "memo_names_deal_27",
+      "name": "memo_names_deal_027",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-27' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-27 is flagged.",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-027' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-027 is flagged.",
         "tag": "core"
       },
       "source": {
@@ -683,7 +755,7 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "DEAL-27",
+        "expected": "DEAL-027",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -691,10 +763,10 @@
       }
     },
     {
-      "name": "memo_names_deal_28",
+      "name": "memo_names_deal_028",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-28' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-28 is flagged.",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-028' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-028 is flagged.",
         "tag": "core"
       },
       "source": {
@@ -709,7 +781,7 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "DEAL-28",
+        "expected": "DEAL-028",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -717,10 +789,10 @@
       }
     },
     {
-      "name": "memo_names_protected_deal_07",
+      "name": "memo_names_deal_040",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-07' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 2: the line reported off the standard mapping yet compliant is DEAL-07.",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-040' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-040 is flagged.",
         "tag": "core"
       },
       "source": {
@@ -735,7 +807,267 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "DEAL-07",
+        "expected": "DEAL-040",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_047",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-047' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-047 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-047",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_055",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-055' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-055 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-055",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_063",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-063' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-063 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-063",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_078",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-078' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-078 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-078",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_096",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-096' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-096 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-096",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_108",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-108' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-108 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-108",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_119",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-119' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-119 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-119",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_121",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-121' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-121 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-121",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_deal_128",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-128' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 1: the memo names every flagged line by its deal_id; DEAL-128 is flagged.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-128",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_names_protected_deal_007",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-007' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 2: the line reported off the standard mapping yet compliant is DEAL-007.",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-007",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -769,10 +1101,10 @@
       }
     },
     {
-      "name": "memo_evidence_deal_10",
+      "name": "memo_names_protected_deal_114",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-10' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 3: deal id of a within-tolerance line behind a compliant line that looks wrong (DEAL-10).",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-114' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 2: the line reported off the standard mapping yet compliant is DEAL-114.",
         "tag": "core"
       },
       "source": {
@@ -787,7 +1119,7 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "DEAL-10",
+        "expected": "DEAL-114",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -795,10 +1127,10 @@
       }
     },
     {
-      "name": "memo_evidence_deal_31",
+      "name": "memo_quotes_exc_vp_09",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-31' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 3: deal id of a within-tolerance line behind a compliant line that looks wrong (DEAL-31).",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'EXC-VP-09' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 2: the exception code that protects that line is EXC-VP-09.",
         "tag": "core"
       },
       "source": {
@@ -813,7 +1145,85 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "DEAL-31",
+        "expected": "EXC-VP-09",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_evidence_deal_010",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-010' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 3: deal id of a within-tolerance line behind a compliant line that looks wrong (DEAL-010).",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-010",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_evidence_deal_031",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-031' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 3: deal id of a within-tolerance line behind a compliant line that looks wrong (DEAL-031).",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-031",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_evidence_deal_071",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-071' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 3: deal id of a within-tolerance line behind a compliant line that looks wrong (DEAL-071).",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-071",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"
@@ -873,6 +1283,32 @@
       }
     },
     {
+      "name": "memo_evidence_p_1092",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'P-1092' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 3: posting id of a repeated, reversed or re-posted ledger row behind a compliant line that looks wrong (P-1092).",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "P-1092",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
       "name": "results_exists",
       "metadata": {
         "how_justification": "Checks results.json is present as a file in the workspace.",
@@ -920,23 +1356,23 @@
         "expected": {
           "keys": {
             "total_lines": {
-              "value": 35,
+              "value": 138,
               "tolerance": null
             },
             "rate_mismatch_count": {
-              "value": 9,
+              "value": 14,
               "tolerance": null
             },
             "unmatched_to_ledger_count": {
-              "value": 6,
+              "value": 9,
               "tolerance": null
             },
             "duplicate_line_count": {
-              "value": 6,
+              "value": 10,
               "tolerance": null
             },
             "compliant_lines": {
-              "value": 14,
+              "value": 105,
               "tolerance": null
             }
           },
