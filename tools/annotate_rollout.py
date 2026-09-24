@@ -57,12 +57,15 @@ def final_answer_of(trial: Path):
         keys = list(json.loads(gold.read_text()).keys()) if gold.is_file() else ["eligible_offer_count"]
         for m in re.finditer(r'\{[^{}]*' + re.escape(keys[0]) + r'[^{}]*\}', text):
             try:
-                found = json.loads(json.loads('"' + m.group(0).replace('"', '\\"') + '"'))
+                cand = json.loads(json.loads('"' + m.group(0).replace('"', '\\"') + '"'))
             except Exception:
                 try:
-                    found = json.loads(m.group(0).encode().decode("unicode_escape"))
+                    cand = json.loads(m.group(0).encode().decode("unicode_escape"))
                 except Exception:
                     continue
+            # skip the format doc's all-zero placeholder example the agent echoed
+            if isinstance(cand, dict) and any(v not in (0, "0", None) for v in cand.values()):
+                found = cand
         return found
     return None
 
@@ -97,6 +100,15 @@ def main(paths):
         result["model"] = "GLM-5.2"
         result["overall_pass"] = reward == 1.0
         result["final_answer"] = final_answer_of(trial)
+        if result["final_answer"] is None:
+            # the agent's results.json was not echoed in the trajectory; when the verifier's
+            # results_figures check passed, the file equalled the gold figures by definition
+            score = trial / "verifier" / "score.json"
+            gold = trial.parents[2] / "solution" / "files" / "results.json"
+            if score.is_file() and gold.is_file():
+                checks = {c["name"]: c["passed"] for c in json.loads(score.read_text())["checks"]}
+                if checks.get("results_figures"):
+                    result["final_answer"] = json.loads(gold.read_text())
         result["reward"] = reward
         result["judge"] = {"type": "deterministic file_check", "judge_model": None}
         result_path.write_text(json.dumps(result, indent=4) + "\n")

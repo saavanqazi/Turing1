@@ -302,7 +302,32 @@ unmatched or unprotected; the gold is unchanged (138 / 14 / 9 / 10 / 105, 54 che
 an upper-cased findings sheet scores 1.0 (fairness); a solver without the trim scores 0.0 with
 L-047, L-061, L-081 and L-118 wrongly flagged and the EXC-VP-09 memo fact missing.
 
-**Round-10 battery:** [to be filled from the round-10 GLM job].
+**Round-10 battery (harbor job the round-10 GLM job, terminus-2, GLM-5.2, 8 runs at -k 8):
+7 of 8 passed; oracle 1.0 (the round-10 oracle job).** The whitespace-padded identifiers caught
+nobody: every run trimmed. The one failure is the memo again: the run's sheet and counts were
+exact, its memo listed the ten duplicate lines by `line_id` only, noticed in its own review that
+contract item 1 asks for the `deal_id`, and chose not to fix it (DEAL-006, DEAL-025, DEAL-121 and
+DEAL-128 unnamed). Shipped rollouts are the first four by start time, a mechanical choice:
+
+| rollout | harbor trial | started | reward | outcome |
+|---|---|---|---|---|
+| difficulty/r1 | task-g308__3qctMx6 | 07:52:26.23 | 1.0 | every cell, count and memo fact right |
+| difficulty/r2 | task-g308__9y2rEqc | 07:52:26.43 | 1.0 | every cell, count and memo fact right |
+| difficulty/r3 | task-g308__ZiywndZ | 07:52:26.50 | 1.0 | every cell, count and memo fact right |
+| difficulty/r4 | task-g308__j9jDkva | 07:52:26.36 | 0.0 | MODEL: sheet and counts exact; memo names the duplicate lines by line id, not deal id, and the run declined to fix it after noticing |
+
+`evaluations/solvability/r1` is task-g308__AAbTpYm, the earliest passing run outside the four
+(GLM-5.2, reward 1.0, not the oracle, trajectory distinct from every shipped rollout). The three
+unshipped runs (RuiCb2a, bu4jTnY, x3CbKQz) all passed.
+
+**Where the difficulty of this task honestly sits.** Ten rounds and 80 GLM-5.2 runs show the
+model applies every stated rule at any scale, checks for repeated keys, trims and case-folds
+identifiers, and handles reversed pairs and out-of-window postings once the policy names them.
+What it gets wrong, in about one run in eight, is the analyst's memo: naming every flagged deal
+and quoting the evidence behind every compliant line that looks wrong. The data shapes that
+produced higher failure rates in earlier rounds did so only where the policy left a reading open,
+and the platform's Harbor Check rightly called those ambiguity. This version has no open reading;
+its difficulty is the judgment the instruction asks for, graded fact by fact.
 
 **Evidence format note.** This harbor build writes `verifier/reward.txt` and
 `verifier/score.json`; the bundle's `verifier/reward.json` and `verifier/verifier_summary.json`

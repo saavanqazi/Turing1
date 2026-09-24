@@ -1,6 +1,6 @@
 # g308 — your steps (Windows cmd, in the Turing1 folder)
 
-> **Status:** Round 9 measured 7/8 (one cosmetic failure; grader relaxed). Round 10 adds whitespace-padded identifiers under an explicit R6 clause. Re-run Steps A, C, D with `oracle-g308-r10` / `glm-g308-r10`.
+> **Status:** Round 10 measured 7/8; bundle built (3/4 shipped, independent solvability). Next: upload the zip, run the Gate, disposition findings, send me the report zip.
 
 ## Step A — pull and refresh
 

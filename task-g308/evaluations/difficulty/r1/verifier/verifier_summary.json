@@ -1,0 +1,387 @@
+{
+  "source": "derived from verifier/score.json (tests/score.py output)",
+  "reward": 1.0,
+  "passed": 54,
+  "total": 54,
+  "core_failures": [],
+  "items": [
+    {
+      "name": "findings_exists",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "findings_header",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "findings_table",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_exists",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_002",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_003",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_004",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_006",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_008",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_009",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_012",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_013",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_014",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_015",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_016",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_017",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_021",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_022",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_023",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_025",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_027",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_028",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_040",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_047",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_055",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_063",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_078",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_096",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_108",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_119",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_121",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_128",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_protected_deal_007",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_quotes_exc_vp_02",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_protected_deal_114",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_quotes_exc_vp_09",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_deal_005",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_deal_010",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_deal_011",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_deal_024",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_deal_030",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_deal_031",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_deal_066",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_deal_071",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_deal_088",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_deal_131",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_p_1019",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_p_1031",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_p_1039",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_p_1056",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_p_1078",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_p_1096",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "results_exists",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "results_figures",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185195,
+      "detail": ""
+    }
+  ]
+}

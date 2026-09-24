@@ -1,0 +1,461 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-8.4.1, pluggy-1.6.0
+rootdir: /tests
+plugins: json-ctrf-0.3.5
+collected 63 items
+
+../tests/test_outputs.py ............................................... [ 74%]
+................                                                         [100%]
+
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED ../tests/test_outputs.py::test_deliverable[findings_exists]
+PASSED ../tests/test_outputs.py::test_deliverable[findings_header]
+PASSED ../tests/test_outputs.py::test_deliverable[findings_table]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_exists]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_002]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_003]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_004]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_006]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_008]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_009]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_012]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_013]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_014]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_015]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_016]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_017]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_021]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_022]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_023]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_025]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_027]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_028]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_040]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_047]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_055]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_063]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_078]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_096]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_108]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_119]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_121]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_deal_128]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_protected_deal_007]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_quotes_exc_vp_02]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_names_protected_deal_114]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_quotes_exc_vp_09]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_evidence_deal_005]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_evidence_deal_010]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_evidence_deal_011]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_evidence_deal_024]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_evidence_deal_030]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_evidence_deal_031]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_evidence_deal_066]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_evidence_deal_071]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_evidence_deal_088]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_evidence_deal_131]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_evidence_p_1019]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_evidence_p_1031]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_evidence_p_1039]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_evidence_p_1056]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_evidence_p_1078]
+PASSED ../tests/test_outputs.py::test_deliverable[memo_evidence_p_1096]
+PASSED ../tests/test_outputs.py::test_deliverable[results_exists]
+PASSED ../tests/test_outputs.py::test_deliverable[results_figures]
+PASSED ../tests/test_outputs.py::test_incomplete_output[commission_findings.csv]
+PASSED ../tests/test_outputs.py::test_incomplete_output[commission_memo.md]
+PASSED ../tests/test_outputs.py::test_incomplete_output[results.json]
+PASSED ../tests/test_outputs.py::test_negative_corrupted_value[compliant_lines]
+PASSED ../tests/test_outputs.py::test_negative_corrupted_value[duplicate_line_count]
+PASSED ../tests/test_outputs.py::test_negative_corrupted_value[rate_mismatch_count]
+PASSED ../tests/test_outputs.py::test_negative_corrupted_value[total_lines]
+PASSED ../tests/test_outputs.py::test_negative_corrupted_value[unmatched_to_ledger_count]
+PASSED ../tests/test_outputs.py::test_adversarial_extra_key
+============================== 63 passed in 0.83s ==============================
+{
+  "reward": 1.0,
+  "core_failures": [],
+  "passed": 54,
+  "total": 54,
+  "checks": [
+    {
+      "name": "findings_exists",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "findings_header",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "findings_table",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_exists",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_002",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_003",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_004",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_006",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_008",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_009",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_012",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_013",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_014",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_015",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_016",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_017",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_021",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_022",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_023",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_025",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_027",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_028",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_040",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_047",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_055",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_063",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_078",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_096",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_108",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_119",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_121",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_deal_128",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_protected_deal_007",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_quotes_exc_vp_02",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_names_protected_deal_114",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_quotes_exc_vp_09",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_deal_005",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_deal_010",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_deal_011",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_deal_024",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_deal_030",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_deal_031",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_deal_066",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_deal_071",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_deal_088",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_deal_131",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_p_1019",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_p_1031",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_p_1039",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_p_1056",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_p_1078",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "memo_evidence_p_1096",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "results_exists",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185185,
+      "detail": ""
+    },
+    {
+      "name": "results_figures",
+      "tag": "core",
+      "passed": true,
+      "weight": 0.0185185195,
+      "detail": ""
+    }
+  ]
+}
