@@ -227,7 +227,7 @@
             },
             "L-126": {
               "deal_id": "DEAL-121",
-              "source_report": "PartnerD",
+              "source_report": "PartnerA",
               "finding_code": "DUPLICATE_LINE"
             },
             "L-133": {
@@ -1153,10 +1153,36 @@
       }
     },
     {
+      "name": "memo_evidence_deal_005",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-005' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 3: deal id of a compliant line whose tolerance, customer, co-sell split, partner tag or missing posting looks wrong behind a compliant line that looks wrong (DEAL-005).",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-005",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
       "name": "memo_evidence_deal_010",
       "metadata": {
         "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-010' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 3: deal id of a within-tolerance line behind a compliant line that looks wrong (DEAL-010).",
+        "why_justification": "Contract item 3: deal id of a compliant line whose tolerance, customer, co-sell split, partner tag or missing posting looks wrong behind a compliant line that looks wrong (DEAL-010).",
         "tag": "core"
       },
       "source": {
@@ -1179,10 +1205,88 @@
       }
     },
     {
+      "name": "memo_evidence_deal_011",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-011' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 3: deal id of a compliant line whose tolerance, customer, co-sell split, partner tag or missing posting looks wrong behind a compliant line that looks wrong (DEAL-011).",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-011",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_evidence_deal_024",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-024' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 3: deal id of a compliant line whose tolerance, customer, co-sell split, partner tag or missing posting looks wrong behind a compliant line that looks wrong (DEAL-024).",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-024",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_evidence_deal_030",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-030' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 3: deal id of a compliant line whose tolerance, customer, co-sell split, partner tag or missing posting looks wrong behind a compliant line that looks wrong (DEAL-030).",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-030",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
       "name": "memo_evidence_deal_031",
       "metadata": {
         "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-031' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 3: deal id of a within-tolerance line behind a compliant line that looks wrong (DEAL-031).",
+        "why_justification": "Contract item 3: deal id of a compliant line whose tolerance, customer, co-sell split, partner tag or missing posting looks wrong behind a compliant line that looks wrong (DEAL-031).",
         "tag": "core"
       },
       "source": {
@@ -1205,10 +1309,36 @@
       }
     },
     {
+      "name": "memo_evidence_deal_066",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-066' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 3: deal id of a compliant line whose tolerance, customer, co-sell split, partner tag or missing posting looks wrong behind a compliant line that looks wrong (DEAL-066).",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-066",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
       "name": "memo_evidence_deal_071",
       "metadata": {
         "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-071' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 3: deal id of a within-tolerance line behind a compliant line that looks wrong (DEAL-071).",
+        "why_justification": "Contract item 3: deal id of a compliant line whose tolerance, customer, co-sell split, partner tag or missing posting looks wrong behind a compliant line that looks wrong (DEAL-071).",
         "tag": "core"
       },
       "source": {
@@ -1231,10 +1361,36 @@
       }
     },
     {
+      "name": "memo_evidence_deal_131",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-131' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 3: deal id of a compliant line whose tolerance, customer, co-sell split, partner tag or missing posting looks wrong behind a compliant line that looks wrong (DEAL-131).",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-131",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
       "name": "memo_evidence_p_1019",
       "metadata": {
         "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'P-1019' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 3: posting id of a repeated, reversed or re-posted ledger row behind a compliant line that looks wrong (P-1019).",
+        "why_justification": "Contract item 3: posting id of a repeated, reversed, re-posted or out-of-June ledger row behind a compliant line that looks wrong (P-1019).",
         "tag": "core"
       },
       "source": {
@@ -1260,7 +1416,7 @@
       "name": "memo_evidence_p_1031",
       "metadata": {
         "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'P-1031' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 3: posting id of a repeated, reversed or re-posted ledger row behind a compliant line that looks wrong (P-1031).",
+        "why_justification": "Contract item 3: posting id of a repeated, reversed, re-posted or out-of-June ledger row behind a compliant line that looks wrong (P-1031).",
         "tag": "core"
       },
       "source": {
@@ -1283,10 +1439,10 @@
       }
     },
     {
-      "name": "memo_evidence_p_1092",
+      "name": "memo_evidence_p_1039",
       "metadata": {
-        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'P-1092' (plain substring; wording, order and layout are not graded).",
-        "why_justification": "Contract item 3: posting id of a repeated, reversed or re-posted ledger row behind a compliant line that looks wrong (P-1092).",
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'P-1039' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 3: posting id of a repeated, reversed, re-posted or out-of-June ledger row behind a compliant line that looks wrong (P-1039).",
         "tag": "core"
       },
       "source": {
@@ -1301,7 +1457,85 @@
       },
       "assertion": {
         "type": "deterministic",
-        "expected": "P-1092",
+        "expected": "P-1039",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_evidence_p_1056",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'P-1056' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 3: posting id of a repeated, reversed, re-posted or out-of-June ledger row behind a compliant line that looks wrong (P-1056).",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "P-1056",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_evidence_p_1078",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'P-1078' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 3: posting id of a repeated, reversed, re-posted or out-of-June ledger row behind a compliant line that looks wrong (P-1078).",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "P-1078",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
+      "name": "memo_evidence_p_1096",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'P-1096' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 3: posting id of a repeated, reversed, re-posted or out-of-June ledger row behind a compliant line that looks wrong (P-1096).",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "P-1096",
         "deterministic": {
           "path": "$.text",
           "comparison": "contains"

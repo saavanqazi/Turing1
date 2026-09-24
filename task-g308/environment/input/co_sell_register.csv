@@ -6,6 +6,6 @@ DEAL-006,PartnerC,50,proposed
 DEAL-025,PartnerD,50,active
 DEAL-025,PartnerB,50,active
 DEAL-121,PartnerB,60,active
-DEAL-121,PartnerC,40,active
+DEAL-121,PartnerD,40,active
 DEAL-131,PartnerA,50,active
-DEAL-131,PartnerD,50,active
+DEAL-131,PartnerB,50,active

@@ -28,11 +28,18 @@ Markdown, wording free. It must:
 1. name every flagged line by its `deal_id`, with the rule behind the finding;
 2. name every line that is reported off the standard mapping yet is compliant, quoting the
    exception code that makes it so;
-3. name every commissionable line that is compliant although its June ledger evidence
-   looks wrong: a repeated export row, a reversal (with or without a re-posting), or a net
-   that differs from the line's `revenue_usd` yet stays within the tolerance. For the first
-   two kinds quote the `posting_id` of every posting involved (the repeated row, the
-   reversal, the re-posting); for the third name the line's `deal_id`.
+3. name every compliant line whose evidence looks wrong, one bullet or sentence each, and
+   quote the identifier that settles it. The cases and the identifier to quote:
+   - a repeated export row in the ledger: the `posting_id` of the repeated row;
+   - a reversal, with or without a re-posting: the `posting_id` of the reversal and of any
+     re-posting;
+   - a posting for the deal dated outside June 2026 (May or July): that `posting_id`;
+   - a net June revenue that differs from the line's `revenue_usd` yet stays within the
+     tolerance: the line's `deal_id`;
+   - a ledger customer that differs from the partner's `customer_id`: the `deal_id`;
+   - a registered co-sell split: the `deal_id`;
+   - a partner end-user type that differs from the master's: the `deal_id`;
+   - a non-commissionable line with no June posting: the `deal_id`.
 
 Other lines may be discussed too. Nothing else about the memo's form is graded.
 

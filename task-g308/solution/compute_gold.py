@@ -166,41 +166,54 @@ def main() -> int:
                              "_cust": cust, "_line_cust": ln["customer_id"].upper(),
                              "_reversed": any(money(p["amount_usd"]) < 0 for p in june_postings.get(deal, []))})
         else:
-            # lines that look wrong but are compliant, for the memo
-            if split:
-                explained.append((ln, f"{ln['deal_id']} is claimed by {' and '.join(sorted(ln2['source_report'] for ln2 in lines if ln2['deal_id'].upper() == deal))}, but the co-sell register carries an "
-                                      f"active {'/'.join(str(v) for v in split.values())} split naming exactly those partners, so the two lines "
-                                      f"are not duplicates and each matches its share of the {june_net:,.2f} net"))
-            elif cust != ln["customer_id"].upper() and reported == pays:
-                explained.append((ln, f"the partner attributes the deal to {ln['customer_id']} but NetSuite bills it to {cust}; "
-                                      f"both are {etype} customers so the reported {reported}% stands"))
-            elif exc and reported != STANDARD[etype]:
-                explained.append((ln, f"reported {reported}% against a standard {STANDARD[etype]}% for a {etype} line, "
-                                      f"but override {exc[0]} (active, in force on the run date) approves {exc[1]}%"))
-            elif etype != ln["partner_customer_type"]:
-                explained.append((ln, f"the partner tagged it {ln['partner_customer_type']} but the master makes it {etype}; "
-                                      f"the reported {reported}% is the {etype} rate, so the tag is wrong and the rate is right"))
-            elif commissionable and june_net != revenue:
-                explained.append((ln, f"the ledger's net June postings for {ln['deal_id']} total {june_net:,.2f} against "
-                                      f"revenue {revenue:,.2f}, inside the 1% match tolerance"))
-                evidence_values.append(ln["deal_id"].upper())
-            elif commissionable and any(money(p["amount_usd"]) < 0 and p["deal_ref"].upper() == deal for p in ledger):
-                ids = [p["posting_id"] for p in ledger if p["deal_ref"].upper() == deal
-                       and (money(p["amount_usd"]) < 0 or "re-post" in p["memo"].lower())]
-                explained.append((ln, f"the ledger carries a reversal for {ln['deal_id']} ({', '.join(ids)}) but the net June "
-                                      f"revenue is still {june_net:,.2f}, which matches"))
-                evidence_values += ids
-            elif commissionable and repeated_ids.get(deal):
-                explained.append((ln, f"the extract repeats posting {', '.join(repeated_ids[deal])} for {ln['deal_id']}; it is one "
-                                      f"posting, so net June revenue is {june_net:,.2f}, which matches"))
+            # lines that look wrong but are compliant: every contract item 3 category that applies
+            deal_rows = [p for p in ledger if p["deal_ref"].upper() == deal]
+            outside = [p for p in deal_rows if not (JUNE[0] <= date.fromisoformat(p["posting_date"]) <= JUNE[1])]
+            reversal_ids = [p["posting_id"] for p in deal_rows
+                            if money(p["amount_usd"]) < 0 or "re-post" in p["memo"].lower()]
+            reasons = []
+            if repeated_ids.get(deal):                                                    # (a)
+                reasons.append(f"the extract repeats posting {', '.join(repeated_ids[deal])}; it is one posting under R6, "
+                               f"so net June revenue is {june_net:,.2f}, which matches")
                 evidence_values += repeated_ids[deal]
-            elif not commissionable and june_net == 0:
-                explained.append((ln, f"a {etype} line at 0% is not commissionable, so the absence of a June ledger posting is not a finding"))
-            elif any(e["deal_id"].upper() == deal for e in exceptions):
+            if reversal_ids:                                                              # (b)
+                reasons.append(f"the ledger carries a reversal ({', '.join(reversal_ids)}) but the net June revenue is "
+                               f"{june_net:,.2f}, which matches")
+                evidence_values += reversal_ids
+            if outside:                                                                   # (c)
+                reasons.append("posting " + ", ".join(f"{p['posting_id']} ({p['posting_date']})" for p in outside)
+                               + " falls outside June and is left out of the June net under R2")
+                evidence_values += [p["posting_id"] for p in outside]
+            if commissionable and june_net != revenue and not split:                     # (d)
+                reasons.append(f"the net June postings total {june_net:,.2f} against revenue {revenue:,.2f}, inside the 1% tolerance")
+                evidence_values.append(ln["deal_id"].upper())
+            if cust != ln["customer_id"].upper():                                         # (e)
+                reasons.append(f"the partner attributes the deal to {ln['customer_id']} but NetSuite bills it to {cust}; "
+                               f"the {etype} rate follows the ledger's customer and the reported {reported}% is right")
+                evidence_values.append(ln["deal_id"].upper())
+            if split:                                                                     # (f)
+                reasons.append(f"{ln['deal_id']} is claimed by {' and '.join(sorted(ln2['source_report'] for ln2 in lines if ln2['deal_id'].upper() == deal))}, "
+                               f"but the co-sell register carries an active {'/'.join(str(v) for v in split.values())} split naming exactly "
+                               f"those partners, so the lines are not duplicates and this one matches its share of the {june_net:,.2f} net")
+                evidence_values.append(ln["deal_id"].upper())
+            if etype != ln["partner_customer_type"].strip().lower():                      # (g)
+                reasons.append(f"the partner tagged it {ln['partner_customer_type']} but the master makes it {etype}; "
+                               f"the reported {reported}% is the {etype} rate, so the tag is wrong and the rate is right")
+                evidence_values.append(ln["deal_id"].upper())
+            if not commissionable and june_net == 0:                                      # (h)
+                reasons.append(f"a {etype} line at 0% is not commissionable, so the absence of a June posting is not a finding")
+                evidence_values.append(ln["deal_id"].upper())
+            if exc and reported != STANDARD[etype]:                                       # item 2
+                reasons.append(f"reported {reported}% against a standard {STANDARD[etype]}% for a {etype} line, "
+                               f"but override {exc[0]} (active, in force on the run date) approves {exc[1]}%")
+            elif not reasons and any(e["deal_id"].upper() == deal for e in exceptions):
                 e = next(e for e in exceptions if e["deal_id"].upper() == deal)
-                explained.append((ln, f"register row {e['exception_code']} names this deal but is {e['status']}"
-                                      f"{'' if e['status'] != 'active' else ' outside its window'}, so it grants nothing and "
-                                      f"the standard {STANDARD[etype]}% applies, which is what was reported"))
+                reasons.append(f"register row {e['exception_code']} names this deal but is {e['status']}"
+                               f"{'' if e['status'] != 'active' else ' outside its window'}, so it grants nothing and "
+                               f"the standard {STANDARD[etype]}% applies, which is what was reported")
+            for why in reasons:
+                explained.append((ln, why))
+
 
     total = len(lines)
     compliant = total - sum(counts.values())
@@ -294,7 +307,7 @@ def main() -> int:
         memo_checks.append(memo_contains(f"memo_names_protected_{slug(d)}", d, f"Contract item 2: the line reported off the standard mapping yet compliant is {d}."))
         memo_checks.append(memo_contains(f"memo_quotes_{slug(c)}", c, f"Contract item 2: the exception code that protects that line is {c}."))
     for v in ev:
-        kind = "posting id of a repeated, reversed or re-posted ledger row" if v.startswith("P-") else "deal id of a within-tolerance line"
+        kind = "posting id of a repeated, reversed, re-posted or out-of-June ledger row" if v.startswith("P-") else "deal id of a compliant line whose tolerance, customer, co-sell split, partner tag or missing posting looks wrong"
         memo_checks.append(memo_contains(f"memo_evidence_{slug(v)}", v, f"Contract item 3: {kind} behind a compliant line that looks wrong ({v})."))
 
     spec = {"task_id": "gen-g308-commission-report-reconciliation-audit", "verifiers": [

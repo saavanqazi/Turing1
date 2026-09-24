@@ -257,7 +257,33 @@ and L-109 doubled), no posting dedup (L-022 and L-094 unmatched), first-row cust
 L-100 passed), case-sensitive ledger join (L-021 and L-106 unmatched), sign stripped from
 parenthesised amounts (L-030, L-100 unmatched), override window ignored (L-017, L-112 passed).
 
-**Round-8 battery:** [to be filled from the round-8 GLM job].
+**Round-8 battery (terminus-2, GLM-5.2, 8 runs): 7 of 8; oracle 1.0.** Every run scripted the
+138-line reconciliation correctly, including every planted shape: at this size the runs stop
+reading rows and write duplicate checks, key normalisation and reversed-pair logic as a matter of
+course. The one failure was the memo: the run's findings and counts were exact, but its memo did
+not quote P-1031, the July credit note behind compliant line L-029, which contract item 3
+requires. That is the only place a run slipped in 16 runs on the scaled data, and it is
+judgment, not rule-coding: deciding which compliant lines look wrong and quoting the evidence.
+Not shipped.
+
+**Round 9 (current): the judgment the memo asks for is enumerated and graded in full.** Item 3
+of the memo contract now lists the eight cases a reconciliation analyst is expected to call out
+and the identifier that settles each: a repeated export row (posting id), a reversal with or
+without re-posting (posting ids), a posting for the deal dated outside June (posting id), a net
+within tolerance (deal id), a ledger customer different from the partner's (deal id), a
+registered co-sell split (deal id), a partner end-user type different from the master's (deal
+id), and a non-commissionable line with no June posting (deal id). Four more ledger stories were
+added among the filler so that every case has more than one instance: two June invoices fully
+credited in July (DEAL-036, DEAL-073), an invoice posted twice in error with the second posting
+reversed (DEAL-051), and a deal billed to a different customer of the same type (DEAL-066). The
+findings sheet and counts are unchanged (138 / 14 / 9 / 10 / 105). The grader now holds 53 checks:
+6 structural and 47 memo facts (28 flagged deals, two protected deals with their codes, 15
+evidence identifiers). Each fact is one plain substring check, the memo's wording is free, and a
+memo rewritten in plain prose without any finding-code token still scores 1.0. Dropping any one
+case class from the memo (the house lines, the customer-differs lines, the July credit notes, the
+mis-tagged line) scores 0.0, as do the six one-rule-removed solvers from round 8.
+
+**Round-9 battery:** [to be filled from the round-9 GLM job].
 
 **Evidence format note.** This harbor build writes `verifier/reward.txt` and
 `verifier/score.json`; the bundle's `verifier/reward.json` and `verifier/verifier_summary.json`

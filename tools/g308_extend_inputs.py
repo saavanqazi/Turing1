@@ -95,6 +95,10 @@ P["DEAL-128"].update(dup="plain")                             # claimed twice, n
 P["DEAL-131"].update(cosell="valid")                          # registered 50/50, both partners on lines
 P["DEAL-121"].update(cosell="wrong_partner")                  # register names a partner not on the lines
 P["DEAL-105"].update(repeat_line=True)                        # identical line row re-sent later (R6 key)
+P["DEAL-036"].update(ledger="july_credit")                    # June invoice fully credited in July (June net still matches)
+P["DEAL-073"].update(ledger="july_credit")
+P["DEAL-051"].update(ledger="double_reversed")                # posted twice in error, second posting reversed
+P["DEAL-066"].update(ledger="cust_diff")                      # ledger bills a different customer of the same type
 
 house_ids = [c[0] for c in new_custs if c[2].strip().lower() == "house"]
 for deal, p in P.items():
@@ -158,6 +162,18 @@ for deal, p in P.items():
         new_ledger.append([f"P-{pid}", d2.isoformat(), deal, cid, fmt_amt(rev), "June invoice re-posted to the correct entity"]); pid += 1
         # the line reports the WRONG customer's rate: the partner keyed the invoice's first entity
         row[3] = wrong; row[4] = etype(wrong); row[5] = rate_str(partner, STD[etype(wrong)])
+    elif kind == "july_credit":
+        new_ledger.append([f"P-{pid}", d.isoformat(), deal, cid, fmt_amt(rev), "June invoice"]); a = pid; pid += 1
+        new_ledger.append([f"P-{pid}", date(2026, 7, rng.randint(2, 9)).isoformat(), deal, cid, fmt_amt(rev, neg=True), f"credit note against P-{a} - issued July"]); pid += 1
+    elif kind == "double_reversed":
+        new_ledger.append([f"P-{pid}", d.isoformat(), deal, cid, fmt_amt(rev), "June invoice"]); pid += 1
+        new_ledger.append([f"P-{pid}", d.isoformat(), deal, cid, fmt_amt(rev), "June invoice"]); a = pid; pid += 1
+        d2 = d + timedelta(days=2) if d.day <= 28 else d
+        new_ledger.append([f"P-{pid}", d2.isoformat(), deal, cid, fmt_amt(rev, neg=True), f"reversal of P-{a} - posted twice in error"]); pid += 1
+    elif kind == "cust_diff":
+        other = rng.choice([c[0] for c in new_custs if etype(c[0]) == p["et"] and c[0] != cid])
+        name = next(c[1] for c in new_custs if c[0] == other)
+        new_ledger.append([f"P-{pid}", d.isoformat(), deal, other, fmt_amt(rev), f"June invoice - billed to {name}"]); pid += 1
     elif kind == "lowercase":
         new_ledger.append([f"P-{pid}", d.isoformat(), deal.lower(), cid.lower(), fmt_amt(rev), "June invoice"]); pid += 1
 
