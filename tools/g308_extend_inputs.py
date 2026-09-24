@@ -99,11 +99,14 @@ P["DEAL-036"].update(ledger="july_credit")                    # June invoice ful
 P["DEAL-073"].update(ledger="july_credit")
 P["DEAL-051"].update(ledger="double_reversed")                # posted twice in error, second posting reversed
 P["DEAL-066"].update(ledger="cust_diff")                      # ledger bills a different customer of the same type
+P["DEAL-088"].update(mistag=True)                             # partner tags a renewal customer "new" but reports the renewal rate
 
 house_ids = [c[0] for c in new_custs if c[2].strip().lower() == "house"]
 for deal, p in P.items():
     if p.get("house"):
         p["cid"] = house_ids[0] if deal == "DEAL-119" else house_ids[1]; p["et"] = "house"; p["tag"] = "house"
+    if p.get("mistag"):
+        p["cid"] = rng.choice([c[0] for c in new_custs if etype(c[0]) == "renewal"]); p["et"] = "renewal"; p["tag"] = "new"; p["rate"] = 4
     if p.get("et_force"):
         # pick a customer of that type
         p["cid"] = rng.choice([c[0] for c in new_custs if etype(c[0]) == p["et_force"]]); p["et"] = p["et_force"]; p["tag"] = "new"

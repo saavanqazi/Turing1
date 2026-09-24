@@ -62,6 +62,7 @@
 - **L-075 DEAL-071 (PartnerA)** — the net June postings total 101,885.00 against revenue 102,500.00, inside the 1% tolerance.
 - **L-077 DEAL-073 (PartnerC)** — the ledger carries a reversal (P-1078) but the net June revenue is 93,500.00, which matches.
 - **L-077 DEAL-073 (PartnerC)** — posting P-1078 (2026-07-02) falls outside June and is left out of the June net under R2.
+- **L-092 DEAL-088 (PartnerB)** — the partner tagged it new but the master makes it renewal; the reported 4% is the renewal rate, so the tag is wrong and the rate is right.
 - **L-094 DEAL-090 (PartnerD)** — the extract repeats posting P-1096; it is one posting under R6, so net June revenue is 79,500.00, which matches.
 - **L-118 DEAL-114 (PartnerA)** — reported 6% against a standard 4% for a renewal line, but override EXC-VP-09 (active, in force on the run date) approves 6%.
 - **L-137 DEAL-131 (PartnerA)** — DEAL-131 is claimed by PartnerA and PartnerB, but the co-sell register carries an active 50/50 split naming exactly those partners, so the lines are not duplicates and this one matches its share of the 11,500.00 net.

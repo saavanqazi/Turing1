@@ -1361,6 +1361,32 @@
       }
     },
     {
+      "name": "memo_evidence_deal_088",
+      "metadata": {
+        "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-088' (plain substring; wording, order and layout are not graded).",
+        "why_justification": "Contract item 3: deal id of a compliant line whose tolerance, customer, co-sell split, partner tag or missing posting looks wrong behind a compliant line that looks wrong (DEAL-088).",
+        "tag": "core"
+      },
+      "source": {
+        "type": "file",
+        "file": {
+          "type": "md",
+          "command": "extract_text",
+          "arguments": {
+            "path": "commission_memo.md"
+          }
+        }
+      },
+      "assertion": {
+        "type": "deterministic",
+        "expected": "DEAL-088",
+        "deterministic": {
+          "path": "$.text",
+          "comparison": "contains"
+        }
+      }
+    },
+    {
       "name": "memo_evidence_deal_131",
       "metadata": {
         "how_justification": "Reads commission_memo.md with md.extract_text and checks the text contains 'DEAL-131' (plain substring; wording, order and layout are not graded).",

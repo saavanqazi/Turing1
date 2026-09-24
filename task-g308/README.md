@@ -275,9 +275,10 @@ registered co-sell split (deal id), a partner end-user type different from the m
 id), and a non-commissionable line with no June posting (deal id). Four more ledger stories were
 added among the filler so that every case has more than one instance: two June invoices fully
 credited in July (DEAL-036, DEAL-073), an invoice posted twice in error with the second posting
-reversed (DEAL-051), and a deal billed to a different customer of the same type (DEAL-066). The
-findings sheet and counts are unchanged (138 / 14 / 9 / 10 / 105). The grader now holds 53 checks:
-6 structural and 47 memo facts (28 flagged deals, two protected deals with their codes, 15
+reversed (DEAL-051), a deal billed to a different customer of the same type (DEAL-066), and a
+renewal customer the partner tagged `new` while reporting the renewal rate (DEAL-088). The
+findings sheet and counts are unchanged (138 / 14 / 9 / 10 / 105). The grader now holds 54 checks:
+6 structural and 48 memo facts (28 flagged deals, two protected deals with their codes, 16
 evidence identifiers). Each fact is one plain substring check, the memo's wording is free, and a
 memo rewritten in plain prose without any finding-code token still scores 1.0. Dropping any one
 case class from the memo (the house lines, the customer-differs lines, the July credit notes, the
