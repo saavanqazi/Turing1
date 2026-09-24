@@ -283,8 +283,8 @@
             "finding_code"
           ],
           "cell_types": {
-            "deal_id": "id",
-            "source_report": "id",
+            "deal_id": "text",
+            "source_report": "text",
             "finding_code": "id"
           }
         },

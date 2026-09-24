@@ -67,7 +67,8 @@ compliant.
 
 ## R6 — Identifiers and amounts as exported
 
-Identifiers and coded values are matched without regard to case. Rates and amounts are
+Identifiers and coded values are matched without regard to case or to surrounding
+whitespace. Rates and amounts are
 read as the numbers they denote, however the system that printed them formats them.
 `posting_id` is the ledger's key: rows that share a `posting_id` are one posting, however
 many times the extract repeats them; postings with different ids are different postings

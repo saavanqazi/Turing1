@@ -188,6 +188,14 @@ rr = P["DEAL-090"]["repeat_row"]
 idx = next(i for i, r in enumerate(new_ledger) if r[0] == rr[0])
 new_ledger.insert(min(idx + 37, len(new_ledger)), rr)
 
+# export artefacts: a few identifiers carry surrounding whitespace (R6: matched without regard to it)
+for row in new_lines:
+    if row[2] == "DEAL-043": row[2] = "DEAL-043 "
+    if row[2] == "DEAL-077": row[2] = " DEAL-077"
+for row in new_ledger:
+    if row[2] == "DEAL-057": row[2] = "DEAL-057 "
+for row in new_excs:
+    if row[1] == "DEAL-114": row[1] = "DEAL-114 "
 write("customer_master.csv", cust_h, custs)
 write("commission_lines.csv", line_h, lines + new_lines)
 write("netsuite_revenue_june.csv", led_h, ledger + new_ledger)

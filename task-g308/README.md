@@ -284,7 +284,25 @@ memo rewritten in plain prose without any finding-code token still scores 1.0. D
 case class from the memo (the house lines, the customer-differs lines, the July credit notes, the
 mis-tagged line) scores 0.0, as do the six one-rule-removed solvers from round 8.
 
-**Round-9 battery:** [to be filled from the round-9 GLM job].
+**Round-9 battery (terminus-2, GLM-5.2, 8 runs): 7 of 8; oracle 1.0.** All eight memos carried
+all 48 facts. The one failure was cosmetic: the run upper-cased the copied `deal-014` to
+`DEAL-014` in the findings sheet. R6 says identifiers are matched without regard to case, so a
+grader that rejects that is brittle; the `deal_id` and `source_report` cells are now compared
+as text (whitespace-trimmed, case-folded) and that run would pass. Effectively 8 of 8. Not
+shipped.
+
+**Round 10 (current): identifiers as exports actually carry them.** Nine rounds show that
+GLM-5.2 applies every stated rule when the data is clean. Real exports are not: four
+identifiers in the filler carry surrounding whitespace, the way spreadsheet exports leave it
+(`DEAL-043 ` and ` DEAL-077` on lines L-047 and L-081, `DEAL-057 ` on the ledger row behind
+L-061, `DEAL-114 ` on override EXC-VP-09). R6 now says identifiers are matched without regard
+to case or to surrounding whitespace, so there is one reading. The whitespace is invisible in a
+printed file and a join that upper-cases but does not trim silently leaves four compliant lines
+unmatched or unprotected; the gold is unchanged (138 / 14 / 9 / 10 / 105, 54 checks). Replayed:
+an upper-cased findings sheet scores 1.0 (fairness); a solver without the trim scores 0.0 with
+L-047, L-061, L-081 and L-118 wrongly flagged and the EXC-VP-09 memo fact missing.
+
+**Round-10 battery:** [to be filled from the round-10 GLM job].
 
 **Evidence format note.** This harbor build writes `verifier/reward.txt` and
 `verifier/score.json`; the bundle's `verifier/reward.json` and `verifier/verifier_summary.json`

@@ -44,21 +44,21 @@ def money(text: str) -> Decimal:
 
 
 def main() -> int:
-    master = {r["customer_id"].upper(): r for r in rows("customer_master.csv")}
+    master = {r["customer_id"].strip().upper(): r for r in rows("customer_master.csv")}
     # line_id is the consolidated list's key: a row the export repeats is one line
     lines, seen_lines, repeated_lines = [], set(), []
     for ln in rows("commission_lines.csv"):
-        if ln["line_id"].upper() in seen_lines:
+        if ln["line_id"].strip().upper() in seen_lines:
             repeated_lines.append(ln["line_id"])
             continue
-        seen_lines.add(ln["line_id"].upper())
+        seen_lines.add(ln["line_id"].strip().upper())
         lines.append(ln)
     ledger = rows("netsuite_revenue_june.csv")
     exceptions = rows("commission_exceptions.csv")
 
     # R1: end-user type from the master
     def end_user_type(cust_id: str) -> str:
-        m = master[cust_id.upper()]
+        m = master[cust_id.strip().upper()]
         if m["account_class"].strip().lower() == "house":
             return "house"
         return "new" if date.fromisoformat(m["first_invoice_date"]) >= NEW_CUTOFF else "renewal"
@@ -70,7 +70,7 @@ def main() -> int:
             continue
         if not (date.fromisoformat(e["effective_from"]) <= RUN_DATE <= date.fromisoformat(e["effective_to"])):
             continue
-        approved[e["deal_id"].upper()] = (e["exception_code"], Decimal(e["approved_rate_pct"]))
+        approved[e["deal_id"].strip().upper()] = (e["exception_code"], Decimal(e["approved_rate_pct"]))
 
     # R2: net June revenue per deal (case-insensitive); posting_id identifies a posting, so a
     # repeated export row counts once. R1: the ledger's customer for the deal governs.
@@ -81,13 +81,13 @@ def main() -> int:
     repeated_ids: dict[str, list[str]] = {}
     evidence_values: list[str] = []
     for p in ledger:
-        if p["posting_id"].upper() in seen_postings:
-            repeated_ids.setdefault(p["deal_ref"].upper(), []).append(p["posting_id"])
+        if p["posting_id"].strip().upper() in seen_postings:
+            repeated_ids.setdefault(p["deal_ref"].strip().upper(), []).append(p["posting_id"])
             continue
-        seen_postings.add(p["posting_id"].upper())
+        seen_postings.add(p["posting_id"].strip().upper())
         d = date.fromisoformat(p["posting_date"])
         if JUNE[0] <= d <= JUNE[1]:
-            key = p["deal_ref"].upper()
+            key = p["deal_ref"].strip().upper()
             net[key] = net.get(key, Decimal(0)) + money(p["amount_usd"])
             june_postings.setdefault(key, []).append(p)
 
@@ -104,25 +104,25 @@ def main() -> int:
                     cancelled.update({earlier["posting_id"], later["posting_id"]})
                     break
         live = [p for p in ps if p["posting_id"] not in cancelled] or ps
-        ledger_customer[key] = live[0]["customer_id"].upper()
+        ledger_customer[key] = live[0]["customer_id"].strip().upper()
 
     # R3: registered co-sells
     cosell: dict[str, list[dict]] = {}
     for r in rows("co_sell_register.csv"):
-        cosell.setdefault(r["deal_id"].upper(), []).append(r)
+        cosell.setdefault(r["deal_id"].strip().upper(), []).append(r)
 
     # R3: deal occurrence counts (case-insensitive)
     occurrences: dict[str, int] = {}
     for ln in lines:
-        occurrences[ln["deal_id"].upper()] = occurrences.get(ln["deal_id"].upper(), 0) + 1
+        occurrences[ln["deal_id"].strip().upper()] = occurrences.get(ln["deal_id"].strip().upper(), 0) + 1
 
     def registered_cosell(deal: str) -> dict[str, Decimal] | None:
         """partner -> share if the co-sell exception applies to this deal, else None."""
         regs = cosell.get(deal)
         if not regs or any(r["status"].strip().lower() != "active" for r in regs):
             return None
-        named = {r["partner"].upper(): Decimal(r["share_pct"]) for r in regs}
-        sources = [ln["source_report"].upper() for ln in lines if ln["deal_id"].upper() == deal]
+        named = {r["partner"].strip().upper(): Decimal(r["share_pct"]) for r in regs}
+        sources = [ln["source_report"].strip().upper() for ln in lines if ln["deal_id"].strip().upper() == deal]
         if sorted(sources) != sorted(named) or sum(named.values()) != 100:
             return None
         return named
@@ -130,8 +130,8 @@ def main() -> int:
     findings, explained = [], []
     counts = {c: 0 for c in PRECEDENCE}
     for ln in lines:
-        deal = ln["deal_id"].upper()
-        cust = ledger_customer.get(deal, ln["customer_id"].upper())
+        deal = ln["deal_id"].strip().upper()
+        cust = ledger_customer.get(deal, ln["customer_id"].strip().upper())
         etype = end_user_type(cust)
         split = registered_cosell(deal)
         exc = approved.get(deal)
@@ -140,7 +140,7 @@ def main() -> int:
         revenue = Decimal(ln["revenue_usd"])
         commissionable = pays > 0
         june_net = net.get(deal, Decimal(0))
-        target = june_net * split[ln["source_report"].upper()] / 100 if split else june_net
+        target = june_net * split[ln["source_report"].strip().upper()] / 100 if split else june_net
         matched = abs(target - revenue) <= revenue * TOLERANCE
 
         fails = set()
@@ -152,8 +152,8 @@ def main() -> int:
             fails.add("RATE_MISMATCH")
         code = next((c for c in PRECEDENCE if c in fails), None)
 
-        note = (f"{ln['line_id']} {ln['source_report']:8s} {ln['deal_id']:8s} cust={cust}{'*' if cust != ln['customer_id'].upper() else ''} type={etype:7s} "
-                f"(partner said {ln['partner_customer_type']}) pays={pays}% reported={reported}% {'split=' + str(split[ln['source_report'].upper()]) + '%' if split else ''} "
+        note = (f"{ln['line_id']} {ln['source_report']:8s} {ln['deal_id']:8s} cust={cust}{'*' if cust != ln['customer_id'].strip().upper() else ''} type={etype:7s} "
+                f"(partner said {ln['partner_customer_type']}) pays={pays}% reported={reported}% {'split=' + str(split[ln['source_report'].strip().upper()]) + '%' if split else ''} "
                 f"exc={exc[0] if exc else '-'} juneNet={june_net} rev={revenue} matched={matched} "
                 f"occ={occurrences[deal]} fails={sorted(fails, key=PRECEDENCE.index) or '-'} -> {code or 'compliant'}")
         print(note)
@@ -163,11 +163,11 @@ def main() -> int:
                              "source_report": ln["source_report"], "finding_code": code,
                              "_etype": etype, "_pays": pays, "_reported": reported, "_exc": exc,
                              "_net": june_net, "_rev": revenue, "_partner_type": ln["partner_customer_type"],
-                             "_cust": cust, "_line_cust": ln["customer_id"].upper(),
+                             "_cust": cust, "_line_cust": ln["customer_id"].strip().upper(),
                              "_reversed": any(money(p["amount_usd"]) < 0 for p in june_postings.get(deal, []))})
         else:
             # lines that look wrong but are compliant: every contract item 3 category that applies
-            deal_rows = [p for p in ledger if p["deal_ref"].upper() == deal]
+            deal_rows = [p for p in ledger if p["deal_ref"].strip().upper() == deal]
             outside = [p for p in deal_rows if not (JUNE[0] <= date.fromisoformat(p["posting_date"]) <= JUNE[1])]
             reversal_ids = [p["posting_id"] for p in deal_rows
                             if money(p["amount_usd"]) < 0 or "re-post" in p["memo"].lower()]
@@ -186,28 +186,28 @@ def main() -> int:
                 evidence_values += [p["posting_id"] for p in outside]
             if commissionable and june_net != revenue and not split:                     # (d)
                 reasons.append(f"the net June postings total {june_net:,.2f} against revenue {revenue:,.2f}, inside the 1% tolerance")
-                evidence_values.append(ln["deal_id"].upper())
-            if cust != ln["customer_id"].upper():                                         # (e)
+                evidence_values.append(ln["deal_id"].strip().upper())
+            if cust != ln["customer_id"].strip().upper():                                         # (e)
                 reasons.append(f"the partner attributes the deal to {ln['customer_id']} but NetSuite bills it to {cust}; "
                                f"the {etype} rate follows the ledger's customer and the reported {reported}% is right")
-                evidence_values.append(ln["deal_id"].upper())
+                evidence_values.append(ln["deal_id"].strip().upper())
             if split:                                                                     # (f)
-                reasons.append(f"{ln['deal_id']} is claimed by {' and '.join(sorted(ln2['source_report'] for ln2 in lines if ln2['deal_id'].upper() == deal))}, "
+                reasons.append(f"{ln['deal_id']} is claimed by {' and '.join(sorted(ln2['source_report'] for ln2 in lines if ln2['deal_id'].strip().upper() == deal))}, "
                                f"but the co-sell register carries an active {'/'.join(str(v) for v in split.values())} split naming exactly "
                                f"those partners, so the lines are not duplicates and this one matches its share of the {june_net:,.2f} net")
-                evidence_values.append(ln["deal_id"].upper())
+                evidence_values.append(ln["deal_id"].strip().upper())
             if etype != ln["partner_customer_type"].strip().lower():                      # (g)
                 reasons.append(f"the partner tagged it {ln['partner_customer_type']} but the master makes it {etype}; "
                                f"the reported {reported}% is the {etype} rate, so the tag is wrong and the rate is right")
-                evidence_values.append(ln["deal_id"].upper())
+                evidence_values.append(ln["deal_id"].strip().upper())
             if not commissionable and june_net == 0:                                      # (h)
                 reasons.append(f"a {etype} line at 0% is not commissionable, so the absence of a June posting is not a finding")
-                evidence_values.append(ln["deal_id"].upper())
+                evidence_values.append(ln["deal_id"].strip().upper())
             if exc and reported != STANDARD[etype]:                                       # item 2
                 reasons.append(f"reported {reported}% against a standard {STANDARD[etype]}% for a {etype} line, "
                                f"but override {exc[0]} (active, in force on the run date) approves {exc[1]}%")
-            elif not reasons and any(e["deal_id"].upper() == deal for e in exceptions):
-                e = next(e for e in exceptions if e["deal_id"].upper() == deal)
+            elif not reasons and any(e["deal_id"].strip().upper() == deal for e in exceptions):
+                e = next(e for e in exceptions if e["deal_id"].strip().upper() == deal)
                 reasons.append(f"register row {e['exception_code']} names this deal but is {e['status']}"
                                f"{'' if e['status'] != 'active' else ' outside its window'}, so it grants nothing and "
                                f"the standard {STANDARD[etype]}% applies, which is what was reported")
@@ -286,9 +286,9 @@ def main() -> int:
     # graded memo content: one plain substring check per fact the format names (no regex on
     # prose): every flagged deal (contract item 1), the protected deal and its code (item 2),
     # the posting ids / deal ids of the compliant-but-looks-wrong lines (item 3).
-    protected_exc = sorted({(ln["deal_id"].upper(), approved[ln["deal_id"].upper()][0])
-                            for ln, _ in explained if ln["deal_id"].upper() in approved})
-    flagged_deals = sorted({f["deal_id"].upper() for f in findings})
+    protected_exc = sorted({(ln["deal_id"].strip().upper(), approved[ln["deal_id"].strip().upper()][0])
+                            for ln, _ in explained if ln["deal_id"].strip().upper() in approved})
+    flagged_deals = sorted({f["deal_id"].strip().upper() for f in findings})
     ev = sorted(set(evidence_values))
     memo_values = flagged_deals + [d for d, _ in protected_exc] + [c for _, c in protected_exc] + ev
 
@@ -328,7 +328,7 @@ def main() -> int:
                                     "rows": {f["line_id"]: {"deal_id": f["deal_id"], "source_report": f["source_report"], "finding_code": f["finding_code"]} for f in findings},
                                     "row_set": flagged_ids,
                                     "columns": header,
-                                    "cell_types": {"deal_id": "id", "source_report": "id", "finding_code": "id"}},
+                                    "cell_types": {"deal_id": "text", "source_report": "text", "finding_code": "id"}},
                        "deterministic": {"path": "$", "comparison": "table_equals"}}},
         exists("memo_exists", "commission_memo.md", "The memo is delivered."),
         *memo_checks,
